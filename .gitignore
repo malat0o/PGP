@@ -10,3 +10,6 @@ Teoricas e TPs/
 Thumbs.db
 *.bkp
 .$*.drawio.bkp
+
+# Configuração local do Claude
+.claude/
