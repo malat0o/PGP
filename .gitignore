@@ -1,0 +1,12 @@
+# Material da disciplina (enunciado e aulas) fica fora do repositório
+Projeto/*
+!Projeto/Plano-Etapa1.md
+Teoricas e TPs/
+
+# Ficheiros temporários
+~$*
+*.tmp
+.DS_Store
+Thumbs.db
+*.bkp
+.$*.drawio.bkp
