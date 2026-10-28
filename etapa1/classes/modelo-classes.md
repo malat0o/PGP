@@ -158,11 +158,12 @@ classDiagram
   Faixa "0..*" --> "1" Cancao
   Album "1" *-- "1..*" VersaoAlbum : versões
 
-  note for Artista "RI-07: isni tem 16 dígitos<br>RI-08: anoInicioAtividade entre 1900 e 2100"
-  note for Album "RI-01: mbid tem 36 carateres<br>RI-02: tipo é single, EP ou LP<br>RI-09: anoLancamento entre 1900 e 2100<br>RI-06, RI-10, RI-11: coerência com os artistas"
-  note for Cancao "RI-04: isrc tem 12 carateres<br>RI-05: duracao (segundos) > 0"
-  note for Faixa "RI-03: numero começa em 1"
-  note for VersaoAlbum "RI-12: suporte é CD, vinil ou cassete<br>RI-13: ean13 tem 13 dígitos"
+  note for Artista "RI-07: isni tem 16 dígitos<br>RI-08: anoInicioAtividade entre 1900 e 2100<br>RI-35: isni único"
+  note for Grupo "RI-31: membros só podem ser solistas"
+  note for Album "RI-01: mbid tem 36 carateres<br>RI-02: tipo é single, EP ou LP<br>RI-09: anoLancamento entre 1900 e 2100<br>RI-06, RI-10, RI-11: coerência com os artistas<br>RI-32: no máximo 1 artista<br>RI-33: mbid único"
+  note for Cancao "RI-04: isrc tem 12 carateres<br>RI-05: duracao (segundos) positiva<br>RI-34: isrc único"
+  note for Faixa "RI-03: numero começa em 1<br>RI-38: numero único no álbum"
+  note for VersaoAlbum "RI-12: suporte é CD, vinil ou cassete<br>RI-13: ean13 tem 13 dígitos<br>RI-36: ean13 único<br>RI-39: versões no mesmo suporte<br>com designações distintas"
 ```
 
 **Restrições que envolvem várias classes (descritas no relatório, não cabem como nota):**
@@ -205,8 +206,9 @@ classDiagram
   Fatura "1" *-- "1..*" LinhaFatura : linhas
   LinhaFatura "0..*" --> "1" VersaoAlbum
 
-  note for DisponibilidadeLoja "RI-14: ano de dataInicio >= anoLancamento do álbum<br>RI-15: unidades >= 0<br>RI-16: preco > 0, com 2 casas decimais<br>RI-17: fim da disponibilidade = dataUltimaVenda"
-  note for Fatura "numero = ano + sequencial (ex.: 20270001)<br>RI-27: ano de data >= anoLancamento dos álbuns<br>RI-28: sequencial recomeça em 1 cada ano"
+  note for DisponibilidadeLoja "RI-14: ano de dataInicio ≥ anoLancamento do álbum<br>RI-15: unidades ≥ 0<br>RI-16: preco positivo, com 2 casas decimais<br>RI-17: fim da disponibilidade = dataUltimaVenda<br>RI-47: dataInicio preenchida se houver unidades"
+  note for Fatura "numero = ano + sequencial (ex.: 20270001)<br>RI-27: ano de data ≥ anoLancamento dos álbuns<br>RI-28: sequencial recomeça em 1 cada ano<br>RI-37: numero único"
+  note for ItemCarrinho "RI-46: só versões com unidades disponíveis"
 
   style VersaoAlbum fill:#f1f5f9,stroke:#94a3b8
   style Utilizador fill:#f1f5f9,stroke:#94a3b8
@@ -255,7 +257,7 @@ classDiagram
   Utilizador "0..*" --> "0..1" Artista : favorito
 
   note for Conta "RI-18, RI-20: username e email únicos<br>RI-19: username só com letras e dígitos<br>RI-21: palavra-passe com 8+ carateres,<br>1 maiúscula, 1 minúscula e 1 algarismo<br>(validada antes de ser cifrada)"
-  note for Utilizador "RI-22: nif com 9 dígitos, positivo<br>RI-23: genero feminino ou masculino<br>RI-24: pelo menos 16 anos"
+  note for Utilizador "RI-22: nif com 9 dígitos, positivo<br>RI-23: genero feminino ou masculino<br>RI-24: pelo menos 16 anos<br>RI-40: no máximo 1 artista favorito"
 
   style Artista fill:#f1f5f9,stroke:#94a3b8
 ```
@@ -289,8 +291,9 @@ classDiagram
   ListaPersonalizada "1" *-- "0..*" ItemLista : álbuns
   ItemLista "0..*" --> "1" Album
 
-  note for ItemColecao "RI-25: ano de dataRegisto >= anoLancamento do álbum<br>RI-26: dataRegisto >= data em que o utilizador fez 16 anos"
+  note for ItemColecao "RI-25: ano de dataRegisto ≥ anoLancamento do álbum<br>RI-26: dataRegisto ≥ data em que o utilizador fez 16 anos<br>RI-41: cada versão só uma vez por utilizador"
   note for ListaPersonalizada "RI-29: nome com no máximo 100 carateres<br>RI-30: nome único para cada utilizador"
+  note for ItemLista "RI-42: cada álbum só uma vez por lista"
 
   style Utilizador fill:#f1f5f9,stroke:#94a3b8
   style VersaoAlbum fill:#f1f5f9,stroke:#94a3b8
@@ -332,7 +335,7 @@ classDiagram
   PedidoNovaVersao "0..1" --> "0..1" VersaoAlbum : versão criada
   PedidoNovaVersao "1" *-- "0..1" Notificacao : resposta
 
-  note for PedidoNovaVersao "RI-12: suporte é CD, vinil ou cassete<br>RI-13: ean13 tem 13 dígitos<br>estado inicial = emAnalise"
+  note for PedidoNovaVersao "RI-12: suporte é CD, vinil ou cassete<br>RI-13: ean13 tem 13 dígitos<br>RI-43: id único<br>RI-44: estado inicial emAnalise<br>RI-45: só aceite se o ean13 ainda não existir"
 
   style Utilizador fill:#f1f5f9,stroke:#94a3b8
   style Album fill:#f1f5f9,stroke:#94a3b8
@@ -359,14 +362,7 @@ classDiagram
 
 ## 8. Pontos para alinhar com a equipa
 
-**Com o Ze (restrições novas, RI-31 em diante).** O modelo assume estas regras, que não estão nas RI-01 a RI-30:
-- `ean13`, `mbid`, `isrc`, `isni` e o número da fatura são únicos.
-- Uma versão só aparece uma vez na coleção de um utilizador (US10 c).
-- Um álbum só aparece uma vez em cada lista (US17 c).
-- Num álbum, o número de cada faixa é único.
-- Se um álbum tiver mais do que uma versão no mesmo suporte, cada uma tem designação e as designações são diferentes (US9 c).
-- Só se pode pôr no carrinho uma versão com `unidades > 0` (US26 a).
-- Um pedido só pode ser aceite se o EAN-13 ainda não existir.
+**Restrições novas (RI-31 a RI-47).** Estão definidas, com a origem de cada uma, em [`etapa1/servicos/restricoes.md`](../servicos/restricoes.md), e já aparecem nas notas dos diagramas acima.
 
 **Com todos (suposições a confirmar):**
 - O carrinho e as faturas não têm quantidade: cada linha é uma unidade de uma versão, porque o enunciado não fala em quantidades.
