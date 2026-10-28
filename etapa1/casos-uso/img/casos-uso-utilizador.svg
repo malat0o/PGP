@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="1500" viewBox="0 0 1180 1500" font-family="Segoe UI, Arial, sans-serif">
+<defs><marker id="open" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#333" stroke-width="1.2"/></marker></defs>
+<rect width="1180" height="1500" fill="#fff"/>
+<rect x="255" y="70" width="450" height="1400" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<text x="480" y="100" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">Aplicação web: casos de uso do Utilizador</text>
+<line x1="135" y1="740.0" x2="315" y2="170" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="250" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="330" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="410" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="490" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="570" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="650" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="730" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="810" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="890" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="970" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="1050" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="1130" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="1210" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="1290" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="740.0" x2="315" y2="1370" stroke="#64748b" stroke-width="1.3"/>
+<line x1="770" y1="1130.0" x2="645" y2="1130" stroke="#15803d" stroke-width="1.3"/>
+<rect x="770" y="1090.0" width="250" height="80" rx="4" fill="#dcfce7" stroke="#15803d" stroke-width="1.5"/>
+<text x="895" y="1111.0" text-anchor="middle" font-size="12" fill="#15803d">«sistema externo»</text>
+<text x="895" y="1132.0" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f172a">Serviço de Pagamentos</text>
+<text x="895" y="1152.0" text-anchor="middle" font-size="13" fill="#334155">(Stripe / PayPal)</text>
+<line x1="770" y1="1210.0" x2="645" y2="1210" stroke="#15803d" stroke-width="1.3"/>
+<rect x="770" y="1170.0" width="250" height="80" rx="4" fill="#dcfce7" stroke="#15803d" stroke-width="1.5"/>
+<text x="895" y="1191.0" text-anchor="middle" font-size="12" fill="#15803d">«sistema externo»</text>
+<text x="895" y="1212.0" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f172a">Serviço de Mapas</text>
+<text x="895" y="1232.0" text-anchor="middle" font-size="13" fill="#334155">(Leaflet + OpenStreetMap)</text>
+<line x1="770" y1="1330.0" x2="645" y2="1290" stroke="#15803d" stroke-width="1.3"/>
+<line x1="770" y1="1330.0" x2="645" y2="1370" stroke="#15803d" stroke-width="1.3"/>
+<rect x="770" y="1290.0" width="250" height="80" rx="4" fill="#dcfce7" stroke="#15803d" stroke-width="1.5"/>
+<text x="895" y="1311.0" text-anchor="middle" font-size="12" fill="#15803d">«sistema externo»</text>
+<text x="895" y="1332.0" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f172a">Serviço de Geocodificação</text>
+<text x="895" y="1352.0" text-anchor="middle" font-size="13" fill="#334155">(Nominatim)</text>
+<line x1="575" y1="462" x2="575" y2="438" stroke="#333" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#open)"/>
+<text x="585" y="455.0" font-size="12" fill="#333">«extend»</text>
+<ellipse cx="480" cy="170" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="165" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-02</text>
+<text x="480" y="183" text-anchor="middle" font-size="14" fill="#0f172a">Iniciar sessão</text>
+<ellipse cx="480" cy="250" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="245" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-03</text>
+<text x="480" y="263" text-anchor="middle" font-size="14" fill="#0f172a">Aceder ao dashboard</text>
+<ellipse cx="480" cy="330" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="325" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-06</text>
+<text x="480" y="343" text-anchor="middle" font-size="14" fill="#0f172a">Pesquisar artistas e álbuns</text>
+<ellipse cx="480" cy="410" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="405" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-07</text>
+<text x="480" y="423" text-anchor="middle" font-size="14" fill="#0f172a">Visualizar página de artista</text>
+<ellipse cx="480" cy="490" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="485" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-08</text>
+<text x="480" y="503" text-anchor="middle" font-size="14" fill="#0f172a">Gerir artista favorito</text>
+<ellipse cx="480" cy="570" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="565" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-09</text>
+<text x="480" y="583" text-anchor="middle" font-size="14" fill="#0f172a">Visualizar página de álbum</text>
+<ellipse cx="480" cy="650" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="645" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-10</text>
+<text x="480" y="663" text-anchor="middle" font-size="14" fill="#0f172a">Gerir coleção</text>
+<ellipse cx="480" cy="730" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="725" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-11</text>
+<text x="480" y="743" text-anchor="middle" font-size="14" fill="#0f172a">Gerir listas personalizadas</text>
+<ellipse cx="480" cy="810" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="805" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-12</text>
+<text x="480" y="823" text-anchor="middle" font-size="14" fill="#0f172a">Gerir conteúdo de uma lista</text>
+<ellipse cx="480" cy="890" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="885" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-13</text>
+<text x="480" y="903" text-anchor="middle" font-size="14" fill="#0f172a">Submeter pedido de nova versão</text>
+<ellipse cx="480" cy="970" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="965" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-14</text>
+<text x="480" y="983" text-anchor="middle" font-size="14" fill="#0f172a">Consultar pedidos e notificações</text>
+<ellipse cx="480" cy="1050" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="1045" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-15</text>
+<text x="480" y="1063" text-anchor="middle" font-size="14" fill="#0f172a">Gerir carrinho de compras</text>
+<ellipse cx="480" cy="1130" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="1125" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-16</text>
+<text x="480" y="1143" text-anchor="middle" font-size="14" fill="#0f172a">Pagar carrinho</text>
+<ellipse cx="480" cy="1210" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="1205" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-04</text>
+<text x="480" y="1223" text-anchor="middle" font-size="14" fill="#0f172a">Visualizar perfil</text>
+<ellipse cx="480" cy="1290" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="1285" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-05</text>
+<text x="480" y="1303" text-anchor="middle" font-size="14" fill="#0f172a">Gerir perfil</text>
+<ellipse cx="480" cy="1370" rx="165" ry="30" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="480" y="1365" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-01</text>
+<text x="480" y="1383" text-anchor="middle" font-size="14" fill="#0f172a">Criar conta</text>
+<circle cx="110" cy="700.0" r="16" fill="#fff" stroke="#0f172a" stroke-width="2"/>
+<line x1="110" y1="716.0" x2="110" y2="770.0" stroke="#0f172a" stroke-width="2"/>
+<line x1="85" y1="735.0" x2="135" y2="735.0" stroke="#0f172a" stroke-width="2"/>
+<line x1="110" y1="770.0" x2="90" y2="805.0" stroke="#0f172a" stroke-width="2"/>
+<line x1="110" y1="770.0" x2="130" y2="805.0" stroke="#0f172a" stroke-width="2"/>
+<text x="110" y="830.0" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">Utilizador</text>
+<text x="480" y="1488" text-anchor="middle" font-size="12" fill="#64748b">UC-02 é partilhado com o Gestor (ver diagrama do Gestor).</text>
+</svg>

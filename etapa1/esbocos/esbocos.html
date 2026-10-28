@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Esboços da interface</title>
+<style>
+  :root { --ink:#1f2937; --mid:#6b7280; --line:#9ca3af; --soft:#e5e7eb; --bg:#f3f4f6; --note:#fde68a; --noteink:#78350f; --ok:#d1fae5; --okink:#065f46; --err:#fee2e2; --errink:#991b1b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px; background: #cbd5e1; font-family: "Segoe UI", Arial, sans-serif; color: var(--ink); font-size: 14px; }
+  .frame { background: #fff; margin: 0 auto 40px; border: 2px solid var(--ink); }
+  .frame.desk { width: 1280px; }
+  .frame.mob { width: 390px; }
+  .label { background: var(--ink); color: #fff; padding: 8px 14px; font-size: 13px; }
+  .label b { font-size: 15px; }
+  .nav { display: flex; align-items: center; gap: 18px; padding: 12px 20px; border-bottom: 2px solid var(--line); background: var(--bg); }
+  .logo { font-weight: 700; font-size: 18px; }
+  .search { flex: 1; border: 1.5px solid var(--line); border-radius: 6px; padding: 7px 10px; color: var(--mid); background: #fff; }
+  .nav a { color: var(--ink); text-decoration: underline; }
+  .icon { position: relative; border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 9px; background: #fff; }
+  .badge { position: absolute; top: -9px; right: -9px; background: var(--ink); color: #fff; border-radius: 10px; font-size: 11px; padding: 1px 6px; }
+  .page { padding: 22px 28px; }
+  h1 { font-size: 26px; margin: 0 0 6px; }
+  h2 { font-size: 17px; margin: 22px 0 10px; border-bottom: 1.5px solid var(--soft); padding-bottom: 4px; }
+  .muted { color: var(--mid); }
+  .row { display: flex; gap: 24px; align-items: flex-start; }
+  .col { flex: 1; }
+  .img { background: var(--soft); border: 1.5px solid var(--line); display: flex; align-items: center; justify-content: center; color: var(--mid); position: relative; overflow: hidden; }
+  .img::before, .img::after { content: ""; position: absolute; width: 140%; height: 1.5px; background: var(--line); top: 50%; left: -20%; }
+  .img::before { transform: rotate(45deg); } .img::after { transform: rotate(-45deg); }
+  .img span { position: relative; z-index: 1; background: var(--soft); padding: 2px 6px; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { border: 1px solid var(--line); padding: 7px 9px; text-align: left; vertical-align: middle; }
+  th { background: var(--bg); font-weight: 600; }
+  .btn { display: inline-block; border: 1.5px solid var(--ink); border-radius: 6px; padding: 5px 11px; background: #fff; font-size: 13px; white-space: nowrap; }
+  .btn.pri { background: var(--ink); color: #fff; }
+  .btn.off { border-color: var(--line); color: var(--line); }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-weight: 600; margin-bottom: 4px; }
+  .input { border: 1.5px solid var(--line); border-radius: 6px; padding: 7px 10px; color: var(--mid); background: #fff; }
+  .input.bad { border-color: var(--errink); }
+  .hint { font-size: 12px; color: var(--mid); margin-top: 3px; }
+  .msg { border-radius: 6px; padding: 9px 12px; margin: 10px 0; }
+  .msg.ok { background: var(--ok); color: var(--okink); }
+  .msg.err { background: var(--err); color: var(--errink); }
+  .tag { display: inline-block; border: 1px solid var(--line); border-radius: 10px; padding: 1px 8px; font-size: 12px; background: var(--bg); }
+  .n { display: inline-block; background: var(--note); color: var(--noteink); border: 1.5px solid var(--noteink); border-radius: 50%; width: 22px; height: 22px; text-align: center; line-height: 19px; font-weight: 700; font-size: 12px; vertical-align: middle; }
+  .notes { background: #fffbeb; border-top: 2px dashed var(--noteink); padding: 12px 20px; color: var(--noteink); font-size: 13px; }
+  .notes ol { margin: 4px 0 0; padding-left: 0; list-style: none; }
+  .notes li { margin: 3px 0; }
+  .gestor { border: 2px dashed #b91c1c; border-radius: 6px; padding: 8px 10px; color: #991b1b; }
+  .modal { border: 2px solid var(--ink); border-radius: 8px; padding: 16px; background: #fff; box-shadow: 6px 6px 0 var(--line); }
+  .tile { border: 1.5px solid var(--ink); border-radius: 8px; padding: 18px; flex: 1; min-height: 110px; }
+  .tile b { display: block; font-size: 17px; margin-bottom: 6px; }
+  .map { height: 220px; }
+  .img .pin { position: absolute; z-index: 2; font-size: 22px; background: none; padding: 0; }
+  .card { border: 1.5px solid var(--line); border-radius: 8px; padding: 10px; margin-bottom: 10px; }
+  .toggle span { border: 1.5px solid var(--ink); padding: 5px 12px; display: inline-block; }
+  .toggle span.on { background: var(--ink); color: #fff; }
+  .dd { border: 1.5px solid var(--line); border-top: 0; border-radius: 0 0 6px 6px; }
+  .dd div { padding: 7px 10px; border-top: 1px solid var(--soft); }
+  .dd div.hl { background: var(--bg); }
+</style>
+</head>
+<body>
+
+<!-- ============ E01 Página de álbum ============ -->
+<div class="frame desk" data-name="E01-pagina-album">
+  <div class="label"><b>E01 · Página de álbum</b> · US9, US10, US17, US25, US26</div>
+  <div class="nav"><span class="logo">♪ DiscoLoja</span><span class="search">Pesquisar álbuns ou artistas…</span><a>Dashboard</a><a>Coleção</a><a>Listas</a><a>Pedidos</a><span class="icon">🔔<span class="badge">1</span></span><span class="icon">🛒<span class="badge">2</span></span><span class="icon">👤 rodrigo</span></div>
+  <div class="page">
+    <div class="row">
+      <div class="img" style="width:260px;height:260px"><span>Capa do álbum</span></div>
+      <div class="col">
+        <h1>Meteora</h1>
+        <div style="font-size:16px"><a style="text-decoration:underline">Linkin Park</a> · 2003 · <span class="tag">LP</span></div>
+        <div class="muted" style="margin-top:6px">MBID: 6f1b8c0f-31d6-4b4f-9a7e-1c2d3e4f5a6b</div>
+        <div style="margin-top:16px"><span class="btn">＋ Adicionar a uma lista ▾</span> <span class="n">5</span></div>
+        <h2>Faixas</h2>
+        <table><tr><th style="width:50px">#</th><th>Título</th><th style="width:110px">Duração</th></tr>
+          <tr><td>1</td><td>Foreword</td><td>0:13</td></tr><tr><td>2</td><td>Don't Stay</td><td>3:07</td></tr><tr><td>3</td><td>Somewhere I Belong</td><td>3:33</td></tr><tr><td colspan="3" class="muted">… mais 10 faixas</td></tr></table>
+      </div>
+    </div>
+    <h2>Versões <span class="n">1</span></h2>
+    <table>
+      <tr><th>EAN-13</th><th>Suporte</th><th>Designação</th><th>Na loja desde</th><th>Unidades</th><th>Preço</th><th>Ações</th><th class="gestor" style="border-style:dashed">Gestor <span class="n">4</span></th></tr>
+      <tr><td>0093624849529</td><td>CD</td><td>—</td><td>12/03/2003</td><td>4</td><td>14,99 €</td><td><span class="btn">＋ Coleção</span> <span class="btn pri">🛒 Carrinho</span> <span class="n">2</span></td><td><span class="btn">−</span> 4 <span class="btn">＋</span></td></tr>
+      <tr><td>0093624849536</td><td>Vinil</td><td>Vermelho</td><td>01/05/2020</td><td>0 · <b>Esgotado</b><br><span class="muted">última venda 03/10/2026</span> <span class="n">3</span></td><td>29,99 €</td><td><span class="btn">＋ Coleção</span> <span class="btn off">🛒 Carrinho</span></td><td><span class="btn">−</span> 0 <span class="btn">＋</span></td></tr>
+      <tr><td>0093624849543</td><td>Vinil</td><td>Preto</td><td colspan="3" class="muted">Esta versão nunca esteve disponível na loja.</td><td><span class="btn">＋ Coleção</span></td><td><span class="btn">Pôr à venda</span></td></tr>
+    </table>
+    <div class="msg ok">✔ A versão Vinil (Vermelho) foi adicionada à sua coleção.</div>
+  </div>
+  <div class="notes"><b>Notas</b><ol>
+    <li><span class="n">1</span> A designação só aparece quando há mais do que uma versão no mesmo suporte (US9 c). Cada versão pode ser adicionada à coleção, uma só vez (US10, RI-41).</li>
+    <li><span class="n">2</span> O botão do carrinho só fica ativo se a versão tiver unidades na loja (US26 a, RI-46). O ícone 🛒 no topo mostra o número de itens (US26 b).</li>
+    <li><span class="n">3</span> Versão esgotada: mostra a data da última venda (US9 d). Versão que nunca esteve na loja: mensagem discreta (US9 e).</li>
+    <li><span class="n">4</span> Coluna visível só para o gestor: aumentar ou diminuir unidades; "Pôr à venda" pede o preço na primeira vez (US25).</li>
+    <li><span class="n">5</span> Adicionar o álbum (não a versão) a uma lista personalizada (US17).</li>
+  </ol></div>
+</div>
+
+<!-- ============ E02 Carrinho e pagamento ============ -->
+<div class="frame desk" data-name="E02-carrinho-pagamento">
+  <div class="label"><b>E02 · Carrinho de compras e pagamento</b> · US27, US28</div>
+  <div class="nav"><span class="logo">♪ DiscoLoja</span><span class="search">Pesquisar álbuns ou artistas…</span><a>Dashboard</a><a>Coleção</a><a>Listas</a><a>Pedidos</a><span class="icon">🔔</span><span class="icon">🛒<span class="badge">2</span></span><span class="icon">👤 rodrigo</span></div>
+  <div class="page">
+    <h1>Carrinho de compras</h1>
+    <div class="row">
+      <div class="col" style="flex:2">
+        <div class="muted" style="margin-bottom:8px">Mais recentes primeiro <span class="n">1</span></div>
+        <table>
+          <tr><th>Título</th><th>Ano</th><th>Artista</th><th>EAN-13</th><th>Suporte</th><th>Designação</th><th>Preço</th><th></th></tr>
+          <tr><td>Hybrid Theory</td><td>2000</td><td>Linkin Park</td><td>0093624774029</td><td>Vinil</td><td>—</td><td>27,99 €</td><td><span class="btn">Remover</span></td></tr>
+          <tr><td>Meteora</td><td>2003</td><td>Linkin Park</td><td>0093624849529</td><td>CD</td><td>—</td><td>14,99 €</td><td><span class="btn">Remover</span></td></tr>
+        </table>
+        <div style="text-align:right;margin-top:14px;font-size:18px">Total: <b>42,98 €</b> &nbsp; <span class="btn pri" style="font-size:15px;padding:8px 18px">Pagar</span></div>
+        <div class="msg err">✖ O pagamento não foi concluído. Pode escolher outro serviço de pagamento ou cancelar. <span class="n">3</span></div>
+        <div class="msg ok">✔ Pagamento concluído. Fatura nº 20260001 emitida; 2 álbuns adicionados à sua coleção. <span class="n">4</span></div>
+      </div>
+      <div class="col">
+        <div class="modal">
+          <b style="font-size:16px">Escolher o serviço de pagamento</b> <span class="n">2</span>
+          <div style="margin:14px 0">
+            <div class="card">◉ <b>Stripe</b> <span class="muted">— cartão, MB WAY</span></div>
+            <div class="card">○ <b>PayPal</b> <span class="muted">— conta PayPal ou cartão</span></div>
+          </div>
+          <div class="muted" style="margin-bottom:12px">Vai ser redirecionado para a página segura do serviço. Total: 42,98 €</div>
+          <span class="btn pri">Continuar</span> <span class="btn">Cancelar</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="notes"><b>Notas</b><ol>
+    <li><span class="n">1</span> Cada linha mostra os dados pedidos na US27 b); a ordem é do mais recente para o mais antigo (US27 c).</li>
+    <li><span class="n">2</span> O utilizador escolhe o serviço externo (US28 b). Os dados do cartão são introduzidos na página do serviço, nunca na aplicação.</li>
+    <li><span class="n">3</span> Falha: volta a esta janela para escolher outro serviço ou cancelar (US28 g).</li>
+    <li><span class="n">4</span> Sucesso: resumo com a fatura e a coleção atualizada (US28 d).</li>
+  </ol></div>
+</div>
+
+<!-- ============ E03 Criar conta ============ -->
+<div class="frame desk" data-name="E03-criar-conta">
+  <div class="label"><b>E03 · Criar conta</b> · US1</div>
+  <div class="nav"><span class="logo">♪ DiscoLoja</span><span style="flex:1"></span><a>Iniciar sessão</a></div>
+  <div class="page">
+    <h1>Criar conta</h1>
+    <div class="row">
+      <div class="col">
+        <div class="field"><label>Username</label><div class="input">rodrigo2006</div></div>
+        <div class="field"><label>E-mail</label><div class="input">rodrigo@exemplo.pt</div></div>
+        <div class="field"><label>Palavra-passe</label><div class="input">••••••••</div></div>
+        <div class="field"><label>NIF</label><div class="input bad">12345</div><div class="hint" style="color:#991b1b">✖ O NIF tem de ter 9 dígitos. <span class="n">2</span></div></div>
+        <div class="field"><label>Nome</label><div class="input">Rodrigo Silva</div></div>
+      </div>
+      <div class="col">
+        <div class="field"><label>Género</label>◉ Feminino &nbsp; ○ Masculino</div>
+        <div class="field"><label>Morada</label><div class="input">Rua do Exemplo 10, 1000-001 Lisboa</div><div class="hint">Usada para mostrar a sua localização no mapa. <span class="n">3</span></div></div>
+        <div class="field"><label>Data de nascimento</label><div class="input">dd/mm/aaaa</div></div>
+        <div class="msg" style="background:#eff6ff;color:#1e3a8a"><b>Requisitos</b> <span class="n">1</span><br>• Username: só letras e dígitos.<br>• Palavra-passe: 8 ou mais carateres, com pelo menos 1 maiúscula, 1 minúscula e 1 algarismo.<br>• Tem de ter pelo menos 16 anos.</div>
+      </div>
+    </div>
+    <span class="btn pri" style="font-size:15px;padding:8px 18px">Criar conta</span> &nbsp; <span class="muted">Já tem conta? <u>Iniciar sessão</u></span>
+  </div>
+  <div class="notes"><b>Notas</b><ol>
+    <li><span class="n">1</span> Os requisitos do username e da palavra-passe estão sempre visíveis (US1 e).</li>
+    <li><span class="n">2</span> Cada erro aparece junto ao campo, a explicar o motivo (US1 g). Sucesso: mensagem e passagem para o início de sessão (US1 f).</li>
+    <li><span class="n">3</span> Campo de texto simples, sem sugestões automáticas (a política do Nominatim proíbe o auto-complete).</li>
+  </ol></div>
+</div>
+
+<!-- ============ E04 Perfil ============ -->
+<div class="frame desk" data-name="E04-perfil">
+  <div class="label"><b>E04 · Perfil do utilizador</b> · US3, US4</div>
+  <div class="nav"><span class="logo">♪ DiscoLoja</span><span class="search">Pesquisar álbuns ou artistas…</span><a>Dashboard</a><a>Coleção</a><a>Listas</a><a>Pedidos</a><span class="icon">🔔</span><span class="icon">🛒</span><span class="icon">👤 rodrigo</span></div>
+  <div class="page">
+    <h1>O meu perfil <span class="btn" style="font-size:13px;vertical-align:middle">✎ Editar perfil</span> <span class="n">3</span></h1>
+    <div class="row">
+      <div class="col">
+        <table>
+          <tr><th style="width:190px">Username</th><td>rodrigo2006</td></tr>
+          <tr><th>E-mail</th><td>rodrigo@exemplo.pt</td></tr>
+          <tr><th>Palavra-passe</th><td>•••••••• <span class="n">1</span></td></tr>
+          <tr><th>NIF</th><td>123456789</td></tr>
+          <tr><th>Nome</th><td>Rodrigo Silva</td></tr>
+          <tr><th>Género</th><td>Masculino</td></tr>
+          <tr><th>Morada</th><td>Rua do Exemplo 10, 1000-001 Lisboa</td></tr>
+          <tr><th>Data de nascimento</th><td>14/05/2006</td></tr>
+          <tr><th>Artista favorito</th><td><u>Linkin Park</u> <span class="n">4</span></td></tr>
+        </table>
+      </div>
+      <div class="col">
+        <div class="img map" style="height:330px"><span>Mapa (Leaflet + OpenStreetMap)</span><span class="pin" style="top:120px;left:48%">📍</span></div>
+        <div class="muted" style="text-align:right;font-size:12px">© OpenStreetMap <span class="n">2</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="notes"><b>Notas</b><ol>
+    <li><span class="n">1</span> A palavra-passe é guardada cifrada, por isso aparece mascarada.</li>
+    <li><span class="n">2</span> O mapa só aparece se a morada tiver sido convertida em coordenadas (US3 b). Atribuição ao OpenStreetMap obrigatória.</li>
+    <li><span class="n">3</span> Editar abre o mesmo formulário do E03, preenchido; para guardar alterações é pedida a palavra-passe atual (US4 b).</li>
+    <li><span class="n">4</span> O artista favorito leva à página do artista (US3 d).</li>
+  </ol></div>
+</div>
+
+<!-- ============ E05 Pesquisa ============ -->
+<div class="frame desk" data-name="E05-pesquisa">
+  <div class="label"><b>E05 · Pesquisa de álbuns e artistas</b> · US5, US8</div>
+  <div class="nav"><span class="logo">♪ DiscoLoja</span><span style="flex:1"></span><a>Dashboard</a><a>Coleção</a><a>Listas</a><a>Pedidos</a><span class="icon">🔔</span><span class="icon">🛒</span><span class="icon">👤 rodrigo</span></div>
+  <div class="page">
+    <div class="row">
+      <div class="col">
+        <h2 style="margin-top:0">Ao escrever</h2>
+        <div class="toggle" style="margin-bottom:10px"><span class="on">Álbuns</span><span>Artistas</span> <span class="n" style="border:1.5px solid #78350f">1</span></div>
+        <div class="input" style="color:#1f2937;border-radius:6px 6px 0 0">meteo|</div>
+        <div class="dd"><div class="hl"><b>Meteo</b>ra — Linkin Park (2003)</div><div><b>Meteo</b>ra 20th Anniversary — Linkin Park (2023)</div><div><b>Meteo</b>r Shower — Vários artistas (1998)</div></div>
+        <div class="muted" style="margin-top:6px">Sugestões com correspondência parcial ao título <span class="n">2</span></div>
+      </div>
+      <div class="col">
+        <h2 style="margin-top:0">Sem resultados</h2>
+        <div class="toggle" style="margin-bottom:10px"><span>Álbuns</span><span class="on">Artistas</span></div>
+        <div class="input" style="color:#1f2937">xyzw|</div>
+        <div class="msg" style="background:#f3f4f6">Não encontrámos artistas com "xyzw". Experimente outro nome ou pesquise em Álbuns. <span class="n">3</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="notes"><b>Notas</b><ol>
+    <li><span class="n">1</span> O mesmo campo serve para álbuns e artistas, com uma opção para escolher (US5 d, US8 d).</li>
+    <li><span class="n">2</span> As sugestões aparecem à medida que se escreve (US5 b, US8 b). Escolher uma sugestão abre a página do álbum ou do artista.</li>
+    <li><span class="n">3</span> Mensagem própria quando não há resultados (US5 c, US8 c).</li>
+  </ol></div>
+</div>
+
+<!-- ============ E06 Coleção ============ -->
+<div class="frame desk" data-name="E06-colecao">
+  <div class="label"><b>E06 · A minha coleção</b> · US11</div>
+  <div class="nav"><span class="logo">♪ DiscoLoja</span><span class="search">Pesquisar álbuns ou artistas…</span><a>Dashboard</a><a><b>Coleção</b></a><a>Listas</a><a>Pedidos</a><span class="icon">🔔</span><span class="icon">🛒</span><span class="icon">👤 rodrigo</span></div>
+  <div class="page">
+    <h1>A minha coleção <span class="muted" style="font-size:16px">· 3 álbuns</span></h1>
+    <div class="msg ok">✔ "Living Things" foi removido da sua coleção. <span class="n">3</span></div>
+    <table>
+      <tr><th>Título ▲ <span class="n">1</span></th><th>Ano ⇅</th><th>Artista ⇅</th><th>EAN-13 ⇅</th><th>Suporte ⇅</th><th>Designação ⇅</th><th>Adicionado em ⇅</th><th></th></tr>
+      <tr><td><u>Hybrid Theory</u> <span class="n">2</span></td><td>2000</td><td><u>Linkin Park</u></td><td>0093624774029</td><td>Vinil</td><td>—</td><td>28/10/2026</td><td><span class="btn">Remover</span></td></tr>
+      <tr><td><u>Meteora</u></td><td>2003</td><td><u>Linkin Park</u></td><td>0093624849536</td><td>Vinil</td><td>Vermelho</td><td>12/06/2025</td><td><span class="btn">Remover</span></td></tr>
+      <tr><td><u>Now 4</u></td><td>2001</td><td>Vários artistas</td><td>5099750812523</td><td>CD</td><td>—</td><td>02/01/2024</td><td><span class="btn">Remover</span></td></tr>
+    </table>
+  </div>
+  <div class="notes"><b>Notas</b><ol>
+    <li><span class="n">1</span> Clicar no cabeçalho ordena por essa coluna; qualquer coluna é ordenável (US11 c).</li>
+    <li><span class="n">2</span> O título leva à página do álbum e o artista à página do artista (US11 d, e). Compilações mostram "Vários artistas".</li>
+    <li><span class="n">3</span> Depois de remover, a tabela é atualizada e aparece uma mensagem (US11 f).</li>
+  </ol></div>
+</div>
+
+<!-- ============ E07 Pedidos e notificações ============ -->
+<div class="frame desk" data-name="E07-pedidos-notificacoes">
+  <div class="label"><b>E07 · Pedidos de novas versões e notificações</b> · US12, US13, US14</div>
+  <div class="nav"><span class="logo">♪ DiscoLoja</span><span class="search">Pesquisar álbuns ou artistas…</span><a>Dashboard</a><a>Coleção</a><a>Listas</a><a><b>Pedidos</b></a><span class="icon">🔔<span class="badge">1</span></span><span class="icon">🛒</span><span class="icon">👤 rodrigo</span></div>
+  <div class="page">
+    <div class="row">
+      <div class="col" style="flex:2">
+        <h1>Os meus pedidos <span class="btn pri" style="font-size:13px;vertical-align:middle">＋ Novo pedido</span></h1>
+        <div style="margin:10px 0">Estado: <span class="input" style="display:inline-block;width:180px">Todos ▾</span> <span class="n">2</span></div>
+        <table>
+          <tr><th>ID</th><th>Álbum</th><th>EAN-13</th><th>Suporte</th><th>Designação</th><th>Data</th><th>Estado</th></tr>
+          <tr><td>14</td><td>Infest</td><td>0602498614291</td><td>Cassete</td><td>—</td><td>27/10/2026</td><td><span class="tag">em análise</span></td></tr>
+          <tr><td>12</td><td>Meteora</td><td>0093624849550</td><td>Vinil</td><td>Azul</td><td>20/10/2026</td><td><span class="tag" style="background:#d1fae5">aceite</span></td></tr>
+          <tr><td>9</td><td>Now 4</td><td>5099750812530</td><td>Vinil</td><td>—</td><td>02/09/2026</td><td><span class="tag" style="background:#fee2e2">recusado</span></td></tr>
+        </table>
+        <h2>Novo pedido <span class="n">1</span></h2>
+        <div class="modal" style="box-shadow:none">
+          <div class="row">
+            <div class="col field"><label>Álbum</label><div class="input">Infest — Papa Roach ▾</div></div>
+            <div class="col field"><label>EAN-13</label><div class="input">0602498614291</div></div>
+            <div class="col field"><label>Suporte físico</label><div class="input">Cassete ▾</div></div>
+            <div class="col field"><label>Designação (opcional)</label><div class="input"></div></div>
+          </div>
+          <span class="btn pri">Submeter pedido</span>
+          <div class="msg ok" style="display:inline-block;margin:0 0 0 12px">✔ Pedido nº 14 submetido. Estado: em análise.</div>
+        </div>
+      </div>
+      <div class="col">
+        <h2 style="margin-top:6px">🔔 Notificações <span class="n">3</span></h2>
+        <div class="card" style="border-color:#1f2937"><b>Pedido nº 12 aceite</b><br>Meteora · Vinil · Azul · EAN 0093624849550<br><span class="muted">A versão já aparece na página do álbum.</span><br><span class="btn" style="margin-top:6px">Ver álbum</span></div>
+        <div class="card"><b>Pedido nº 9 recusado</b><br>Now 4 · Vinil · EAN 5099750812530</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes"><b>Notas</b><ol>
+    <li><span class="n">1</span> Escolher o álbum, depois EAN-13, suporte e designação; validados pelas RI-13 e RI-12 (US12).</li>
+    <li><span class="n">2</span> Filtro por estado: em análise, aceite, recusado (US13 e).</li>
+    <li><span class="n">3</span> Notificação com os dados do pedido e a resposta; se aceite, a versão já está na página do álbum (US14).</li>
+  </ol></div>
+</div>
+
+<!-- ============ E08 Registar álbum (gestor) ============ -->
+<div class="frame desk" data-name="E08-gestor-registar-album">
+  <div class="label"><b>E08 · Registar álbum ou versão (gestor)</b> · US22, US23</div>
+  <div class="nav" style="background:#fee2e2"><span class="logo">♪ DiscoLoja · Gestão</span><span style="flex:1"></span><a>Artistas</a><a><b>Álbuns</b></a><a>Pedidos</a><a>Estatísticas</a><span class="icon">👤 gestor</span></div>
+  <div class="page">
+    <h1>Registar</h1>
+    <div class="toggle" style="margin-bottom:16px"><span class="on">Novo álbum</span><span>Nova versão de um álbum existente</span> <span class="n" style="border:1.5px solid #78350f">1</span></div>
+    <div class="row">
+      <div class="col">
+        <h2 style="margin-top:0">Álbum</h2>
+        <div class="field"><label>MBID</label><div class="input">6f1b8c0f-31d6-4b4f-9a7e-1c2d3e4f5a6b</div></div>
+        <div class="field"><label>Título</label><div class="input">Meteora</div></div>
+        <div class="row"><div class="col field"><label>Tipo</label><div class="input">LP ▾</div></div><div class="col field"><label>Ano de lançamento</label><div class="input">2003</div></div></div>
+        <div class="field"><label>Artista</label><div class="input">Linkin Park ▾</div><div class="hint">☐ Álbum de compilação (vários artistas) <span class="n">2</span></div></div>
+        <div class="field"><label>Imagem de capa</label><span class="btn">Carregar imagem…</span></div>
+      </div>
+      <div class="col">
+        <h2 style="margin-top:0">Versão</h2>
+        <div class="row"><div class="col field"><label>Suporte físico</label><div class="input">CD ▾</div></div><div class="col field"><label>Designação (opcional)</label><div class="input"></div></div></div>
+        <div class="field"><label>EAN-13</label><div class="input bad">00936248495</div><div class="hint" style="color:#991b1b">✖ O EAN-13 tem de ter 13 dígitos.</div></div>
+        <div class="row"><div class="col field"><label>Unidades na loja</label><div class="input">4</div></div><div class="col field"><label>Preço (€)</label><div class="input">14,99</div></div></div>
+        <div class="field"><label>Disponível na loja desde</label><div class="input" style="background:#f3f4f6">28/10/2026 (automático) <span class="n">3</span></div></div>
+      </div>
+    </div>
+    <span class="btn pri" style="font-size:15px;padding:8px 18px">Guardar</span>
+  </div>
+  <div class="notes"><b>Notas</b><ol>
+    <li><span class="n">1</span> "Nova versão" mostra primeiro a escolha do álbum e depois só os campos da versão (US22 b). Para alterar (US23), o mesmo formulário aparece preenchido, com todas as versões do álbum.</li>
+    <li><span class="n">2</span> Escolher um artista existente ou marcar como compilação (US22 e).</li>
+    <li><span class="n">3</span> Se as unidades forem maiores que zero, a data é preenchida automaticamente (US22 g, RI-14). Os erros explicam o motivo (US22 i).</li>
+  </ol></div>
+</div>
+
+<!-- ============ E09 Estatísticas (gestor) ============ -->
+<div class="frame desk" data-name="E09-gestor-estatisticas">
+  <div class="label"><b>E09 · Estatísticas da loja (gestor)</b> · US29</div>
+  <div class="nav" style="background:#fee2e2"><span class="logo">♪ DiscoLoja · Gestão</span><span style="flex:1"></span><a>Artistas</a><a>Álbuns</a><a>Pedidos</a><a><b>Estatísticas</b></a><span class="icon">👤 gestor</span></div>
+  <div class="page">
+    <h1>Estatísticas</h1>
+    <div class="row">
+      <div class="col">
+        <h2>Top 5 colecionadores <span class="n">1</span></h2>
+        <table><tr><th>Utilizador</th><th>Álbuns</th><th>% disponível na loja</th></tr>
+          <tr><td><u>ana_m</u></td><td>312</td><td>64%</td></tr><tr><td><u>joao88</u></td><td>287</td><td style="color:#991b1b"><b>12%</b></td></tr><tr><td><u>rita</u></td><td>240</td><td>51%</td></tr><tr><td><u>pedroS</u></td><td>198</td><td>70%</td></tr><tr><td><u>rodrigo2006</u></td><td>176</td><td>45%</td></tr></table>
+      </div>
+      <div class="col">
+        <h2>Moradas dos top 5</h2>
+        <div class="img map"><span>Mapa com 5 marcadores</span><span class="pin" style="top:40px;left:30%">📍</span><span class="pin" style="top:90px;left:55%">📍</span><span class="pin" style="top:150px;left:40%">📍</span><span class="pin" style="top:60px;left:70%">📍</span><span class="pin" style="top:130px;left:20%">📍</span></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h2>Top 5 álbuns mais adicionados às coleções <span class="n">2</span></h2>
+        <table><tr><th>Álbum</th><th>Coleções</th><th>Na loja</th></tr>
+          <tr><td><u>Meteora</u></td><td>58</td><td><span class="tag" style="background:#d1fae5">disponível</span></td></tr><tr><td><u>Hybrid Theory</u></td><td>51</td><td><span class="tag">indisponível</span></td></tr><tr><td><u>Infest</u></td><td>33</td><td><span class="tag" style="background:#d1fae5">disponível</span></td></tr><tr><td><u>Now 4</u></td><td>27</td><td><span class="tag">indisponível</span></td></tr><tr><td><u>Minutes to Midnight</u></td><td>21</td><td><span class="tag" style="background:#d1fae5">disponível</span></td></tr></table>
+      </div>
+      <div class="col">
+        <h2>Top 5 álbuns mais vendidos</h2>
+        <table><tr><th>Álbum</th><th>Unidades</th><th>Total</th></tr>
+          <tr><td><u>Meteora</u></td><td>41</td><td>789,59 €</td></tr><tr><td><u>Infest</u></td><td>25</td><td>374,75 €</td></tr><tr><td><u>Hybrid Theory</u></td><td>19</td><td>531,81 €</td></tr><tr><td><u>Living Things</u></td><td>12</td><td>179,88 €</td></tr><tr><td><u>One More Light</u></td><td>9</td><td>134,91 €</td></tr></table>
+      </div>
+    </div>
+  </div>
+  <div class="notes"><b>Notas</b><ol>
+    <li><span class="n">1</span> Percentagem baixa destacada a vermelho: poucos álbuns dessa coleção podem ser comprados na loja (US29 b). As moradas aparecem no mapa.</li>
+    <li><span class="n">2</span> Distingue álbuns disponíveis e indisponíveis (US29 c). Cada utilizador e álbum leva à respetiva página (US29 e).</li>
+  </ol></div>
+</div>
+
+<!-- ============ E10 Dashboard ============ -->
+<div class="frame desk" data-name="E10-dashboard">
+  <div class="label"><b>E10 · Dashboard do utilizador</b> · US19, US2</div>
+  <div class="nav"><span class="logo">♪ DiscoLoja</span><span class="search">Pesquisar álbuns ou artistas…</span><a><b>Dashboard</b></a><a>Coleção</a><a>Listas</a><a>Pedidos</a><span class="icon">🔔<span class="badge">1</span></span><span class="icon">🛒<span class="badge">2</span></span><span class="icon">👤 rodrigo</span></div>
+  <div class="page">
+    <h1>Olá, Rodrigo</h1>
+    <div class="muted" style="margin-bottom:18px">Aparece depois de iniciar sessão com sucesso (US2 c). <span class="n">1</span></div>
+    <div class="row" style="margin-bottom:20px">
+      <div class="tile"><b>🔍 Pesquisar</b>Álbuns e artistas</div>
+      <div class="tile"><b>💿 A minha coleção</b>176 álbuns</div>
+      <div class="tile"><b>📋 As minhas listas</b>3 listas</div>
+    </div>
+    <div class="row">
+      <div class="tile"><b>📨 Pedidos de novas versões</b>1 em análise</div>
+      <div class="tile"><b>🔔 Notificações</b>1 nova <span class="n">2</span></div>
+      <div class="tile"><b>🛒 Carrinho</b>2 álbuns · 42,98 €</div>
+    </div>
+  </div>
+  <div class="notes"><b>Notas</b><ol>
+    <li><span class="n">1</span> Acesso à coleção, às listas, à pesquisa e aos pedidos (US19 a).</li>
+    <li><span class="n">2</span> As notificações de pedidos respondidos são acessíveis a partir do dashboard (US14 a).</li>
+  </ol></div>
+</div>
+
+<!-- ============ E11 Página de álbum (telemóvel) ============ -->
+<div class="frame mob" data-name="E11-telemovel-pagina-album">
+  <div class="label"><b>E11 · Página de álbum (telemóvel)</b> · RNF-04</div>
+  <div class="nav" style="padding:10px 12px;gap:10px"><span>☰</span><span class="logo" style="font-size:16px">♪ DiscoLoja</span><span style="flex:1"></span><span>🔍</span><span class="icon">🛒<span class="badge">2</span></span></div>
+  <div class="page" style="padding:14px">
+    <div class="img" style="width:100%;height:240px"><span>Capa</span></div>
+    <h1 style="margin-top:12px">Meteora</h1>
+    <div><u>Linkin Park</u> · 2003 · <span class="tag">LP</span></div>
+    <div style="margin:10px 0"><span class="btn">＋ Adicionar a lista ▾</span></div>
+    <h2>Versões <span class="n">1</span></h2>
+    <div class="card"><b>CD</b> · 14,99 € · 4 unid.<br><span class="muted">EAN 0093624849529 · desde 12/03/2003</span><br><div style="margin-top:8px"><span class="btn">＋ Coleção</span> <span class="btn pri">🛒 Carrinho</span></div></div>
+    <div class="card"><b>Vinil · Vermelho</b> · 29,99 € · <b>Esgotado</b><br><span class="muted">Última venda 03/10/2026</span><br><div style="margin-top:8px"><span class="btn">＋ Coleção</span></div></div>
+    <h2>Faixas ▾ <span class="n">2</span></h2>
+  </div>
+  <div class="notes"><b>Notas</b><ol>
+    <li><span class="n">1</span> A tabela de versões passa a cartões empilhados, com os botões por baixo.</li>
+    <li><span class="n">2</span> As faixas ficam numa secção que se expande, para poupar espaço.</li>
+  </ol></div>
+</div>
+
+<!-- ============ E12 Carrinho (telemóvel) ============ -->
+<div class="frame mob" data-name="E12-telemovel-carrinho">
+  <div class="label"><b>E12 · Carrinho (telemóvel)</b> · RNF-04, US27, US28</div>
+  <div class="nav" style="padding:10px 12px;gap:10px"><span>☰</span><span class="logo" style="font-size:16px">♪ DiscoLoja</span><span style="flex:1"></span><span>🔍</span><span class="icon">🛒<span class="badge">2</span></span></div>
+  <div class="page" style="padding:14px">
+    <h1>Carrinho</h1>
+    <div class="card"><b>Hybrid Theory</b> · 2000<br>Linkin Park · Vinil<br><span class="muted">EAN 0093624774029</span><div style="display:flex;justify-content:space-between;margin-top:8px"><b>27,99 €</b><span class="btn">Remover</span></div></div>
+    <div class="card"><b>Meteora</b> · 2003<br>Linkin Park · CD<br><span class="muted">EAN 0093624849529</span><div style="display:flex;justify-content:space-between;margin-top:8px"><b>14,99 €</b><span class="btn">Remover</span></div></div>
+    <div style="border-top:2px solid #1f2937;padding-top:12px;margin-top:16px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:17px">Total <b>42,98 €</b></span><span class="btn pri" style="padding:9px 22px">Pagar</span></div>
+    <div class="muted" style="margin-top:6px">Barra fixa no fundo do ecrã <span class="n">1</span></div>
+  </div>
+  <div class="notes"><b>Notas</b><ol>
+    <li><span class="n">1</span> O total e o botão Pagar ficam sempre visíveis; a escolha do serviço abre num ecrã inteiro.</li>
+  </ol></div>
+</div>
+
+</body>
+</html>

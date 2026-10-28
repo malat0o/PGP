@@ -2,5 +2,6 @@
 
 **Responsável:** Reis
 
-- Lista de casos de uso com IDs (UC-01…) e matriz US↔UC (até 28/out)
-- Diagrama de casos de uso (.drawio + PNG/PDF)
+- [`casos-uso.md`](casos-uso.md): atores, lista dos 21 casos de uso e matriz US↔UC (29/29 user stories)
+- [`img/`](img): diagramas em SVG e PNG, um para o Utilizador e outro para o Gestor
+- [`seccao-relatorio.md`](seccao-relatorio.md): secção "Casos de uso" pronta para o relatório

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="700" viewBox="0 0 1180 700" font-family="Segoe UI, Arial, sans-serif">
+<defs><marker id="open" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#333" stroke-width="1.2"/></marker></defs>
+<rect width="1180" height="700" fill="#fff"/>
+<rect x="255" y="70" width="450" height="600" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<text x="480" y="100" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">Aplicação web: casos de uso do Gestor</text>
+<line x1="135" y1="340.0" x2="315" y2="170" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="340.0" x2="315" y2="250" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="340.0" x2="315" y2="330" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="340.0" x2="315" y2="410" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="340.0" x2="315" y2="490" stroke="#64748b" stroke-width="1.3"/>
+<line x1="135" y1="340.0" x2="315" y2="570" stroke="#64748b" stroke-width="1.3"/>
+<line x1="770" y1="570.0" x2="645" y2="570" stroke="#15803d" stroke-width="1.3"/>
+<rect x="770" y="530.0" width="250" height="80" rx="4" fill="#dcfce7" stroke="#15803d" stroke-width="1.5"/>
+<text x="895" y="551.0" text-anchor="middle" font-size="12" fill="#15803d">«sistema externo»</text>
+<text x="895" y="572.0" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f172a">Serviço de Mapas</text>
+<text x="895" y="592.0" text-anchor="middle" font-size="13" fill="#334155">(Leaflet + OpenStreetMap)</text>
+<ellipse cx="480" cy="170" rx="165" ry="30" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.5"/>
+<text x="480" y="165" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-02</text>
+<text x="480" y="183" text-anchor="middle" font-size="14" fill="#0f172a">Iniciar sessão</text>
+<ellipse cx="480" cy="250" rx="165" ry="30" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.5"/>
+<text x="480" y="245" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-17</text>
+<text x="480" y="263" text-anchor="middle" font-size="14" fill="#0f172a">Gerir artistas</text>
+<ellipse cx="480" cy="330" rx="165" ry="30" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.5"/>
+<text x="480" y="325" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-18</text>
+<text x="480" y="343" text-anchor="middle" font-size="14" fill="#0f172a">Gerir álbuns e versões</text>
+<ellipse cx="480" cy="410" rx="165" ry="30" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.5"/>
+<text x="480" y="405" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-19</text>
+<text x="480" y="423" text-anchor="middle" font-size="14" fill="#0f172a">Responder a pedido de nova versão</text>
+<ellipse cx="480" cy="490" rx="165" ry="30" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.5"/>
+<text x="480" y="485" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-20</text>
+<text x="480" y="503" text-anchor="middle" font-size="14" fill="#0f172a">Gerir stock</text>
+<ellipse cx="480" cy="570" rx="165" ry="30" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.5"/>
+<text x="480" y="565" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">UC-21</text>
+<text x="480" y="583" text-anchor="middle" font-size="14" fill="#0f172a">Visualizar estatísticas</text>
+<circle cx="110" cy="300.0" r="16" fill="#fff" stroke="#0f172a" stroke-width="2"/>
+<line x1="110" y1="316.0" x2="110" y2="370.0" stroke="#0f172a" stroke-width="2"/>
+<line x1="85" y1="335.0" x2="135" y2="335.0" stroke="#0f172a" stroke-width="2"/>
+<line x1="110" y1="370.0" x2="90" y2="405.0" stroke="#0f172a" stroke-width="2"/>
+<line x1="110" y1="370.0" x2="130" y2="405.0" stroke="#0f172a" stroke-width="2"/>
+<text x="110" y="430.0" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">Gestor</text>
+</svg>
