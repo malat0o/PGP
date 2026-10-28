@@ -15,7 +15,7 @@ Nesta entrega faz-se o **desenho inicial** da aplicação e a **pesquisa de tecn
 | **Diagramas de atividades/BPMN** | Fluxos com vários atores; os complexos são decompostos em subatividades |
 | **Esboços da interface** | Foco nas funcionalidades mais complexas |
 | **Pesquisa de serviços externos** | Mapas e pagamentos online (e outros necessários), cada escolha justificada e comparada com um concorrente |
-| **Relatório + apresentação** | ZIP `PGP-2627-GXX-E1.ZIP` no Moodle; os 5 têm de estar na apresentação |
+| **Relatório + apresentação** | ZIP `PGP-2627-G12-E1.ZIP` no Moodle; os 5 têm de estar na apresentação |
 
 ### Suposições
 

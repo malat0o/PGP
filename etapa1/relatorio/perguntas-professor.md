@@ -4,7 +4,7 @@
 
 ---
 
-**Assunto:** PGP 2026/27 · Grupo XX · Dúvidas sobre o enunciado do projeto
+**Assunto:** PGP 2026/27 · Grupo 12 · Dúvidas sobre o enunciado do projeto
 
 Boa tarde, professor,
 
@@ -16,4 +16,4 @@ Ao fazer o desenho inicial da aplicação, encontrámos alguns pontos do enuncia
 4. **Canções e faixas:** nenhuma user story obrigatória regista as canções, mas a US9 mostra as faixas. Podemos fazer a importação em bloco por script ou endpoint, como sugere a nota 12?
 
 Obrigado,
-Grupo XX (Rodrigo, Reis, Miguel, Ze, Edson)
+Grupo 12 (Rodrigo, Reis, Miguel, Ze, Edson)
