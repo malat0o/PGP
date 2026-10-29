@@ -104,6 +104,12 @@ PORTAS_TOPO = {
     ("Album", "Artista"): ("w", "nw"),
 }
 LARGOS = {"Utilizador", "VersaoAlbum", "Album"}
+# portas nos diagramas por grupo, onde várias associações chegam à mesma classe
+PORTAS_GRUPO = {
+    ("ItemCarrinho", "VersaoAlbum"): ("s", "nw"),
+    ("LinhaFatura", "VersaoAlbum"): ("s", "n"),
+    ("VersaoAlbum", "DisponibilidadeLoja"): ("ne", "s"),
+}
 
 # ---------------------------------------------------------------- notas (restrições)
 NOTAS = {
@@ -164,7 +170,7 @@ def caixa(nome, cor, borda, atributos=True, estereotipo=None, attrs=None, tipo=F
 
 def aresta(a, b, tipo, ma, mb, nome, mostrar_nome=True, portas=None):
     attrs = {"fontname": FONTE, "fontsize": "10", "color": "#334155", "labelfontsize": "10",
-             "labeldistance": "2.0", "labelangle": "25"}
+             "labeldistance": "2.4", "labelangle": "28"}
     if tipo == "gen":
         # a é a superclasse: seta (triângulo vazio) aponta para a
         attrs.update(dir="back", arrowtail="onormal", arrowsize="1.3")
@@ -224,11 +230,12 @@ def grupo(nome_ficheiro):
         L.append(f'    "{t}" [label={caixa(t, cor, borda, estereotipo=est, attrs=vals, tipo=True)}];')
     L.append("  }")
     for n in externas:
-        L.append(f'  "{n}" [label={caixa(n, "#f1f5f9", "#94a3b8", atributos=False, estereotipo=CLASSES[n][1])}];')
+        larg = 200 if n in LARGOS else None
+        L.append(f'  "{n}" [label={caixa(n, "#f1f5f9", "#94a3b8", atributos=False, estereotipo=CLASSES[n][1], largura=larg)}];')
     vis = set(proprias) | set(externas)
     for r in REL:
         if r[0] in vis and r[1] in vis and (r[0] in proprias or r[1] in proprias):
-            L.append(aresta(*r))
+            L.append(aresta(*r, portas=PORTAS_GRUPO.get((r[0], r[1]))))
     for n in proprias:
         if n in NOTAS:
             txt = "".join(f"{E(t)}<br align=\"left\"/>" for t in NOTAS[n])

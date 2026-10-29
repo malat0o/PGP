@@ -1,0 +1,25 @@
+digraph G {
+  graph [rankdir=LR, fontname="Segoe UI", nodesep="0.9", ranksep="0.9", pad="0.3", bgcolor="white", newrank=true];
+  node [shape=plain, fontname="Segoe UI", fontsize="11"];
+  edge [fontname="Segoe UI"];
+  subgraph "cluster_loja" { label=<<b>Loja e vendas</b>>; fontsize="14"; style="filled,rounded"; fillcolor="#dcfce7"; color="#15803d"; penwidth="1.5"; margin="18";
+    "DisponibilidadeLoja" [label=<<table border="0" cellborder="1" cellspacing="0" color="#15803d" bgcolor="white"><tr><td bgcolor="#dcfce7" cellpadding="6"><b>DisponibilidadeLoja</b></td></tr><tr><td align="left" balign="left" cellpadding="6">dataInicio : Date<br align="left"/>unidades : Integer<br align="left"/>preco : Decimal<br align="left"/>dataUltimaVenda : Date [0..1]<br align="left"/></td></tr><tr><td height="8"> </td></tr></table>>];
+    "ItemCarrinho" [label=<<table border="0" cellborder="1" cellspacing="0" color="#15803d" bgcolor="white"><tr><td bgcolor="#dcfce7" cellpadding="6"><b>ItemCarrinho</b></td></tr><tr><td align="left" balign="left" cellpadding="6">dataAdicao : DateTime<br align="left"/></td></tr><tr><td height="8"> </td></tr></table>>];
+    "Fatura" [label=<<table border="0" cellborder="1" cellspacing="0" color="#15803d" bgcolor="white"><tr><td bgcolor="#dcfce7" cellpadding="6"><b>Fatura</b></td></tr><tr><td align="left" balign="left" cellpadding="6">numero : Integer «id»<br align="left"/>data : Date<br align="left"/></td></tr><tr><td height="8"> </td></tr></table>>];
+    "LinhaFatura" [label=<<table border="0" cellborder="1" cellspacing="0" color="#15803d" bgcolor="white"><tr><td bgcolor="#dcfce7" cellpadding="6"><b>LinhaFatura</b></td></tr><tr><td align="left" balign="left" cellpadding="6">preco : Decimal<br align="left"/></td></tr><tr><td height="8"> </td></tr></table>>];
+  }
+  "VersaoAlbum" [label=<<table border="0" cellborder="1" cellspacing="0" color="#94a3b8" bgcolor="white"><tr><td bgcolor="#f1f5f9" cellpadding="6" width="200"><b>VersaoAlbum</b></td></tr></table>>];
+  "Utilizador" [label=<<table border="0" cellborder="1" cellspacing="0" color="#94a3b8" bgcolor="white"><tr><td bgcolor="#f1f5f9" cellpadding="6" width="200"><b>Utilizador</b></td></tr></table>>];
+  "VersaoAlbum" -> "DisponibilidadeLoja" [fontname="Segoe UI", fontsize="10", color="#334155", labelfontsize="10", labeldistance="2.4", labelangle="28", dir="both", arrowtail="diamond", arrowhead="none", arrowsize="1.1", taillabel="1", headlabel="0..1", label=" disponibilidade ", tailport="ne", headport="s"];
+  "Utilizador" -> "ItemCarrinho" [fontname="Segoe UI", fontsize="10", color="#334155", labelfontsize="10", labeldistance="2.4", labelangle="28", dir="both", arrowtail="diamond", arrowhead="none", arrowsize="1.1", taillabel="1", headlabel="0..*", label=" carrinho "];
+  "ItemCarrinho" -> "VersaoAlbum" [fontname="Segoe UI", fontsize="10", color="#334155", labelfontsize="10", labeldistance="2.4", labelangle="28", dir="forward", arrowhead="vee", taillabel="0..*", headlabel="1", tailport="s", headport="nw"];
+  "Utilizador" -> "Fatura" [fontname="Segoe UI", fontsize="10", color="#334155", labelfontsize="10", labeldistance="2.4", labelangle="28", dir="none", taillabel="1", headlabel="0..*", label=" compras "];
+  "Fatura" -> "LinhaFatura" [fontname="Segoe UI", fontsize="10", color="#334155", labelfontsize="10", labeldistance="2.4", labelangle="28", dir="both", arrowtail="diamond", arrowhead="none", arrowsize="1.1", taillabel="1", headlabel="1..*", label=" linhas "];
+  "LinhaFatura" -> "VersaoAlbum" [fontname="Segoe UI", fontsize="10", color="#334155", labelfontsize="10", labeldistance="2.4", labelangle="28", dir="forward", arrowhead="vee", taillabel="0..*", headlabel="1", tailport="s", headport="n"];
+  "nota_DisponibilidadeLoja" [shape=note, style=filled, fillcolor="#fef3c7", color="#a16207", fontsize="10", margin="0.12,0.06", label=<RI-14: ano de dataInicio ≥ anoLancamento<br align="left"/>RI-15: unidades ≥ 0<br align="left"/>RI-16: preco positivo, 2 casas decimais<br align="left"/>RI-17: dataUltimaVenda = data de fim<br align="left"/>de disponibilidade<br align="left"/>RI-47: dataInicio preenchida se houver unidades<br align="left"/>>];
+  "nota_DisponibilidadeLoja" -> "DisponibilidadeLoja" [style=dashed, arrowhead=none, color="#a16207"];
+  "nota_ItemCarrinho" [shape=note, style=filled, fillcolor="#fef3c7", color="#a16207", fontsize="10", margin="0.12,0.06", label=<RI-46: só versões com unidades disponíveis<br align="left"/>>];
+  "nota_ItemCarrinho" -> "ItemCarrinho" [style=dashed, arrowhead=none, color="#a16207"];
+  "nota_Fatura" [shape=note, style=filled, fillcolor="#fef3c7", color="#a16207", fontsize="10", margin="0.12,0.06", label=<numero = ano + sequencial (ex.: 20270001)<br align="left"/>RI-27: ano de data ≥ anoLancamento dos álbuns<br align="left"/>RI-28: sequencial recomeça em 1 cada ano<br align="left"/>RI-37: numero único<br align="left"/>>];
+  "nota_Fatura" -> "Fatura" [style=dashed, arrowhead=none, color="#a16207"];
+}

@@ -1,0 +1,20 @@
+digraph G {
+  graph [rankdir=TB, fontname="Segoe UI", nodesep="0.9", ranksep="0.9", pad="0.3", bgcolor="white", newrank=true];
+  node [shape=plain, fontname="Segoe UI", fontsize="11"];
+  edge [fontname="Segoe UI"];
+  subgraph "cluster_utilizadores" { label=<<b>Utilizadores</b>>; fontsize="14"; style="filled,rounded"; fillcolor="#fef9c3"; color="#a16207"; penwidth="1.5"; margin="18";
+    "Conta" [label=<<table border="0" cellborder="1" cellspacing="0" color="#a16207" bgcolor="white"><tr><td bgcolor="#fef9c3" cellpadding="6"><font point-size="10">«abstract»</font><br/><b><i>Conta</i></b></td></tr><tr><td align="left" balign="left" cellpadding="6">username : String «id»<br align="left"/>email : String «único»<br align="left"/>passwordHash : String<br align="left"/></td></tr><tr><td height="8"> </td></tr></table>>];
+    "Utilizador" [label=<<table border="0" cellborder="1" cellspacing="0" color="#a16207" bgcolor="white"><tr><td bgcolor="#fef9c3" cellpadding="6"><b>Utilizador</b></td></tr><tr><td align="left" balign="left" cellpadding="6">nif : String<br align="left"/>nome : String<br align="left"/>genero : Genero<br align="left"/>morada : Morada<br align="left"/>dataNascimento : Date<br align="left"/></td></tr><tr><td height="8"> </td></tr></table>>];
+    "Gestor" [label=<<table border="0" cellborder="1" cellspacing="0" color="#a16207" bgcolor="white"><tr><td bgcolor="#fef9c3" cellpadding="6"><b>Gestor</b></td></tr><tr><td align="left" balign="left" cellpadding="6"> </td></tr><tr><td height="8"> </td></tr></table>>];
+    "Morada" [label=<<table border="0" cellborder="1" cellspacing="0" color="#a16207" bgcolor="white"><tr><td bgcolor="#fef9c3" cellpadding="6"><font point-size="10">«dataType»</font><br/><b>Morada</b></td></tr><tr><td align="left" balign="left" cellpadding="6">texto : String<br align="left"/>latitude : Decimal [0..1]<br align="left"/>longitude : Decimal [0..1]<br align="left"/></td></tr></table>>];
+    "Genero" [label=<<table border="0" cellborder="1" cellspacing="0" color="#a16207" bgcolor="white"><tr><td bgcolor="#fef9c3" cellpadding="6"><font point-size="10">«enumeration»</font><br/><b>Genero</b></td></tr><tr><td align="left" balign="left" cellpadding="6">feminino<br align="left"/>masculino<br align="left"/></td></tr></table>>];
+  }
+  "Artista" [label=<<table border="0" cellborder="1" cellspacing="0" color="#94a3b8" bgcolor="white"><tr><td bgcolor="#f1f5f9" cellpadding="6"><font point-size="10">«abstract»</font><br/><b><i>Artista</i></b></td></tr></table>>];
+  "Conta" -> "Utilizador" [fontname="Segoe UI", fontsize="10", color="#334155", labelfontsize="10", labeldistance="2.4", labelangle="28", dir="back", arrowtail="onormal", arrowsize="1.3"];
+  "Conta" -> "Gestor" [fontname="Segoe UI", fontsize="10", color="#334155", labelfontsize="10", labeldistance="2.4", labelangle="28", dir="back", arrowtail="onormal", arrowsize="1.3"];
+  "Utilizador" -> "Artista" [fontname="Segoe UI", fontsize="10", color="#334155", labelfontsize="10", labeldistance="2.4", labelangle="28", dir="forward", arrowhead="vee", taillabel="0..*", headlabel="0..1", label=" favorito "];
+  "nota_Conta" [shape=note, style=filled, fillcolor="#fef3c7", color="#a16207", fontsize="10", margin="0.12,0.06", label=<RI-18, RI-20: username e email únicos<br align="left"/>RI-19: username só com letras e dígitos<br align="left"/>RI-21: palavra-passe com 8+ carateres, 1 maiúscula,<br align="left"/>1 minúscula e 1 algarismo (validada antes de cifrar)<br align="left"/>>];
+  "nota_Conta" -> "Conta" [style=dashed, arrowhead=none, color="#a16207"];
+  "nota_Utilizador" [shape=note, style=filled, fillcolor="#fef3c7", color="#a16207", fontsize="10", margin="0.12,0.06", label=<RI-22: nif com 9 dígitos, positivo<br align="left"/>RI-23: genero feminino ou masculino<br align="left"/>RI-24: pelo menos 16 anos<br align="left"/>RI-40: no máximo 1 artista favorito<br align="left"/>>];
+  "nota_Utilizador" -> "Utilizador" [style=dashed, arrowhead=none, color="#a16207"];
+}
