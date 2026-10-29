@@ -1,6 +1,6 @@
 # Perguntas ao professor (rascunho de email)
 
-*Responsável: Reis · Enviar o mais cedo possível. Se o professor responder antes de 4/nov, atualizar a Tabela 16 do relatório (capítulo 7).*
+*Responsável: Reis · Enviar o mais cedo possível. Se o professor responder antes de 4/nov, atualizar a Tabela 17 do relatório (capítulo 7).*
 
 ---
 

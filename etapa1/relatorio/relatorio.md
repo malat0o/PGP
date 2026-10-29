@@ -64,6 +64,23 @@ As restrições conhecidas são:
 - **Pagamentos:** apenas em modo de teste durante o desenvolvimento.
 - **Código aberto (RNF-05).**
 
+## Modelo de processo
+
+O enunciado pede que o desenvolvimento, em PTIR, seja inspirado no Scrum, com três sprints de cerca de um mês. A Tabela 4 mostra porque é que este modelo se ajusta ao projeto, segundo os critérios de escolha de um modelo de processo.
+
+**Tabela 4 — Critérios de escolha do modelo de processo**
+
+| Critério | Situação no projeto | O que favorece |
+|---|---|---|
+| Cliente | Participativo: há demonstrações no fim de cada sprint, em finais de março, abril e maio | Entregas frequentes, com retorno do cliente |
+| Pessoas | Equipa pequena, de 5 elementos, dentro dos 3 a 9 recomendados para Scrum | Scrum |
+| Produto | Os requisitos podem mudar: o enunciado diz que o cliente pode pedir alterações ao produto; as user stories servem de product backlog | Modelos iterativos, com o backlog revisto em cada sprint |
+| Ambiente | Um semestre com data de fim fixa, dividido em 3 sprints de cerca de um mês | Iterações de duração fixa |
+
+A cascata não serve, porque exige requisitos estáveis desde o início e só entrega o produto no fim, sem demonstrações intermédias. O modelo incremental entrega o produto por partes, mas planeia os incrementos à partida; a espiral centra cada ciclo na análise de risco, o que é pesado para uma equipa de 5 num semestre. O Scrum junta as entregas incrementais com um backlog que é reordenado no início de cada sprint, o que acomoda as alterações pedidas pelo cliente.
+
+Como diz o enunciado, o gestor de projeto faz parcialmente o papel de **Product Owner**: ordena as user stories por prioridade e distribui-as pelos três sprints. Essa distribuição é feita no planeamento da Etapa 2.
+
 ## Organização do relatório
 
 O relatório está organizado da seguinte forma:
@@ -86,7 +103,7 @@ Os diagramas de casos de uso mostram, numa perspetiva de alto nível, as funcion
 
 Há dois atores humanos, como define o enunciado, e cinco sistemas externos, escolhidos na pesquisa de serviços (capítulo 6).
 
-**Tabela 4 — Atores**
+**Tabela 5 — Atores**
 
 | Ator | Tipo | Descrição |
 |---|---|---|
@@ -110,7 +127,7 @@ Com 21 casos de uso, um só diagrama ficava com muitas linhas cruzadas e difíci
 
 ## Lista de casos de uso
 
-**Tabela 5 — Casos de uso e user stories correspondentes**
+**Tabela 6 — Casos de uso e user stories correspondentes**
 
 | ID | Caso de uso | Atores | User stories |
 |---|---|---|---|
@@ -148,7 +165,7 @@ Como o modelo completo não cabe numa página A4, foi dividido em cinco agrupame
 
 ![Figura 3 — Diagrama de classes de topo](../classes/img/01-topo.png)
 
-**Tabela 6 — Agrupamentos do modelo de dados**
+**Tabela 7 — Agrupamentos do modelo de dados**
 
 | Cor | Agrupamento | Classes |
 |---|---|---|
@@ -204,7 +221,7 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 
 ## Principais decisões de modelação
 
-**Tabela 7 — Decisões de modelação**
+**Tabela 8 — Decisões de modelação**
 
 | Decisão | Justificação |
 |---|---|
@@ -236,7 +253,7 @@ As restrições RI-01 a RI-30 do enunciado estão representadas nas notas das cl
 
 Foram ainda identificadas 21 restrições novas, a partir do universo do discurso, das notas de rodapé e dos critérios de aceitação das user stories. O Anexo A associa todas as restrições às classes do modelo.
 
-**Tabela 8 — Restrições de integridade novas**
+**Tabela 9 — Restrições de integridade novas**
 
 | ID | Restrição | Origem |
 |---|---|---|
@@ -268,7 +285,7 @@ Os diagramas de atividades mostram os passos dos fluxos de trabalho que a aplica
 
 Foram escolhidos os fluxos que envolvem vários atores ou várias user stories, porque são os mais difíceis de implementar. O fluxo de compra, o mais complexo, foi representado num diagrama de alto nível, com o pagamento decomposto num diagrama de subatividade.
 
-**Tabela 9 — Diagramas de atividades**
+**Tabela 10 — Diagramas de atividades**
 
 | Figura | Fluxo | User stories |
 |---|---|---|
@@ -380,7 +397,7 @@ Para cumprir a RNF-04, os dois ecrãs mais carregados foram também desenhados p
 
 A aplicação precisa de serviços externos para mapas, geocodificação, pagamentos, imagens de capa e importação de faixas. Para cada necessidade foram comparadas alternativas, com preços e condições consultados a 27 de outubro de 2026 (mapas, geocodificação e pagamentos) e a 29 de outubro de 2026 (imagens de capa e importação de faixas).
 
-**Tabela 10 — Resumo das escolhas**
+**Tabela 11 — Resumo das escolhas**
 
 | Necessidade | User stories | Serviço escolhido | Alternativas comparadas |
 |---|---|---|---|
@@ -392,7 +409,7 @@ A aplicação precisa de serviços externos para mapas, geocodificação, pagame
 
 ## Mapas
 
-**Tabela 11 — Comparação de serviços de mapas**
+**Tabela 12 — Comparação de serviços de mapas**
 
 | Critério | Leaflet + OpenStreetMap | Google Maps | Mapbox |
 |---|---|---|---|
@@ -405,7 +422,7 @@ A aplicação precisa de serviços externos para mapas, geocodificação, pagame
 
 ## Geocodificação
 
-**Tabela 12 — Comparação de serviços de geocodificação**
+**Tabela 13 — Comparação de serviços de geocodificação**
 
 | Critério | Nominatim | Google Geocoding | Mapbox Geocoding |
 |---|---|---|---|
@@ -426,7 +443,7 @@ A política de utilização do Nominatim impõe alguns cuidados, que a equipa va
 
 A US28 pede que o utilizador possa escolher o serviço de pagamentos e, se o pagamento falhar, escolher outro. Por isso a aplicação integra dois serviços.
 
-**Tabela 13 — Comparação de serviços de pagamento**
+**Tabela 14 — Comparação de serviços de pagamento**
 
 | Critério | Stripe | PayPal |
 |---|---|---|
@@ -443,7 +460,7 @@ A US28 pede que o utilizador possa escolher o serviço de pagamentos e, se o pag
 
 A página de cada álbum mostra a imagem de capa (US9 a), e o gestor associa uma capa ao registar o álbum (US22 f). Foi preciso decidir onde guardar as imagens e de onde podem vir.
 
-**Tabela 14 — Comparação de soluções para as imagens de capa**
+**Tabela 15 — Comparação de soluções para as imagens de capa**
 
 | Critério | Cloudinary | MongoDB (documento ou GridFS) | Cover Art Archive (só ligar) |
 |---|---|---|---|
@@ -464,9 +481,9 @@ A documentação do Cover Art Archive não define a licença das imagens, cujos 
 
 ## Importação de faixas e canções
 
-Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as faixas de cada álbum. A nota 12 do enunciado sugere um script ou endpoint para as registar em bloco; é a suposição Q4 da Tabela 16.
+Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as faixas de cada álbum. A nota 12 do enunciado sugere um script ou endpoint para as registar em bloco; é a suposição Q4 da Tabela 17.
 
-**Tabela 15 — API do MusicBrainz para importar faixas**
+**Tabela 16 — API do MusicBrainz para importar faixas**
 
 | Critério | API do MusicBrainz | Introdução manual pelo gestor |
 |---|---|---|
@@ -482,20 +499,20 @@ Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as fai
 
 Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos. Estas questões foram colocadas ao docente e, até haver resposta, a equipa seguiu as suposições indicadas.
 
-**Tabela 16 — Questões e suposições**
+**Tabela 17 — Questões e suposições**
 
 | # | Questão | Suposição adotada |
 |---|---|---|
 | Q1 | O critério f) da US28 está incompleto ("Caso tenha sido vendida a última unidade de algum álbum, deve"). | Regista-se a data da última venda dessa versão (RI-17). |
 | Q2 | O estado de um pedido recusado chama-se "recusado" nas US13 e US14 e "rejeitado" na US24. | Usa-se "recusado". |
 | Q3 | A US3 pede para mostrar a palavra-passe no perfil, mas a RNF-12 recomenda guardá-la cifrada. | A palavra-passe é guardada cifrada e mostrada mascarada. |
-| Q4 | Nenhuma user story obrigatória regista as canções e faixas, mas a US9 mostra-as. | As faixas são importadas em bloco por um script que usa a API do MusicBrainz (nota 12 do enunciado; ver Tabela 15). |
+| Q4 | Nenhuma user story obrigatória regista as canções e faixas, mas a US9 mostra-as. | As faixas são importadas em bloco por um script que usa a API do MusicBrainz (nota 12 do enunciado; ver Tabela 16). |
 | — | O enunciado não refere quantidades no carrinho nem nas faturas. | Cada linha corresponde a uma unidade de uma versão. |
 | — | O registo de membros de grupos é uma funcionalidade extra (nota 11). | O modelo suporta membros, mas são opcionais. |
 
 # Anexo A — Restrições de integridade por classe
 
-**Tabela 17 — Associação das restrições às classes do modelo**
+**Tabela 18 — Associação das restrições às classes do modelo**
 
 | Classe | Atributo ou associação | Restrições |
 |---|---|---|
