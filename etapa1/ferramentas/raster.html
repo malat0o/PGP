@@ -1,0 +1,17 @@
+<!doctype html><html><head><meta charset="utf-8"></head><body>
+<script type="module">
+// ?svg=etapa1/x/a.svg,etapa1/y/b.svg  -> grava PNG (2x) ao lado de cada SVG
+const list = new URLSearchParams(location.search).get("svg").split(",");
+window.log = [];
+for (const path of list) {
+  const text = await (await fetch("/" + path + "?t=" + Date.now())).text();
+  const img = new Image();
+  await new Promise((ok, err) => { img.onload = ok; img.onerror = err; img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(text); });
+  const c = document.createElement("canvas"); c.width = img.naturalWidth * 2; c.height = img.naturalHeight * 2;
+  const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height); ctx.drawImage(img, 0, 0, c.width, c.height);
+  const blob = await new Promise(r => c.toBlob(r, "image/png"));
+  await fetch("/save?name=" + path.replace(/\.svg$/, ".png"), {method: "POST", body: blob});
+  window.log.push(path);
+}
+window.done = true;
+</script></body></html>
