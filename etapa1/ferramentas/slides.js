@@ -109,6 +109,25 @@ stat(s, 7.6, 4.0, "2", "atores humanos");
 stat(s, 10.3, 4.0, "5", "serviços externos");
 s.addNotes("Reis: explica o problema em duas frases e a escolha da stack MEAN (a sugerida no enunciado). Os números à direita resumem a dimensão do projeto: 29 user stories agrupadas em 21 casos de uso.");
 
+// 2b Âmbito e modelo de processo
+s = pres.addSlide({ masterName: "CONTEUDO", sectionTitle: "Casos de uso" });
+s.addText("Âmbito do produto e porquê Scrum", { placeholder: "title" });
+presenter(s, "Reis");
+s.addText("Pressupostos (estimativas da equipa)", { x: 0.6, y: 1.6, w: 5.6, h: 0.4, fontSize: 18, bold: true, color: C.text1, isTextBox: true, margin: 0 });
+s.addText([
+  { text: "1 000 utilizadores registados, até 50 em simultâneo", options: { bullet: true, breakLine: true } },
+  { text: "2 000 álbuns e 4 000 versões no catálogo", options: { bullet: true, breakLine: true } },
+  { text: "Páginas em até 2 s; sugestões da pesquisa em até 300 ms (RNF-08)", options: { bullet: true, breakLine: true } },
+  { text: "Backend sem estado, para poder acrescentar nós (RNF-10)", options: { bullet: true, breakLine: true } },
+  { text: "Restrições: MEAN, custo gratuito, Nominatim a 1 pedido/s, pagamentos só em teste", options: { bullet: true } },
+], { x: 0.6, y: 2.1, w: 5.6, h: 4.2, fontSize: 15, color: C.text1, paraSpaceAfter: 10, valign: "top", isTextBox: true, margin: 0 });
+card(s, 6.6, 1.6, 3.0, 2.3, "Cliente", "Participativo: demonstrações no fim de março, abril e maio.", C.accent1);
+card(s, 9.75, 1.6, 3.0, 2.3, "Pessoas", "Equipa de 5, dentro dos 3 a 9 do Scrum.", C.accent1);
+card(s, 6.6, 4.1, 3.0, 2.3, "Produto", "Requisitos podem mudar: o cliente pode pedir alterações.", C.accent1);
+card(s, 9.75, 4.1, 3.0, 2.3, "Ambiente", "Semestre com 3 sprints de cerca de um mês.", C.accent1);
+s.addText("A cascata exige requisitos estáveis e só entrega no fim; o Scrum entrega em cada sprint e reordena o backlog.", { x: 6.6, y: 6.5, w: 6.15, h: 0.45, fontSize: 12, italic: true, color: C.text2, isTextBox: true, margin: 0 });
+s.addNotes("Reis: o enunciado não dá volumes nem tempos, por isso a equipa assumiu valores (são estimativas, a confirmar com o cliente) que servem de referência às RNF-08 e RNF-10. Porquê Scrum: cliente participativo com demonstrações em cada sprint, equipa de 5, requisitos que podem mudar e um semestre com 3 sprints de cerca de um mês. A cascata não serve porque exige requisitos estáveis e só entrega no fim. O gestor de projeto faz parcialmente de Product Owner: ordena as user stories e distribui-as pelos sprints.");
+
 // 3 Casos de uso
 s = pres.addSlide({ masterName: "CONTEUDO", sectionTitle: "Casos de uso" });
 s.addText("Casos de uso: um diagrama por ator", { placeholder: "title" });
