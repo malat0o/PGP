@@ -108,9 +108,10 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 
 ![Figura 5 — Loja e vendas](../classes/img/03-loja-vendas.png)
 
-- **DisponibilidadeLoja** guarda, para cada versão que alguma vez esteve à venda, a data em que ficou disponível, o número de unidades, o preço e, quando esgota, a data da última venda. Por ser opcional, distingue as três situações mostradas na página do álbum (US9): nunca esteve na loja, está disponível ou esgotou.
+- **DisponibilidadeLoja** guarda, para cada versão que alguma vez esteve à venda, a data em que ficou disponível, o número de unidades, o preço e, quando esgota, a data da última venda. Esta data da última venda é a "data de fim de disponibilidade" referida na RI-17: só é preenchida quando a versão esgota. Por ser opcional, distingue as três situações mostradas na página do álbum (US9): nunca esteve na loja, está disponível ou esgotou.
 - **ItemCarrinho** representa uma versão colocada no carrinho, com a data de adição, para mostrar os itens mais recentes primeiro (US27).
 - **Fatura** é emitida quando o pagamento no serviço externo tem sucesso (US28). O número tem o ano seguido de um sequencial que recomeça em cada ano (por exemplo, 20270001). Cada fatura tem uma ou mais **LinhaFatura**, que guardam o preço pago por cada versão, porque o preço na loja pode mudar depois da compra.
+- A fatura guarda também uma **cópia dos dados de faturação** do utilizador (NIF, nome e morada), que a US28 d) exige na fatura. Estes dados ficam fixos no momento da emissão (RI-48): não mudam se o utilizador alterar o perfil, e a fatura mantém-se se o utilizador apagar a conta (RNF-16). Por isso, do lado da fatura, a ligação ao utilizador é opcional (0..1).
 
 ## Utilizadores
 
@@ -125,16 +126,16 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 
 ![Figura 7 — Coleções e listas](../classes/img/05-colecoes-listas.png)
 
-- **ItemColecao** regista uma versão que o utilizador tem, com a data de registo. Os itens são criados por adição manual (US10) ou automaticamente depois de uma compra (US28).
+- **ItemColecao** regista uma versão que o utilizador tem, com a data de registo. Os itens são criados por adição manual (US10) ou automaticamente depois de uma compra (US28). Neste último caso, o item fica ligado à **LinhaFatura** de origem (associação opcional `origem`), o que permite distinguir os álbuns comprados na loja dos adicionados à mão, por exemplo nas estatísticas (US29).
 - **ListaPersonalizada** tem um nome e a data da última modificação. Cada **ItemLista** liga a lista a um **álbum**, e não a uma versão, com a data de adição, porque as listas organizam álbuns independentemente das versões (US15, US17).
 
 ## Pedidos
 
 ![Figura 8 — Pedidos](../classes/img/06-pedidos.png)
 
-- **PedidoNovaVersao** guarda o pedido de um utilizador para acrescentar uma versão a um álbum existente: identificador, data, estado e dados da versão pedida (EAN-13, suporte físico e designação).
+- **PedidoNovaVersao** guarda o pedido de um utilizador para acrescentar uma versão a um álbum existente: identificador, data, estado, data de resposta e dados da versão pedida (EAN-13, suporte físico e designação). A data de resposta só é preenchida quando o gestor aceita ou recusa o pedido (RI-49).
 - O estado é "em análise" quando o pedido é criado e passa a "aceite" ou "recusado" quando o gestor responde (US24). Quando o pedido é aceite, é criada uma nova VersaoAlbum, que fica associada ao pedido.
-- **Notificacao** é criada quando o pedido é respondido (US14). Está ligada ao pedido, de onde se obtêm o destinatário e a resposta.
+- **Notificacao** é criada quando o pedido é respondido (US14). Está ligada ao pedido, de onde se obtêm o destinatário e a resposta. O atributo `lida` permite mostrar no sino do dashboard o número de notificações por ler; uma notificação nova começa como não lida (RI-50).
 
 ## Principais decisões de modelação
 
@@ -153,6 +154,12 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 | Conta como superclasse de Utilizador e Gestor | Ambos iniciam sessão; só o utilizador tem dados pessoais, coleção e compras. |
 | Palavra-passe cifrada | RNF-12; no perfil (US3) a palavra-passe é mostrada mascarada. |
 | Notificação ligada ao pedido | Evita repetir o destinatário e a resposta, que já estão no pedido. |
+| Cópia dos dados de faturação na Fatura | A US28 d) exige os dados do utilizador na fatura, e estes não podem mudar se o perfil for alterado ou a conta apagada (RNF-16). |
+| Utilizador 0..1 do lado da Fatura | Permite apagar a conta mantendo as faturas, que têm de ser conservadas. |
+| Notificacao com o atributo `lida` | Necessário para o contador de notificações por ler no dashboard (US14 a). |
+| PedidoNovaVersao com `dataResposta` | Regista quando o gestor respondeu ao pedido (US24). |
+| ItemColecao ligado à LinhaFatura de origem | Distingue os itens comprados na loja dos adicionados à mão (útil na US29). |
+| `dataUltimaVenda` como data de fim de disponibilidade | É a data referida na RI-17; só existe quando a versão esgota. |
 
 ## Restrições de integridade
 
@@ -162,7 +169,7 @@ As restrições RI-01 a RI-30 do enunciado estão representadas nas notas das cl
 - **RI-10 e RI-11:** o ano de lançamento de um álbum é igual ou posterior ao ano de início de atividade do artista que o interpreta e de todos os artistas das canções das suas faixas.
 - **RI-14, RI-25 e RI-27:** as datas de disponibilidade, de adição à coleção e das faturas não podem ser anteriores ao ano de lançamento do álbum.
 
-Foram ainda identificadas 17 restrições novas, a partir do universo do discurso, das notas de rodapé e dos critérios de aceitação das user stories. O Anexo A associa todas as restrições às classes do modelo.
+Foram ainda identificadas 21 restrições novas, a partir do universo do discurso, das notas de rodapé e dos critérios de aceitação das user stories. O Anexo A associa todas as restrições às classes do modelo.
 
 **Tabela 5 — Restrições de integridade novas**
 
@@ -185,6 +192,10 @@ Foram ainda identificadas 17 restrições novas, a partir do universo do discurs
 | RI-45 | Um pedido só pode ser aceite se o EAN-13 pedido não corresponder a uma versão já existente. | US24 c) |
 | RI-46 | Só pode ser colocada no carrinho uma versão disponível na loja (com unidades maiores que zero). | US26 a) |
 | RI-47 | Quando uma versão é registada com unidades maiores que zero, a data de início de disponibilidade tem de estar preenchida. | US22 g), US25 b) |
+| RI-48 | Os dados de faturação (NIF, nome e morada) são copiados do utilizador na emissão da fatura e não são alterados depois. | US28 d), RNF-16 |
+| RI-49 | A data de resposta de um pedido existe se e só se o estado for "aceite" ou "recusado", e é igual ou posterior à data do pedido. | US24 c) e d) |
+| RI-50 | Uma notificação é criada como não lida. | US14 a) |
+| RI-51 | Um item da coleção com origem numa linha de fatura refere-se à mesma versão, pertence ao utilizador da fatura e tem como data de registo a data da fatura. | US28 d) |
 
 # Fluxos de trabalho
 
@@ -401,6 +412,7 @@ Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos
 | ItemCarrinho | associação com VersaoAlbum | RI-46 |
 | Fatura | numero | RI-28, RI-37 |
 | Fatura | data | RI-27 |
+| Fatura | nifFaturacao, nomeFaturacao, moradaFaturacao | RI-48 |
 | LinhaFatura | preco | RI-16 |
 | Conta | username | RI-18, RI-19 |
 | Conta | email | RI-20 |
@@ -411,11 +423,14 @@ Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos
 | Utilizador | favorito | RI-40 |
 | ItemColecao | dataRegisto | RI-25, RI-26 |
 | ItemColecao | associação com VersaoAlbum | RI-41 |
+| ItemColecao | associação origem com LinhaFatura | RI-51 |
 | ListaPersonalizada | nome | RI-29, RI-30 |
 | ItemLista | associação com Album | RI-42 |
 | PedidoNovaVersao | id | RI-43 |
 | PedidoNovaVersao | estado | RI-44, RI-45 |
 | PedidoNovaVersao | suporte, ean13 | RI-12, RI-13 |
+| PedidoNovaVersao | dataResposta | RI-49 |
+| Notificacao | lida | RI-50 |
 
 # Referências
 

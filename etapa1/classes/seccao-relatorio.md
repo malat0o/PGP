@@ -102,7 +102,7 @@ As restrições RI-01 a RI-30 do enunciado estão representadas nas notas das cl
 - **RI-11:** o ano de lançamento de um álbum é igual ou posterior ao ano de início de atividade de todos os artistas que interpretam as canções das suas faixas.
 - **RI-14, RI-25, RI-27:** as datas de disponibilidade, de adição à coleção e das faturas não podem ser anteriores ao ano de lançamento do álbum.
 
-Além das restrições do enunciado, foram identificadas 17 restrições novas (RI-31 a RI-47) a partir do universo do discurso, das notas de rodapé e dos critérios de aceitação das user stories. Também estão nas notas dos diagramas:
+Além das restrições do enunciado, foram identificadas 21 restrições novas (RI-31 a RI-51) a partir do universo do discurso, das notas de rodapé e dos critérios de aceitação das user stories. Também estão nas notas dos diagramas:
 
 | ID | Restrição |
 |---|---|
@@ -119,5 +119,9 @@ Além das restrições do enunciado, foram identificadas 17 restrições novas (
 | RI-45 | Um pedido só pode ser aceite se o EAN-13 pedido ainda não existir. |
 | RI-46 | Só se pode pôr no carrinho uma versão com unidades disponíveis na loja. |
 | RI-47 | Uma versão registada com unidades tem de ter a data de início de disponibilidade preenchida. |
+| RI-48 | Os dados de faturação (NIF, nome e morada) são copiados na emissão da fatura e não mudam depois. |
+| RI-49 | A data de resposta de um pedido só existe se ele foi aceite ou recusado, e não é anterior à data do pedido. |
+| RI-50 | Uma notificação é criada como não lida. |
+| RI-51 | Um item da coleção com origem numa linha de fatura tem a mesma versão, o utilizador da fatura e a data da fatura. |
 
 A origem de cada restrição e a sua associação às classes estão detalhadas em `etapa1/servicos/restricoes.md`.

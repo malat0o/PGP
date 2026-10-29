@@ -91,10 +91,15 @@ Pedidos de novas versões e respetivas notificações.
 11. **A palavra-passe é guardada cifrada (`passwordHash`).** Segue a RNF-12. A US3 pede para a mostrar no perfil, o que não é possível depois de cifrada (pergunta P3 ao professor); proposta: mostrar mascarada.
 12. **Notificação ligada ao pedido.** O destinatário é o utilizador do pedido e a resposta é o estado do pedido, por isso não se repetem esses dados.
 13. **Pedido aceite liga-se à versão criada.** Quando o gestor aceita (US24 c), cria-se uma `VersaoAlbum` com os dados do pedido e fica registada a ligação.
+14. **A fatura guarda uma cópia dos dados de faturação** (`nifFaturacao`, `nomeFaturacao`, `moradaFaturacao`). A US28 d) exige os dados do utilizador na fatura, e estes não podem mudar se o utilizador alterar o perfil ou apagar a conta (RNF-16). Por isso a associação Utilizador–Fatura é `0..1` do lado do utilizador: a fatura sobrevive à conta.
+15. **`Notificacao.lida`.** Permite mostrar no sino do dashboard o número de notificações por ler (US14 a).
+16. **`PedidoNovaVersao.dataResposta` [0..1].** Regista quando o gestor respondeu; só existe depois de o pedido ser aceite ou recusado.
+17. **ItemColecao ligado (0..1) à LinhaFatura de origem.** Distingue os itens comprados na loja dos adicionados à mão, o que é útil nas estatísticas (US29).
+18. **`dataUltimaVenda` é a "data de fim de disponibilidade" da RI-17.** Só é preenchida quando a versão esgota; enquanto houver unidades, fica vazia.
 
 ## 8. Pontos para alinhar com a equipa
 
-**Restrições novas (RI-31 a RI-47).** Estão definidas, com a origem de cada uma, em [`etapa1/servicos/restricoes.md`](../servicos/restricoes.md), e já aparecem nas notas dos diagramas acima.
+**Restrições novas (RI-31 a RI-51).** Estão definidas, com a origem de cada uma, em [`etapa1/servicos/restricoes.md`](../servicos/restricoes.md), e já aparecem nas notas dos diagramas acima.
 
 **Com todos (suposições a confirmar):**
 - O carrinho e as faturas não têm quantidade: cada linha é uma unidade de uma versão, porque o enunciado não fala em quantidades.

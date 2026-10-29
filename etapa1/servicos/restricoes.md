@@ -25,6 +25,10 @@ Cada restrição nova vem de uma frase do enunciado: do universo do discurso (se
 | **RI-45** | Um pedido só pode ser aceite se o EAN-13 pedido não corresponder a uma versão já existente. | US24 c) ("corresponderem a uma nova versão") |
 | **RI-46** | Só pode ser colocada no carrinho uma versão que esteja disponível na loja (com unidades maiores que zero). | US26 a) |
 | **RI-47** | Quando uma versão é registada com um número de unidades maior que zero, a data de início de disponibilidade na loja tem de estar preenchida. | US22 g), US25 b) |
+| **RI-48** | Os dados de faturação de uma fatura (NIF, nome e morada) são copiados do utilizador no momento da emissão e não são alterados depois, mesmo que o utilizador mude o perfil ou apague a conta. | US28 d), RNF-16 |
+| **RI-49** | A data de resposta de um pedido existe se e só se o estado for "aceite" ou "recusado", e é igual ou posterior à data do pedido. | US24 c) e d) |
+| **RI-50** | Uma notificação é criada como não lida (`lida` = falso). | US14 a) |
+| **RI-51** | Um item da coleção com origem numa linha de fatura refere-se à mesma versão dessa linha, pertence ao utilizador da fatura e tem como data de registo a data da fatura. | US28 d) |
 
 **Nota sobre a RI-44:** a US24 d) usa a palavra "rejeitado" e as US13 e US14 usam "recusado". Usamos "recusado" até o professor esclarecer.
 
@@ -54,6 +58,7 @@ Associação de todas as restrições às classes do [diagrama de classes](../cl
 | **ItemCarrinho** | associação com VersaoAlbum | RI-46 |
 | **Fatura** | `numero` | RI-28, RI-37 |
 | | `data` | RI-27 |
+| | `nifFaturacao`, `nomeFaturacao`, `moradaFaturacao` | RI-48 |
 | **LinhaFatura** | `preco` | RI-16 |
 | **Conta** | `username` | RI-18, RI-19 |
 | | `email` | RI-20 |
@@ -64,11 +69,14 @@ Associação de todas as restrições às classes do [diagrama de classes](../cl
 | | associação `favorito` | RI-40 |
 | **ItemColecao** | `dataRegisto` | RI-25, RI-26 |
 | | associação com VersaoAlbum | RI-41 |
+| | associação `origem` com LinhaFatura | RI-51 |
 | **ListaPersonalizada** | `nome` | RI-29, RI-30 |
 | **ItemLista** | associação com Album | RI-42 |
 | **PedidoNovaVersao** | `id` | RI-43 |
 | | `estado` | RI-44, RI-45 |
 | | `suporte` | RI-12 |
 | | `ean13` | RI-13 |
+| | `dataResposta` | RI-49 |
+| **Notificacao** | `lida` | RI-50 |
 
-Todas as restrições, da RI-01 à RI-47, estão associadas a pelo menos uma classe.
+Todas as restrições, da RI-01 à RI-51, estão associadas a pelo menos uma classe.

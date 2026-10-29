@@ -1,6 +1,6 @@
 # Glossário de entidades
 
-**Responsável:** Rodrigo · **Versão:** v1 (27/out)
+**Responsável:** Rodrigo · **Versão:** v2 (29/out)
 
 Este glossário define os nomes que **toda a equipa** usa nos casos de uso, atividades, esboços, restrições e relatório. Se precisarem de uma entidade ou atributo que não esteja aqui, falem com o Rodrigo antes de o inventar.
 
@@ -31,9 +31,9 @@ Convenções:
 
 | Entidade | Descrição | Atributos | RIs |
 |---|---|---|---|
-| **DisponibilidadeLoja** | Dados da versão na loja. Só existe se a versão alguma vez esteve à venda. | `dataInicio`, `unidades`, `preco`, `dataUltimaVenda` [0..1] (preenchida quando esgota) | RI-14, RI-15, RI-16, RI-17 |
+| **DisponibilidadeLoja** | Dados da versão na loja. Só existe se a versão alguma vez esteve à venda. | `dataInicio`, `unidades`, `preco`, `dataUltimaVenda` [0..1] (preenchida quando esgota; é a "data de fim de disponibilidade" da RI-17) | RI-14, RI-15, RI-16, RI-17, RI-47 |
 | **ItemCarrinho** | Uma versão colocada no carrinho de compras de um utilizador. | `dataAdicao` (para ordenar, mais recente primeiro) | — |
-| **Fatura** | Documento emitido quando um pagamento tem sucesso. | `numero` (identificador, formato AAAA + sequencial, ex.: 20270001), `data` | RI-27, RI-28 |
+| **Fatura** | Documento emitido quando um pagamento tem sucesso. Guarda uma cópia dos dados do comprador nesse momento, que não muda se o utilizador alterar o perfil ou apagar a conta. | `numero` (identificador, formato AAAA + sequencial, ex.: 20270001), `data`, `nifFaturacao`, `nomeFaturacao`, `moradaFaturacao` (Morada) | RI-27, RI-28, RI-37, RI-48 |
 | **LinhaFatura** | Uma versão comprada numa fatura, com o preço praticado nesse momento. | `preco` | RI-16 |
 
 ## Utilizadores
@@ -48,13 +48,15 @@ Convenções:
 **Enumerações:**
 - **Genero:** `feminino`, `masculino`
 
-**Associação importante:** um utilizador tem **no máximo um** artista favorito.
+**Associações importantes:**
+- Um utilizador tem **no máximo um** artista favorito.
+- Uma fatura pertence a **zero ou um** utilizador (0..1): se a conta for apagada (RNF-16), a fatura mantém-se com a cópia dos dados de faturação.
 
 ## Coleções e listas
 
 | Entidade | Descrição | Atributos | RIs |
 |---|---|---|---|
-| **ItemColecao** | Uma versão de álbum que o utilizador tem. Entra por adição manual ou automaticamente depois de uma compra. | `dataRegisto` | RI-25, RI-26 |
+| **ItemColecao** | Uma versão de álbum que o utilizador tem. Entra por adição manual ou automaticamente depois de uma compra; neste caso fica ligado (0..1) à **LinhaFatura** de origem. | `dataRegisto` | RI-25, RI-26, RI-41, RI-51 |
 | **ListaPersonalizada** | Lista de álbuns criada pelo utilizador (ex.: "favoritos", "quero ter"). | `nome`, `dataUltimaModificacao` | RI-29, RI-30 |
 | **ItemLista** | Um **álbum** (não uma versão) dentro de uma lista. | `dataAdicao` | — |
 
@@ -62,8 +64,8 @@ Convenções:
 
 | Entidade | Descrição | Atributos | RIs |
 |---|---|---|---|
-| **PedidoNovaVersao** | Pedido de um utilizador para acrescentar uma versão a um álbum existente. | `id` (identificador), `dataPedido`, `estado` (EstadoPedido), `ean13`, `suporte` (SuporteFisico), `designacao` [0..1] | RI-12, RI-13 |
-| **Notificacao** | Aviso ao utilizador de que o seu pedido foi respondido. A resposta é o estado do pedido. | `dataEmissao` | — |
+| **PedidoNovaVersao** | Pedido de um utilizador para acrescentar uma versão a um álbum existente. | `id` (identificador), `dataPedido`, `estado` (EstadoPedido), `ean13`, `suporte` (SuporteFisico), `designacao` [0..1], `dataResposta` [0..1] | RI-12, RI-13, RI-43, RI-44, RI-45, RI-49 |
+| **Notificacao** | Aviso ao utilizador de que o seu pedido foi respondido. A resposta é o estado do pedido. | `dataEmissao`, `lida` (Boolean, para o contador do sino no dashboard) | RI-50 |
 
 **Enumerações:**
 - **EstadoPedido:** `emAnalise`, `aceite`, `recusado` (o enunciado também diz "rejeitado" na US24; ver pergunta P2 ao professor)
