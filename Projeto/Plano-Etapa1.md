@@ -21,7 +21,7 @@ Nesta entrega faz-se o **desenho inicial** da aplicação e a **pesquisa de tecn
 
 - Stack MEAN (a sugerida), por isso não há pesquisa de stack alternativa.
 - Diagramas em draw.io, guardados numa pasta partilhada (Git ou Drive).
-- Esforço total da equipa: **cerca de 65h**, ou seja, **cerca de 13h por pessoa** mais cerca de 4h de reuniões.
+- Esforço total da equipa: **cerca de 86 h esperadas** (cerca de 13 h de trabalho individual e 4 h de reuniões por pessoa), estimadas com o método de três pontos (secção 2.1).
 
 ### Perguntas a fazer ao professor (responsável: Reis, até 28/out)
 
@@ -44,6 +44,32 @@ Nesta entrega faz-se o **desenho inicial** da aplicação e a **pesquisa de tecn
 | **Edson** | Diagramas de atividades/BPMN (4 fluxos) + slides da apresentação | Média-alta | 13h | 20% | Pasta `atividades/`, slides |
 
 Cada pessoa faz ainda **cerca de 1h de revisão cruzada** (já incluída nas horas acima) e vai às **3 reuniões (cerca de 4h)**.
+
+### 2.1 Estimativa de esforço (três pontos)
+
+O esforço foi estimado com a **estimativa de três pontos**: para cada tarefa, a equipa indicou um valor otimista (O), um provável (M) e um pessimista (P), e o esforço esperado é E = (O + 4M + P) ÷ 6. O valor provável é o do plano inicial; o otimista e o pessimista são **estimativas da equipa**.
+
+| Tarefa | Responsável | Otimista (O) | Provável (M) | Pessimista (P) | Esperada E = (O + 4M + P) ÷ 6 |
+|---|---|---|---|---|---|
+| Glossário e diagrama de classes | Rodrigo | 9 | 12 | 18 | 12,5 |
+| Casos de uso e matriz US↔UC | Reis | 5 | 7,5 | 11 | 7,7 |
+| Esboços da interface | Miguel | 8 | 12 | 18 | 12,3 |
+| Serviços externos e restrições de integridade | Ze | 8 | 12 | 17 | 12,2 |
+| Diagramas de atividades | Edson | 7 | 10 | 15 | 10,3 |
+| Relatório (Reis, 4 h) e slides (Edson, 2 h) | Reis, Edson | 4 | 6 | 10 | 6,3 |
+| Revisão cruzada (1 h por pessoa) | Todos | 3 | 5 | 8 | 5,2 |
+| Reuniões (3 reuniões, cerca de 4 h por pessoa) | Todos | 15 | 20 | 25 | 20 |
+| **Total** | | **59** | **84,5** | **122** | **86,5** |
+
+O esforço esperado total é de cerca de **86 h** (84,5 h no valor provável). O desvio-padrão do total, calculado a partir de (P − O) ÷ 6 em cada tarefa, é de cerca de 3,8 h, por isso o esforço deve ficar entre 79 h e 94 h. A divisão continua equilibrada: cada pessoa fica com cerca de 20% do esforço esperado.
+
+| Pessoa | Esforço esperado (h) | % do total |
+|---|---|---|
+| Rodrigo | 17,5 | 20% |
+| Reis | 16,9 | 20% |
+| Miguel | 17,4 | 20% |
+| Ze | 17,2 | 20% |
+| Edson | 17,5 | 20% |
 
 **Porque esta divisão:** o diagrama de classes é a tarefa mais pesada e aquela de que todos dependem. Por isso o Rodrigo faz só isso, e as restrições de integridade passaram para o Ze, que fica equilibrado com os restantes. A coordenação (Reis) e os slides (Edson) estão em pessoas diferentes, para a gestão não ficar concentrada numa só pessoa.
 

@@ -92,6 +92,7 @@ O relatório está organizado da seguinte forma:
 - **Capítulo 6:** pesquisa de serviços externos (mapas, geocodificação, pagamentos, imagens de capa e importação de faixas).
 - **Capítulo 7:** suposições feitas pela equipa e questões em aberto.
 - **Anexo A:** associação das restrições de integridade às classes do modelo.
+- **Anexo B:** planeamento e estimação do esforço da Etapa 1.
 
 Os diagramas seguem a notação UML. Todos os artefactos estão também disponíveis no repositório do projeto.
 
@@ -588,6 +589,28 @@ Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos
 | PedidoNovaVersao | suporte, ean13 | RI-12, RI-13 |
 | PedidoNovaVersao | dataResposta | RI-49 |
 | Notificacao | lida | RI-50 |
+
+# Anexo B — Planeamento e estimação da Etapa 1
+
+O trabalho da Etapa 1 foi dividido por artefacto: cada elemento da equipa ficou responsável por um artefacto, com uma revisão cruzada por outro elemento e três reuniões de acompanhamento. O glossário de entidades foi o primeiro entregável, porque todos os artefactos usam os mesmos nomes.
+
+O esforço foi estimado com a **estimativa de três pontos**: para cada tarefa, a equipa indicou um valor otimista (O), um provável (M) e um pessimista (P), e o esforço esperado é E = (O + 4M + P) ÷ 6. O valor provável é o do plano inicial; o otimista e o pessimista são **estimativas da equipa**.
+
+**Tabela 20 — Estimativa de esforço da Etapa 1 (horas)**
+
+| Tarefa | Responsável | Otimista (O) | Provável (M) | Pessimista (P) | Esperada E = (O + 4M + P) ÷ 6 |
+|---|---|---|---|---|---|
+| Glossário e diagrama de classes | Rodrigo | 9 | 12 | 18 | 12,5 |
+| Casos de uso e matriz US↔UC | Reis | 5 | 7,5 | 11 | 7,7 |
+| Esboços da interface | Miguel | 8 | 12 | 18 | 12,3 |
+| Serviços externos e restrições de integridade | Ze | 8 | 12 | 17 | 12,2 |
+| Diagramas de atividades | Edson | 7 | 10 | 15 | 10,3 |
+| Relatório (Reis, 4 h) e slides (Edson, 2 h) | Reis, Edson | 4 | 6 | 10 | 6,3 |
+| Revisão cruzada (1 h por pessoa) | Todos | 3 | 5 | 8 | 5,2 |
+| Reuniões (3 reuniões, cerca de 4 h por pessoa) | Todos | 15 | 20 | 25 | 20 |
+| **Total** | | **59** | **84,5** | **122** | **86,5** |
+
+O esforço esperado total é de cerca de **86 h** (84,5 h no valor provável). O desvio-padrão do total, calculado a partir de (P − O) ÷ 6 em cada tarefa, é de cerca de 3,8 h, por isso o esforço deve ficar entre 79 h e 94 h. A divisão continua equilibrada: cada pessoa fica com cerca de 20% do esforço esperado.
 
 # Referências
 
