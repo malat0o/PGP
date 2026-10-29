@@ -199,7 +199,7 @@ Foram ainda identificadas 21 restrições novas, a partir do universo do discurs
 
 # Fluxos de trabalho
 
-Os diagramas de atividades mostram os passos dos fluxos de trabalho que a aplicação web tem de suportar e quem executa cada passo. Cada diagrama está dividido em raias, uma por ator: o utilizador, o gestor da loja, a aplicação web e os serviços externos.
+Os diagramas de atividades mostram os passos dos fluxos de trabalho que a aplicação web tem de suportar e quem executa cada passo. Seguem a notação UML: cada diagrama começa num nó inicial (círculo preto) e termina num nó final (anel com ponto); as decisões e os pontos onde os fluxos se juntam (merge) são losangos vazios, com as condições nas guardas `[ ]` das setas; as barras pretas são fork e join, e marcam ações que correm em paralelo. Cada diagrama está dividido em raias (swimlanes), uma por ator: o utilizador, o gestor da loja, a aplicação web e os serviços externos.
 
 Foram escolhidos os fluxos que envolvem vários atores ou várias user stories, porque são os mais difíceis de implementar. O fluxo de compra, o mais complexo, foi representado num diagrama de alto nível, com o pagamento decomposto num diagrama de subatividade.
 
@@ -221,11 +221,12 @@ O utilizador pesquisa um álbum, abre a sua página, escolhe uma versão e, se e
 
 O pagamento (Figura 10) envolve o serviço externo escolhido pelo utilizador, Stripe ou PayPal:
 
-1. A aplicação calcula o total e inicia o pagamento no serviço.
-2. O utilizador introduz os dados de pagamento na página do serviço, pelo que a aplicação nunca trata os dados do cartão.
-3. O serviço envia o resultado à aplicação, que espera por ele antes de continuar (US28 c).
-4. Se o pagamento tiver sucesso, a aplicação emite a fatura, adiciona as versões à coleção do utilizador, desconta as unidades vendidas e, se tiver sido vendida a última unidade, regista a data da última venda (RI-17). No fim mostra um resumo.
-5. Se o pagamento falhar, o utilizador pode tentar com outro serviço ou cancelar (US28 g).
+1. Antes de pagar, a aplicação verifica e **reserva as unidades** das versões do carrinho. Se entretanto outro utilizador tiver comprado a última unidade de alguma versão, essa versão é retirada do carrinho e o utilizador é avisado.
+2. O utilizador escolhe o serviço; a aplicação calcula o total e inicia o pagamento. O utilizador introduz os dados de pagamento na página do serviço, pelo que a aplicação nunca trata os dados do cartão.
+3. A aplicação espera pelo resultado enviado pelo serviço (US28 c). Se o pagamento for recusado ou não houver resposta dentro do **tempo limite**, a reserva é libertada e o utilizador pode tentar com outro serviço ou cancelar o pagamento (US28 g); cancelar é uma ação do utilizador.
+4. Se o pagamento tiver sucesso, a aplicação emite a fatura com os dados de faturação e, **em paralelo** (fork/join), adiciona as versões à coleção do utilizador, ligadas às linhas da fatura, e confirma a saída das unidades reservadas. Se tiver sido vendida a última unidade de uma versão, regista a data da última venda (RI-17). No fim, esvazia o carrinho e mostra um resumo.
+
+A fatura é emitida antes do fork porque os itens da coleção ficam ligados às linhas da fatura (RI-51); as duas ações seguintes são independentes.
 
 ![Figura 10 — Pagar o carrinho (subatividade)](../atividades/img/01-1-pagar.png)
 
@@ -234,15 +235,15 @@ O pagamento (Figura 10) envolve o serviço externo escolhido pelo utilizador, St
 Este fluxo junta quatro user stories e três atores:
 
 1. O utilizador escolhe um álbum e preenche os dados da nova versão. A aplicação valida o EAN-13 e o suporte físico e guarda o pedido com o estado "em análise" (US12).
-2. O gestor abre o pedido e decide. Se a versão for nova e interessante para a loja, a aplicação cria a versão no álbum e muda o estado para "aceite"; caso contrário, muda-o para "recusado" (US24).
-3. Em ambos os casos é criada uma notificação, que o utilizador vê no dashboard (US14).
+2. O gestor abre o pedido e decide. Se a versão for nova e interessante para a loja, a aplicação cria a versão no álbum e muda o estado para "aceite"; caso contrário, muda-o para "recusado" (US24). Em ambos os casos regista a data de resposta (RI-49).
+3. Em ambos os casos é criada uma notificação, por ler, que o utilizador vê no dashboard (US14).
 4. Se o pedido foi aceite, a nova versão aparece na página do álbum e o utilizador pode adicioná-la à coleção (US9, US10).
 
 ![Figura 11 — Pedido de nova versão de um álbum](../atividades/img/02-pedido-nova-versao.png)
 
 ## Criar conta e iniciar sessão
 
-Na criação de conta, a aplicação mostra os requisitos do username e da palavra-passe e valida os dados (RI-18 a RI-24). Se forem válidos, a palavra-passe é cifrada e a morada é enviada ao serviço de geocodificação. Se a morada for encontrada, a conta é guardada com as coordenadas; caso contrário, é guardada sem elas, e o perfil não mostra o mapa (US3).
+Na criação de conta, a aplicação mostra os requisitos do username e da palavra-passe e valida os dados (RI-18 a RI-24). Se forem válidos, cifrar a palavra-passe e pedir as coordenadas da morada ao serviço de geocodificação são feitos em paralelo (fork/join), porque não dependem um do outro. Se a morada for encontrada, a conta é guardada com as coordenadas; caso contrário, é guardada sem elas, e o perfil não mostra o mapa (US3).
 
 No início de sessão, se as credenciais estiverem erradas, a mensagem de erro é genérica e não revela se o username existe (US2 b). Se estiverem certas, a aplicação mostra o dashboard.
 
