@@ -4,6 +4,68 @@ Este relatório apresenta a primeira etapa do projeto de Planeamento e Gestão d
 
 A aplicação segue uma arquitetura cliente-servidor com três camadas (frontend, backend e base de dados). A equipa optou pela stack sugerida no enunciado, MEAN: Angular no frontend, Express e Node.js no backend e MongoDB na base de dados. Será desenvolvida no próximo semestre, em PTIR, com o modelo de processo Scrum.
 
+## Âmbito do produto
+
+**Contexto.** A aplicação web faz parte do sistema de uma loja de música: serve os clientes da loja, que são também colecionadores, e o gestor da loja. Depende de vários serviços externos, escolhidos no capítulo 6, com os quais troca os dados da Tabela 1.
+
+**Tabela 1 — Interfaces com sistemas externos**
+
+| Sistema externo | Para quê | Dados enviados | Dados recebidos |
+|---|---|---|---|
+| Stripe e PayPal | Pagamento do carrinho (US28) | Total e identificação da compra | Resultado do pagamento (webhook) |
+| Nominatim | Converter a morada em coordenadas (US1, US4) | Rua, código postal e localidade | Latitude e longitude |
+| OpenStreetMap (com Leaflet) | Mostrar mapas (US3, US29) | Coordenadas | Mosaicos do mapa |
+| Cover Art Archive | Sugerir a capa ao registar um álbum (US22 f) | MBID do álbum | Imagem de capa |
+| Cloudinary | Guardar e entregar as capas (US9 a, US22 f) | Imagem | Endereço da imagem e miniaturas |
+| MusicBrainz | Importar faixas e canções em bloco (nota 12) | MBID do álbum | Faixas, durações, artistas e ISRC |
+
+**Objetivos de informação.** Os principais dados de entrada e de saída são:
+
+- **Entradas:** dados de conta e de perfil (US1, US4); catálogo registado pelo gestor, com artistas, álbuns, versões, stock e preços (US20 a US25); ações do utilizador sobre a coleção, as listas, o carrinho e os pedidos (US10 a US18, US26); resultado dos pagamentos e dados dos serviços externos (coordenadas, capas e faixas).
+- **Saídas:** páginas de artista e de álbum, com a disponibilidade na loja; coleção, listas e carrinho; faturas; notificações dos pedidos; estatísticas para o gestor (US29).
+
+**Funcionalidades.** As 29 user stories agrupam-se em sete blocos funcionais.
+
+**Tabela 2 — Blocos funcionais**
+
+| Bloco | O que inclui | Casos de uso |
+|---|---|---|
+| Conta | Criar conta, iniciar sessão, perfil e dashboard | UC-01 a UC-05 |
+| Catálogo | Pesquisa, páginas de artista e de álbum, artista favorito; registo de artistas, álbuns e versões pelo gestor | UC-06 a UC-09, UC-17, UC-18 |
+| Coleção | Adicionar, ver, ordenar e remover versões | UC-10 |
+| Listas | Listas personalizadas e o seu conteúdo | UC-11, UC-12 |
+| Pedidos | Pedidos de novas versões, resposta do gestor e notificações | UC-13, UC-14, UC-19 |
+| Loja | Carrinho, pagamento, faturas e stock | UC-15, UC-16, UC-20 |
+| Estatísticas | Coleções, popularidade e vendas, com mapa | UC-21 |
+
+**Desempenho e restrições.** O enunciado não indica volumes nem tempos de resposta. A Tabela 3 tem os valores que a equipa assume para desenhar a aplicação. São **estimativas da equipa**, a confirmar com o cliente, e servem de referência para a RNF-08 (desempenho) e a RNF-10 (escalabilidade).
+
+**Tabela 3 — Pressupostos quantitativos (estimativas da equipa)**
+
+| Pressuposto | Estimativa | Justificação | RNF |
+|---|---|---|---|
+| Utilizadores registados | 1 000 no primeiro ano | Loja com clientela local e colecionadores; ordem de grandeza, não é um dado do cliente | RNF-10 |
+| Utilizadores em simultâneo | Até 50 em hora de ponta | Cerca de 5% dos utilizadores registados ligados ao mesmo tempo | RNF-08, RNF-10 |
+| Dimensão do catálogo | 500 artistas, 2 000 álbuns, 4 000 versões e 20 000 canções | Cerca de 2 versões e 10 faixas por álbum | RNF-08 |
+| Tempo de resposta das páginas | Até 2 s em 95% dos pedidos | Valor habitual para páginas web interativas | RNF-08 |
+| Tempo de resposta da API | Até 500 ms em 95% dos pedidos; sugestões da pesquisa até 300 ms | As sugestões aparecem enquanto o utilizador escreve (US5 b, US8 b) | RNF-08 |
+| Disponibilidade | 99% por mês (cerca de 7 h de paragem) | Os planos gratuitos de cloud não garantem mais (RNF-15) | RNF-11 |
+| Volume de compras | Cerca de 20 por dia, até 100 em dias de promoção | Loja pequena; dimensiona os pedidos ao serviço de pagamentos e as atualizações de stock | RNF-08, RNF-10 |
+| Armazenamento | Dados abaixo de 100 MB; capas com cerca de 0,6 GB (2 000 × 300 KB) | Cabe nos planos gratuitos do MongoDB Atlas (512 MB) e do Cloudinary | RNF-15 |
+
+Com estes valores, um único servidor de backend chega para a carga prevista. Para cumprir a RNF-10, o backend não guarda estado da sessão (a sessão é identificada por um token), o que permite acrescentar nós se o número de utilizadores crescer.
+
+As restrições conhecidas são:
+
+- **Stack MEAN:** Angular, Express, Node.js e MongoDB.
+- **Custo idealmente gratuito (RNF-15):** só planos gratuitos dos serviços de cloud e externos.
+- **Nominatim:** no máximo 1 pedido por segundo para toda a aplicação, sem preenchimento automático.
+- **MusicBrainz:** cerca de 1 pedido por segundo, com User-Agent identificado.
+- **Pagamentos:** apenas em modo de teste durante o desenvolvimento.
+- **Código aberto (RNF-05).**
+
+## Organização do relatório
+
 O relatório está organizado da seguinte forma:
 
 - **Capítulo 2:** casos de uso, com os atores e as funcionalidades da aplicação.
@@ -12,6 +74,7 @@ O relatório está organizado da seguinte forma:
 - **Capítulo 5:** esboços da interface com o utilizador.
 - **Capítulo 6:** pesquisa de serviços externos (mapas, geocodificação, pagamentos, imagens de capa e importação de faixas).
 - **Capítulo 7:** suposições feitas pela equipa e questões em aberto.
+- **Anexo A:** associação das restrições de integridade às classes do modelo.
 
 Os diagramas seguem a notação UML. Todos os artefactos estão também disponíveis no repositório do projeto.
 
@@ -23,7 +86,7 @@ Os diagramas de casos de uso mostram, numa perspetiva de alto nível, as funcion
 
 Há dois atores humanos, como define o enunciado, e cinco sistemas externos, escolhidos na pesquisa de serviços (capítulo 6).
 
-**Tabela 1 — Atores**
+**Tabela 4 — Atores**
 
 | Ator | Tipo | Descrição |
 |---|---|---|
@@ -47,7 +110,7 @@ Com 21 casos de uso, um só diagrama ficava com muitas linhas cruzadas e difíci
 
 ## Lista de casos de uso
 
-**Tabela 2 — Casos de uso e user stories correspondentes**
+**Tabela 5 — Casos de uso e user stories correspondentes**
 
 | ID | Caso de uso | Atores | User stories |
 |---|---|---|---|
@@ -85,7 +148,7 @@ Como o modelo completo não cabe numa página A4, foi dividido em cinco agrupame
 
 ![Figura 3 — Diagrama de classes de topo](../classes/img/01-topo.png)
 
-**Tabela 3 — Agrupamentos do modelo de dados**
+**Tabela 6 — Agrupamentos do modelo de dados**
 
 | Cor | Agrupamento | Classes |
 |---|---|---|
@@ -141,7 +204,7 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 
 ## Principais decisões de modelação
 
-**Tabela 4 — Decisões de modelação**
+**Tabela 7 — Decisões de modelação**
 
 | Decisão | Justificação |
 |---|---|
@@ -173,7 +236,7 @@ As restrições RI-01 a RI-30 do enunciado estão representadas nas notas das cl
 
 Foram ainda identificadas 21 restrições novas, a partir do universo do discurso, das notas de rodapé e dos critérios de aceitação das user stories. O Anexo A associa todas as restrições às classes do modelo.
 
-**Tabela 5 — Restrições de integridade novas**
+**Tabela 8 — Restrições de integridade novas**
 
 | ID | Restrição | Origem |
 |---|---|---|
@@ -205,7 +268,7 @@ Os diagramas de atividades mostram os passos dos fluxos de trabalho que a aplica
 
 Foram escolhidos os fluxos que envolvem vários atores ou várias user stories, porque são os mais difíceis de implementar. O fluxo de compra, o mais complexo, foi representado num diagrama de alto nível, com o pagamento decomposto num diagrama de subatividade.
 
-**Tabela 6 — Diagramas de atividades**
+**Tabela 9 — Diagramas de atividades**
 
 | Figura | Fluxo | User stories |
 |---|---|---|
@@ -317,7 +380,7 @@ Para cumprir a RNF-04, os dois ecrãs mais carregados foram também desenhados p
 
 A aplicação precisa de serviços externos para mapas, geocodificação, pagamentos, imagens de capa e importação de faixas. Para cada necessidade foram comparadas alternativas, com preços e condições consultados a 27 de outubro de 2026 (mapas, geocodificação e pagamentos) e a 29 de outubro de 2026 (imagens de capa e importação de faixas).
 
-**Tabela 7 — Resumo das escolhas**
+**Tabela 10 — Resumo das escolhas**
 
 | Necessidade | User stories | Serviço escolhido | Alternativas comparadas |
 |---|---|---|---|
@@ -329,7 +392,7 @@ A aplicação precisa de serviços externos para mapas, geocodificação, pagame
 
 ## Mapas
 
-**Tabela 8 — Comparação de serviços de mapas**
+**Tabela 11 — Comparação de serviços de mapas**
 
 | Critério | Leaflet + OpenStreetMap | Google Maps | Mapbox |
 |---|---|---|---|
@@ -342,7 +405,7 @@ A aplicação precisa de serviços externos para mapas, geocodificação, pagame
 
 ## Geocodificação
 
-**Tabela 9 — Comparação de serviços de geocodificação**
+**Tabela 12 — Comparação de serviços de geocodificação**
 
 | Critério | Nominatim | Google Geocoding | Mapbox Geocoding |
 |---|---|---|---|
@@ -363,7 +426,7 @@ A política de utilização do Nominatim impõe alguns cuidados, que a equipa va
 
 A US28 pede que o utilizador possa escolher o serviço de pagamentos e, se o pagamento falhar, escolher outro. Por isso a aplicação integra dois serviços.
 
-**Tabela 10 — Comparação de serviços de pagamento**
+**Tabela 13 — Comparação de serviços de pagamento**
 
 | Critério | Stripe | PayPal |
 |---|---|---|
@@ -380,7 +443,7 @@ A US28 pede que o utilizador possa escolher o serviço de pagamentos e, se o pag
 
 A página de cada álbum mostra a imagem de capa (US9 a), e o gestor associa uma capa ao registar o álbum (US22 f). Foi preciso decidir onde guardar as imagens e de onde podem vir.
 
-**Tabela 10a — Comparação de soluções para as imagens de capa**
+**Tabela 14 — Comparação de soluções para as imagens de capa**
 
 | Critério | Cloudinary | MongoDB (documento ou GridFS) | Cover Art Archive (só ligar) |
 |---|---|---|---|
@@ -401,9 +464,9 @@ A documentação do Cover Art Archive não define a licença das imagens, cujos 
 
 ## Importação de faixas e canções
 
-Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as faixas de cada álbum. A nota 12 do enunciado sugere um script ou endpoint para as registar em bloco; é a suposição Q4 da Tabela 11.
+Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as faixas de cada álbum. A nota 12 do enunciado sugere um script ou endpoint para as registar em bloco; é a suposição Q4 da Tabela 16.
 
-**Tabela 10b — API do MusicBrainz para importar faixas**
+**Tabela 15 — API do MusicBrainz para importar faixas**
 
 | Critério | API do MusicBrainz | Introdução manual pelo gestor |
 |---|---|---|
@@ -419,20 +482,20 @@ Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as fai
 
 Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos. Estas questões foram colocadas ao docente e, até haver resposta, a equipa seguiu as suposições indicadas.
 
-**Tabela 11 — Questões e suposições**
+**Tabela 16 — Questões e suposições**
 
 | # | Questão | Suposição adotada |
 |---|---|---|
 | Q1 | O critério f) da US28 está incompleto ("Caso tenha sido vendida a última unidade de algum álbum, deve"). | Regista-se a data da última venda dessa versão (RI-17). |
 | Q2 | O estado de um pedido recusado chama-se "recusado" nas US13 e US14 e "rejeitado" na US24. | Usa-se "recusado". |
 | Q3 | A US3 pede para mostrar a palavra-passe no perfil, mas a RNF-12 recomenda guardá-la cifrada. | A palavra-passe é guardada cifrada e mostrada mascarada. |
-| Q4 | Nenhuma user story obrigatória regista as canções e faixas, mas a US9 mostra-as. | As faixas são importadas em bloco por um script que usa a API do MusicBrainz (nota 12 do enunciado; ver Tabela 10b). |
+| Q4 | Nenhuma user story obrigatória regista as canções e faixas, mas a US9 mostra-as. | As faixas são importadas em bloco por um script que usa a API do MusicBrainz (nota 12 do enunciado; ver Tabela 15). |
 | — | O enunciado não refere quantidades no carrinho nem nas faturas. | Cada linha corresponde a uma unidade de uma versão. |
 | — | O registo de membros de grupos é uma funcionalidade extra (nota 11). | O modelo suporta membros, mas são opcionais. |
 
 # Anexo A — Restrições de integridade por classe
 
-**Tabela 12 — Associação das restrições às classes do modelo**
+**Tabela 17 — Associação das restrições às classes do modelo**
 
 | Classe | Atributo ou associação | Restrições |
 |---|---|---|
