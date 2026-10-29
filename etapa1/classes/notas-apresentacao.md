@@ -10,7 +10,8 @@
    - A Faixa é uma classe própria, porque a mesma canção aparece em vários álbuns (exemplo do enunciado: "Last Resort").
    - O álbum separa-se das versões: o mesmo álbum pode existir em CD, em vinil e em várias edições.
 3. **Loja (Figura 3).** A disponibilidade é opcional e distingue "nunca esteve na loja", "disponível" e "esgotado". A linha da fatura guarda o preço pago.
-4. **Restrições.** As RI-01 a RI-30 estão nas notas de cada classe; as novas (RI-31 em diante) vieram das user stories.
+4. **Restrições.** As RI-01 a RI-30 estão nas notas de cada classe; as 21 novas (RI-31 a RI-51) vieram das user stories e de requisitos como a RNF-16. São 51 no total.
+5. **Se houver tempo:** a fatura guarda uma cópia dos dados de faturação e sobrevive se a conta for apagada (Utilizador 0..1 do lado da fatura).
 
 ## Perguntas prováveis e respostas
 
@@ -25,4 +26,10 @@
 | Onde estão as coordenadas da morada? | No tipo de dados Morada; são opcionais porque nem todas as moradas podem ser geocodificadas (US3). |
 | Porque é que o álbum pode ter zero faixas? | O registo do álbum pelo gestor (US22) não inclui as canções; as faixas são acrescentadas depois. |
 | Quantas unidades se podem comprar de uma versão? | Assumimos uma por linha, porque o enunciado não fala de quantidades. |
-| Como é que o utilizador recebe a notificação? | A notificação está ligada ao pedido, e o pedido ao utilizador que o fez. |
+| Como é que o utilizador recebe a notificação? | A notificação está ligada ao pedido, e o pedido ao utilizador que o fez. O atributo `lida` permite mostrar no dashboard quantas há por ler. |
+| Porque é que a fatura guarda o NIF, o nome e a morada, se já estão no utilizador? | A US28 d) exige esses dados na fatura e eles não podem mudar depois. Se o utilizador alterar o perfil ou apagar a conta (RNF-16), a fatura mantém os dados do momento da compra (RI-48). |
+| Porque é que a ligação Utilizador–Fatura é 0..1? | Para se poder apagar a conta sem apagar as faturas. |
+| Para que serve a ligação ItemColecao → LinhaFatura? | Distingue os álbuns comprados na loja dos adicionados à mão, o que é útil nas estatísticas (US29). |
+| O que é a "data de fim de disponibilidade" da RI-17? | É a `dataUltimaVenda`: só é preenchida quando a versão esgota. |
+| Porque é que o pedido tem `dataResposta`? | Para registar quando o gestor respondeu; só existe depois de o pedido ser aceite ou recusado (RI-49). |
+| Onde ficam as imagens de capa? | O atributo `imagemCapa` guarda o endereço da imagem no Cloudinary; o Cover Art Archive sugere a capa pelo MBID. |
