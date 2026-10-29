@@ -13,6 +13,8 @@ Com 21 casos de uso, um só diagrama ficava com linhas cruzadas e difícil de le
 | **Serviço de Geocodificação** (Nominatim) | Sistema externo | Converte a morada do utilizador em coordenadas. |
 | **Serviço de Mapas** (Leaflet + OpenStreetMap) | Sistema externo | Mostra moradas num mapa. |
 | **Serviço de Pagamentos** (Stripe / PayPal) | Sistema externo | Processa o pagamento do carrinho. |
+| **Cover Art Archive** | Sistema externo | Sugere a capa do álbum a partir do MBID. |
+| **MusicBrainz** | Sistema externo | Fornece as faixas e canções para importação em bloco. |
 
 ## 2. Lista de casos de uso
 
@@ -35,7 +37,7 @@ Com 21 casos de uso, um só diagrama ficava com linhas cruzadas e difícil de le
 | UC-15 | Gerir carrinho de compras (colocar, ver e remover) | Utilizador | US26, US27 |
 | UC-16 | Pagar carrinho | Utilizador, Serviço de Pagamentos | US28 |
 | UC-17 | Gerir artistas (registar e alterar) | Gestor | US20, US21 |
-| UC-18 | Gerir álbuns e versões (registar e alterar) | Gestor | US22, US23 |
+| UC-18 | Gerir álbuns e versões (registar e alterar) | Gestor, Cover Art Archive, MusicBrainz | US22, US23 |
 | UC-19 | Responder a pedido de nova versão | Gestor | US24 |
 | UC-20 | Gerir stock («extend» UC-09) | Gestor | US25 |
 | UC-21 | Visualizar estatísticas | Gestor, Serviço de Mapas | US29 |

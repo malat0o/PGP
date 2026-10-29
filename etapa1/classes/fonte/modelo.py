@@ -28,7 +28,7 @@ CLASSES = {
     "Artista": ("catalogo", "abstract", ["isni : String «id»", "nome : String", "anoInicioAtividade : Integer"]),
     "Solista": ("catalogo", None, []),
     "Grupo": ("catalogo", None, []),
-    "Album": ("catalogo", None, ["mbid : String «id»", "titulo : String", "anoLancamento : Integer", "tipo : TipoAlbum", "imagemCapa : Imagem [0..1]"]),
+    "Album": ("catalogo", None, ["mbid : String «id»", "titulo : String", "anoLancamento : Integer", "tipo : TipoAlbum", "imagemCapa : URL [0..1]"]),
     "Cancao": ("catalogo", None, ["isrc : String «id»", "titulo : String", "duracao : Integer"]),
     "Faixa": ("catalogo", None, ["numero : Integer"]),
     "VersaoAlbum": ("catalogo", None, ["ean13 : String «id»", "suporte : SuporteFisico", "designacao : String [0..1]"]),

@@ -10,7 +10,7 @@ O relatório está organizado da seguinte forma:
 - **Capítulo 3:** modelo de dados (diagrama de classes) e restrições de integridade.
 - **Capítulo 4:** fluxos de trabalho (diagramas de atividades).
 - **Capítulo 5:** esboços da interface com o utilizador.
-- **Capítulo 6:** pesquisa de serviços externos (mapas, geocodificação e pagamentos).
+- **Capítulo 6:** pesquisa de serviços externos (mapas, geocodificação, pagamentos, imagens de capa e importação de faixas).
 - **Capítulo 7:** suposições feitas pela equipa e questões em aberto.
 
 Os diagramas seguem a notação UML. Todos os artefactos estão também disponíveis no repositório do projeto.
@@ -21,7 +21,7 @@ Os diagramas de casos de uso mostram, numa perspetiva de alto nível, as funcion
 
 ## Atores
 
-Há dois atores humanos, como define o enunciado, e três sistemas externos, escolhidos na pesquisa de serviços (capítulo 6).
+Há dois atores humanos, como define o enunciado, e cinco sistemas externos, escolhidos na pesquisa de serviços (capítulo 6).
 
 **Tabela 1 — Atores**
 
@@ -32,6 +32,8 @@ Há dois atores humanos, como define o enunciado, e três sistemas externos, esc
 | Serviço de Geocodificação (Nominatim) | Sistema externo | Converte a morada do utilizador em coordenadas, quando cria a conta ou altera o perfil. |
 | Serviço de Mapas (Leaflet + OpenStreetMap) | Sistema externo | Mostra a morada no perfil e as moradas dos maiores colecionadores nas estatísticas. |
 | Serviço de Pagamentos (Stripe / PayPal) | Sistema externo | Processa o pagamento do carrinho de compras. |
+| Cover Art Archive | Sistema externo | Sugere a imagem de capa a partir do MBID, quando o gestor regista o álbum. |
+| MusicBrainz | Sistema externo | Fornece as faixas e canções de um álbum para importação em bloco. |
 
 ## Diagramas de casos de uso
 
@@ -66,7 +68,7 @@ Com 21 casos de uso, um só diagrama ficava com muitas linhas cruzadas e difíci
 | UC-15 | Gerir carrinho de compras | Utilizador | US26, US27 |
 | UC-16 | Pagar carrinho | Utilizador, Serviço de Pagamentos | US28 |
 | UC-17 | Gerir artistas | Gestor | US20, US21 |
-| UC-18 | Gerir álbuns e versões | Gestor | US22, US23 |
+| UC-18 | Gerir álbuns e versões | Gestor, Cover Art Archive, MusicBrainz | US22, US23 |
 | UC-19 | Responder a pedido de nova versão | Gestor | US24 |
 | UC-20 | Gerir stock («extend» UC-09) | Gestor | US25 |
 | UC-21 | Visualizar estatísticas | Gestor, Serviço de Mapas | US29 |
@@ -313,7 +315,7 @@ Para cumprir a RNF-04, os dois ecrãs mais carregados foram também desenhados p
 
 # Pesquisa de serviços externos
 
-A aplicação precisa de três serviços externos. Para cada um foram comparadas alternativas, com preços e condições consultados a 27 de outubro de 2026.
+A aplicação precisa de serviços externos para mapas, geocodificação, pagamentos, imagens de capa e importação de faixas. Para cada necessidade foram comparadas alternativas, com preços e condições consultados a 27 de outubro de 2026 (mapas, geocodificação e pagamentos) e a 29 de outubro de 2026 (imagens de capa e importação de faixas).
 
 **Tabela 7 — Resumo das escolhas**
 
@@ -322,6 +324,8 @@ A aplicação precisa de três serviços externos. Para cada um foram comparadas
 | Mostrar mapas | US3, US29 | Leaflet + OpenStreetMap | Google Maps, Mapbox |
 | Converter moradas em coordenadas | US3, US29 | Nominatim | Google Geocoding, Mapbox Geocoding |
 | Pagamentos online | US28 | Stripe e PayPal | Comparados entre si |
+| Imagens de capa | US9 a), US22 f) | Cloudinary, com sugestão do Cover Art Archive | MongoDB (documento ou GridFS) |
+| Importar faixas e canções | US9 b), nota 12 | API do MusicBrainz | Introdução manual |
 
 ## Mapas
 
@@ -372,6 +376,45 @@ A US28 pede que o utilizador possa escolher o serviço de pagamentos e, se o pag
 
 **Escolha: Stripe como serviço principal e PayPal como alternativa.** O Stripe tem taxas mais baixas para cartões europeus e suporta MB WAY, muito usado em Portugal. A sua página de pagamento alojada evita que a aplicação trate dados de cartão (RNF-12). O PayPal serve quem prefere pagar com a conta PayPal. Os dois avisam o backend do resultado através de webhooks, o que permite cumprir a US28 c). Durante o desenvolvimento só se usam os modos de teste, sem pagamentos reais.
 
+## Imagens de capa
+
+A página de cada álbum mostra a imagem de capa (US9 a), e o gestor associa uma capa ao registar o álbum (US22 f). Foi preciso decidir onde guardar as imagens e de onde podem vir.
+
+**Tabela 10a — Comparação de soluções para as imagens de capa**
+
+| Critério | Cloudinary | MongoDB (documento ou GridFS) | Cover Art Archive (só ligar) |
+|---|---|---|---|
+| Custo | 25 créditos grátis/mês (1 crédito = 1 GB de armazenamento, 1 GB de tráfego ou 1000 transformações) | Sem custo extra, mas ocupa a base de dados (MongoDB Atlas gratuito: 512 MB) | Gratuito |
+| Imagens enviadas pelo gestor | Sim | Sim (até 16 MB num documento; acima disso, GridFS) | Não: só as capas carregadas pela comunidade |
+| Miniaturas e telemóvel (RNF-04) | Geradas automaticamente | Feitas pela aplicação | 250, 500 e 1200 px |
+| Entrega (RNF-08) | CDN global | Passa pelo backend | Internet Archive |
+| Dependência externa | Sim (conta gratuita) | Não | Sim; nem todos os álbuns têm capa |
+
+**Escolha: Cloudinary para guardar as capas, com o Cover Art Archive para as sugerir.** Vantagens:
+
+- O gestor pode carregar qualquer capa (US22 f), mesmo de edições que não estão no Cover Art Archive.
+- O plano gratuito chega para o projeto: centenas de capas ocupam menos de 1 GB, enquanto o MongoDB Atlas gratuito tem só 512 MB para todos os dados.
+- As miniaturas são geradas automaticamente e a entrega por CDN ajuda o desempenho (RNF-08).
+- Ao registar um álbum, a aplicação pede ao Cover Art Archive a capa associada ao MBID e mostra-a como sugestão; o gestor confirma antes de a guardar.
+
+A documentação do Cover Art Archive não define a licença das imagens, cujos direitos pertencem aos titulares. A aplicação usa a capa apenas para identificar o álbum à venda.
+
+## Importação de faixas e canções
+
+Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as faixas de cada álbum. A nota 12 do enunciado sugere um script ou endpoint para as registar em bloco; é a suposição Q4 da Tabela 11.
+
+**Tabela 10b — API do MusicBrainz para importar faixas**
+
+| Critério | API do MusicBrainz | Introdução manual pelo gestor |
+|---|---|---|
+| Custo | Gratuito | Gratuito, mas exige trabalho do gestor e user stories extra |
+| Dados | Número e título das faixas, duração, artistas e ISRC das gravações | Os que o gestor escrever |
+| Ligação ao modelo | Usa o MBID que o modelo já guarda | — |
+| Licença | Dados centrais (artistas, releases, gravações, faixas, ISRCs) em CC0, sem restrições | — |
+| Limites | Cerca de 1 pedido por segundo por IP; User-Agent com nome da aplicação e contacto; acima do limite, resposta 503 | — |
+
+**Escolha: API do MusicBrainz, num script de importação.** Usa o MBID que o modelo já guarda, os dados necessários são CC0 e um álbum inteiro vem num só pedido (`/ws/2/release/{mbid}?inc=recordings+isrcs+artist-credits`), por isso o limite de 1 pedido por segundo não é um problema. Há dois pontos a tratar na implementação: no MusicBrainz as faixas pertencem a um *release* (uma edição concreta), pelo que o script tem de escolher uma edição do álbum; e nem todas as gravações têm ISRC, que no nosso modelo identifica a canção (RI-34). A duração vem em milissegundos e é convertida em segundos (RI-05).
+
 # Suposições e questões em aberto
 
 Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos. Estas questões foram colocadas ao docente e, até haver resposta, a equipa seguiu as suposições indicadas.
@@ -383,7 +426,7 @@ Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos
 | Q1 | O critério f) da US28 está incompleto ("Caso tenha sido vendida a última unidade de algum álbum, deve"). | Regista-se a data da última venda dessa versão (RI-17). |
 | Q2 | O estado de um pedido recusado chama-se "recusado" nas US13 e US14 e "rejeitado" na US24. | Usa-se "recusado". |
 | Q3 | A US3 pede para mostrar a palavra-passe no perfil, mas a RNF-12 recomenda guardá-la cifrada. | A palavra-passe é guardada cifrada e mostrada mascarada. |
-| Q4 | Nenhuma user story obrigatória regista as canções e faixas, mas a US9 mostra-as. | As faixas são importadas em bloco, por script ou endpoint (nota 12 do enunciado). |
+| Q4 | Nenhuma user story obrigatória regista as canções e faixas, mas a US9 mostra-as. | As faixas são importadas em bloco por um script que usa a API do MusicBrainz (nota 12 do enunciado; ver Tabela 10b). |
 | — | O enunciado não refere quantidades no carrinho nem nas faturas. | Cada linha corresponde a uma unidade de uma versão. |
 | — | O registo de membros de grupos é uma funcionalidade extra (nota 11). | O modelo suporta membros, mas são opcionais. |
 
@@ -444,3 +487,9 @@ Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos
 - Stripe. MB WAY. https://docs.stripe.com/payments/mb-way
 - PayPal. Comissões para comerciantes (Portugal). https://www.paypal.com/pt/webapps/mpp/merchant-fees
 - MusicBrainz. MusicBrainz Identifier. https://musicbrainz.org/doc/MusicBrainz_Identifier
+- Cover Art Archive. API. https://musicbrainz.org/doc/Cover_Art_Archive/API
+- Cloudinary. Credits and plans. https://cloudinary.com/documentation/developer_onboarding_faq_credits
+- MongoDB. GridFS. https://www.mongodb.com/docs/manual/core/gridfs/
+- MongoDB. Atlas pricing. https://www.mongodb.com/pricing
+- MusicBrainz. API e limites de utilização. https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting
+- MusicBrainz. Licença dos dados. https://musicbrainz.org/doc/About/Data_License

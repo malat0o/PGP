@@ -22,9 +22,10 @@ def diagram(out, title, actor, ucs, systems, links, extend=None, color=("#dbeafe
         cx, cy = pos[k]
         a(f'<line x1="{ax+25}" y1="{ay-30}" x2="{cx-RX}" y2="{cy}" stroke="#64748b" stroke-width="1.3"/>')
     sx = CX + RX + 60 + 190
-    for name, sub, targets in systems:
+    for sistema in systems:
+        name, sub, targets = sistema[:3]
         ys = [pos[t][1] for t in targets]
-        sy = sum(ys)/len(ys)
+        sy = sistema[3] if len(sistema) > 3 else sum(ys)/len(ys)
         for t in targets:
             cx, cy = pos[t]
             a(f'<line x1="{sx-125}" y1="{sy}" x2="{cx+RX}" y2="{cy}" stroke="#15803d" stroke-width="1.3"/>')
@@ -57,6 +58,6 @@ diagram(d + "/casos-uso-utilizador.svg", "Aplicação web: casos de uso do Utili
   None, extend=("UC-08","UC-07"), note="UC-02 e UC-09 são partilhados com o Gestor (ver diagrama do Gestor).")
 diagram(d + "/casos-uso-gestor.svg", "Aplicação web: casos de uso do Gestor", "Gestor",
   [("UC-02","Iniciar sessão"),("UC-17","Gerir artistas"),("UC-18","Gerir álbuns e versões"),("UC-19","Responder a pedido de nova versão"),("UC-09","Visualizar página de álbum"),("UC-20","Gerir stock"),("UC-21","Visualizar estatísticas")],
-  [("Serviço de Mapas","(Leaflet + OpenStreetMap)",["UC-21"])],
+  [("Cover Art Archive","(sugestão da capa pelo MBID)",["UC-18"],TOP+20+0.6*STEP),("MusicBrainz","(importação das faixas)",["UC-18"],TOP+20+3.4*STEP),("Serviço de Mapas","(Leaflet + OpenStreetMap)",["UC-21"])],
   None, extend=("UC-20","UC-09"), color=("#fee2e2","#b91c1c"), note="UC-02 e UC-09 são partilhados com o Utilizador.")
 print("ok")

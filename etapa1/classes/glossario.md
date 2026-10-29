@@ -18,7 +18,7 @@ Convenções:
 | **Artista** | Quem interpreta canções e álbuns. É um `Solista` ou um `Grupo`. | `isni` (identificador, 16 dígitos), `nome`, `anoInicioAtividade` | RI-07, RI-08 |
 | **Solista** | Artista individual. Pode ser membro de grupos. | (herda de Artista) | — |
 | **Grupo** | Artista com vários membros. Os membros só podem ser solistas (um grupo não contém grupos nem a si próprio). | (herda de Artista) | — |
-| **Album** | Obra musical com uma sequência de faixas. Interpretado por no máximo um artista; as compilações não têm artista (mostram "Vários artistas"). | `mbid` (identificador, 36 carateres), `titulo`, `anoLancamento`, `tipo` (TipoAlbum), `imagemCapa` [0..1] | RI-01, RI-02, RI-06, RI-09, RI-10, RI-11 |
+| **Album** | Obra musical com uma sequência de faixas. Interpretado por no máximo um artista; as compilações não têm artista (mostram "Vários artistas"). | `mbid` (identificador, 36 carateres), `titulo`, `anoLancamento`, `tipo` (TipoAlbum), `imagemCapa` [0..1] (endereço da imagem no serviço de imagens) | RI-01, RI-02, RI-06, RI-09, RI-10, RI-11 |
 | **Cancao** | Gravação musical, interpretada por um ou mais artistas. Pode aparecer em vários álbuns. | `isrc` (identificador, 12 carateres), `titulo`, `duracao` (segundos) | RI-04, RI-05 |
 | **Faixa** | Posição de uma canção num álbum. | `numero` (1, 2, …) | RI-03 |
 | **VersaoAlbum** | Um álbum num suporte físico e numa versão concreta (ex.: vinil vermelho). É o que se compra, coleciona e põe no carrinho. | `ean13` (identificador, 13 dígitos), `suporte` (SuporteFisico), `designacao` [0..1] | RI-12, RI-13 |

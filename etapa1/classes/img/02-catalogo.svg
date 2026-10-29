@@ -76,27 +76,27 @@
 <!-- Album -->
 <g id="node4" class="node">
 <title>Album</title>
-<polygon fill="white" stroke="none" points="375.76,-905 375.76,-1044 528.51,-1044 528.51,-905 375.76,-905"/>
-<polygon fill="#dbeafe" stroke="none" points="375.76,-1015 375.76,-1044 528.51,-1044 528.51,-1015 375.76,-1015"/>
-<polygon fill="none" stroke="#1d4ed8" points="375.76,-1015 375.76,-1044 528.51,-1044 528.51,-1015 375.76,-1015"/>
-<text text-anchor="start" x="435.26" y="-1027.55" font-family="Segoe UI" font-weight="bold" font-size="11.00">Album</text>
-<polygon fill="none" stroke="#1d4ed8" points="375.76,-926 375.76,-1015 528.51,-1015 528.51,-926 375.76,-926"/>
-<text text-anchor="start" x="382.76" y="-997.55" font-family="Segoe UI" font-size="11.00">mbid : String «id»</text>
-<text text-anchor="start" x="382.76" y="-982.55" font-family="Segoe UI" font-size="11.00">titulo : String</text>
-<text text-anchor="start" x="382.76" y="-967.55" font-family="Segoe UI" font-size="11.00">anoLancamento : Integer</text>
-<text text-anchor="start" x="382.76" y="-952.55" font-family="Segoe UI" font-size="11.00">tipo : TipoAlbum</text>
-<text text-anchor="start" x="382.76" y="-937.55" font-family="Segoe UI" font-size="11.00">imagemCapa : Imagem [0..1]</text>
-<polygon fill="none" stroke="#1d4ed8" points="375.76,-905 375.76,-926 528.51,-926 528.51,-905 375.76,-905"/>
-<text text-anchor="start" x="450.64" y="-912.55" font-family="Segoe UI" font-size="11.00"> </text>
+<polygon fill="white" stroke="none" points="363.76,-905 363.76,-1044 498.51,-1044 498.51,-905 363.76,-905"/>
+<polygon fill="#dbeafe" stroke="none" points="363.76,-1015 363.76,-1044 498.51,-1044 498.51,-1015 363.76,-1015"/>
+<polygon fill="none" stroke="#1d4ed8" points="363.76,-1015 363.76,-1044 498.51,-1044 498.51,-1015 363.76,-1015"/>
+<text text-anchor="start" x="414.26" y="-1027.55" font-family="Segoe UI" font-weight="bold" font-size="11.00">Album</text>
+<polygon fill="none" stroke="#1d4ed8" points="363.76,-926 363.76,-1015 498.51,-1015 498.51,-926 363.76,-926"/>
+<text text-anchor="start" x="370.76" y="-997.55" font-family="Segoe UI" font-size="11.00">mbid : String «id»</text>
+<text text-anchor="start" x="370.76" y="-982.55" font-family="Segoe UI" font-size="11.00">titulo : String</text>
+<text text-anchor="start" x="370.76" y="-967.55" font-family="Segoe UI" font-size="11.00">anoLancamento : Integer</text>
+<text text-anchor="start" x="370.76" y="-952.55" font-family="Segoe UI" font-size="11.00">tipo : TipoAlbum</text>
+<text text-anchor="start" x="370.76" y="-937.55" font-family="Segoe UI" font-size="11.00">imagemCapa : URL [0..1]</text>
+<polygon fill="none" stroke="#1d4ed8" points="363.76,-905 363.76,-926 498.51,-926 498.51,-905 363.76,-905"/>
+<text text-anchor="start" x="429.64" y="-912.55" font-family="Segoe UI" font-size="11.00"> </text>
 </g>
 <!-- Album&#45;&gt;Artista -->
 <g id="edge4" class="edge">
 <title>Album&#45;&gt;Artista</title>
-<path fill="none" stroke="#334155" d="M376.03,-937.02C333.18,-911.98 283.5,-874.29 259.14,-824.75 197.64,-699.7 288.05,-542.27 351.37,-455.21"/>
-<polygon fill="#334155" stroke="#334155" points="357.26,-447.22 354.95,-457.94 355.02,-450.26 351.33,-455.27 351.33,-455.27 351.33,-455.27 355.02,-450.26 347.71,-452.6 357.26,-447.22"/>
-<text text-anchor="middle" x="286.1" y="-673.25" font-family="Segoe UI" font-size="10.00"> interpretado por </text>
-<text text-anchor="middle" x="336.34" y="-454.24" font-family="Segoe UI" font-size="10.00">0..1</text>
-<text text-anchor="middle" x="363.75" y="-914.03" font-family="Segoe UI" font-size="10.00">0..*</text>
+<path fill="none" stroke="#334155" d="M363.98,-935.67C325.52,-909.92 280.73,-871.96 259.14,-824.75 201.27,-698.19 290.05,-541.64 352.18,-455.06"/>
+<polygon fill="#334155" stroke="#334155" points="357.95,-447.13 355.71,-457.86 355.73,-450.19 352.07,-455.21 352.07,-455.21 352.07,-455.21 355.73,-450.19 348.43,-452.57 357.95,-447.13"/>
+<text text-anchor="middle" x="288.32" y="-673.25" font-family="Segoe UI" font-size="10.00"> interpretado por </text>
+<text text-anchor="middle" x="337.09" y="-454.28" font-family="Segoe UI" font-size="10.00">0..1</text>
+<text text-anchor="middle" x="352.96" y="-911.98" font-family="Segoe UI" font-size="10.00">0..*</text>
 </g>
 <!-- Faixa -->
 <g id="node6" class="node">
@@ -113,11 +113,11 @@
 <!-- Album&#45;&gt;Faixa -->
 <g id="edge6" class="edge">
 <title>Album&#45;&gt;Faixa</title>
-<path fill="none" stroke="#334155" d="M485.94,-892.11C497.79,-863.59 510.54,-832.9 520.22,-809.57"/>
-<polygon fill="#334155" stroke="#334155" points="485.99,-892 487.52,-899.79 480.92,-904.19 479.39,-896.41 485.99,-892"/>
-<text text-anchor="middle" x="514.54" y="-862.5" font-family="Segoe UI" font-size="10.00"> faixas </text>
-<text text-anchor="middle" x="501.69" y="-822.45" font-family="Segoe UI" font-size="10.00">0..*</text>
-<text text-anchor="middle" x="499.11" y="-887.4" font-family="Segoe UI" font-size="10.00">1</text>
+<path fill="none" stroke="#334155" d="M473.19,-892.5C488.06,-863.87 504.08,-833 516.24,-809.57"/>
+<polygon fill="#334155" stroke="#334155" points="473.19,-892.51 474.05,-900.4 467.1,-904.23 466.24,-896.34 473.19,-892.51"/>
+<text text-anchor="middle" x="505.3" y="-862.5" font-family="Segoe UI" font-size="10.00"> faixas </text>
+<text text-anchor="middle" x="496.48" y="-820.81" font-family="Segoe UI" font-size="10.00">0..*</text>
+<text text-anchor="middle" x="486.45" y="-889.04" font-family="Segoe UI" font-size="10.00">1</text>
 </g>
 <!-- VersaoAlbum -->
 <g id="node7" class="node">
@@ -136,11 +136,11 @@
 <!-- Album&#45;&gt;VersaoAlbum -->
 <g id="edge8" class="edge">
 <title>Album&#45;&gt;VersaoAlbum</title>
-<path fill="none" stroke="#334155" d="M413.95,-892.2C403.27,-869.45 391.93,-845.31 382.21,-824.63"/>
-<polygon fill="#334155" stroke="#334155" points="413.98,-892.26 420.77,-896.37 419.59,-904.21 412.81,-900.11 413.98,-892.26"/>
-<text text-anchor="middle" x="421.67" y="-862.5" font-family="Segoe UI" font-size="10.00"> versões </text>
-<text text-anchor="middle" x="381.02" y="-846.22" font-family="Segoe UI" font-size="10.00">1..*</text>
-<text text-anchor="middle" x="421.17" y="-878.68" font-family="Segoe UI" font-size="10.00">1</text>
+<path fill="none" stroke="#334155" d="M401.28,-891.88C392.99,-869.23 384.2,-845.21 376.67,-824.63"/>
+<polygon fill="#334155" stroke="#334155" points="401.24,-891.78 407.64,-896.47 405.78,-904.18 399.38,-899.49 401.24,-891.78"/>
+<text text-anchor="middle" x="411.8" y="-862.5" font-family="Segoe UI" font-size="10.00"> versões </text>
+<text text-anchor="middle" x="373.37" y="-846.03" font-family="Segoe UI" font-size="10.00">1..*</text>
+<text text-anchor="middle" x="409.39" y="-878.88" font-family="Segoe UI" font-size="10.00">1</text>
 </g>
 <!-- Cancao -->
 <g id="node5" class="node">
@@ -243,7 +243,7 @@
 <!-- nota_Album&#45;&gt;Album -->
 <g id="edge11" class="edge">
 <title>nota_Album&#45;&gt;Album</title>
-<path fill="none" stroke="#a16207" stroke-dasharray="5,2" d="M714.5,-1110.81C708.95,-1098.44 701.36,-1086.01 691.14,-1077 654.77,-1044.93 632.02,-1062.37 587.14,-1044 567.68,-1036.04 547.2,-1026.36 528.24,-1016.82"/>
+<path fill="none" stroke="#a16207" stroke-dasharray="5,2" d="M714.5,-1110.81C708.95,-1098.44 701.36,-1086.01 691.14,-1077 654.77,-1044.93 632.52,-1061.11 587.14,-1044 557.66,-1032.89 525.71,-1019.17 498.45,-1006.93"/>
 </g>
 <!-- nota_Cancao -->
 <g id="node13" class="node">
@@ -289,7 +289,7 @@
 <!-- nota_VersaoAlbum&#45;&gt;VersaoAlbum -->
 <g id="edge14" class="edge">
 <title>nota_VersaoAlbum&#45;&gt;VersaoAlbum</title>
-<path fill="none" stroke="#a16207" stroke-dasharray="5,2" d="M656.79,-934.36C643.6,-924.66 629.41,-914.36 616.14,-905 585.47,-883.37 579.56,-874.84 546.14,-857.75 508.21,-838.36 494.98,-842.26 456.14,-824.75 445.19,-819.81 433.78,-814.16 422.78,-808.42"/>
+<path fill="none" stroke="#a16207" stroke-dasharray="5,2" d="M657.63,-934.2C644.29,-924.41 629.83,-914.11 616.14,-905 582.07,-882.34 573.75,-876.02 537.14,-857.75 502.36,-840.39 491.29,-841.35 456.14,-824.75 445.28,-819.62 433.92,-813.87 422.93,-808.09"/>
 </g>
 </g>
 </svg>
