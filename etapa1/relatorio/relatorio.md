@@ -117,7 +117,7 @@ Há dois atores humanos, como define o enunciado, e cinco sistemas externos, esc
 
 ## Diagramas de casos de uso
 
-As 29 user stories foram agrupadas em 21 casos de uso. User stories que atuam sobre os mesmos dados ficaram num só caso de uso: por exemplo, "Gerir coleção" junta adicionar uma versão à coleção (US10) e ver, ordenar e remover álbuns da coleção (US11).
+As 29 user stories foram agrupadas em 21 casos de uso com um critério explícito: **as user stories que atuam sobre os mesmos dados e pelo mesmo ator formam um só caso de uso**. Por exemplo, "Gerir coleção" junta adicionar uma versão à coleção (US10) e ver, ordenar e remover álbuns da coleção (US11), porque ambas atuam sobre a coleção do utilizador. Por isso, alguns casos de uso correspondem a duas user stories e outros a uma só; para comparar o seu tamanho, a secção seguinte conta os cenários de cada um (Tabela 7).
 
 Com 21 casos de uso, um só diagrama ficava com muitas linhas cruzadas e difícil de ler. Por isso foram feitos dois diagramas, um por ator humano. Os casos de uso "Iniciar sessão" (UC-02) e "Visualizar página de álbum" (UC-09) são comuns aos dois. Há duas relações entre casos de uso: **UC-08 «extend» UC-07**, porque gerir o artista favorito é uma opção dentro da página do artista (US7 a); e **UC-20 «extend» UC-09**, porque o gestor altera as unidades a partir da página do álbum (US25 a), por isso gerir o stock é uma extensão dessa página.
 
@@ -155,6 +155,39 @@ Com 21 casos de uso, um só diagrama ficava com muitas linhas cruzadas e difíci
 
 As 29 user stories do enunciado estão todas associadas a um caso de uso.
 
+## Cenários dos casos de uso
+
+Como os casos de uso não estão todos no mesmo nível de abstração, o número de cenários é uma medida de tamanho mais justa do que o número de casos de uso. A Tabela 7 lista o cenário principal e os cenários alternativos de cada caso de uso, derivados dos critérios de aceitação das user stories.
+
+**Tabela 7 — Cenários dos casos de uso**
+
+| Caso de uso | Cenário principal | Cenários alternativos | N.º de cenários |
+|---|---|---|---|
+| UC-01 | Conta criada com coordenadas da morada | Dados inválidos: erro com o motivo (US1 g); Morada não encontrada: conta guardada sem coordenadas | 3 |
+| UC-02 | Sessão iniciada: mostra o dashboard | Credenciais erradas: erro genérico (US2 b) | 2 |
+| UC-03 | Acesso às funcionalidades a partir do dashboard | Há notificações por ler: contador no sino | 2 |
+| UC-04 | Perfil com mapa da morada | Morada sem coordenadas: perfil sem mapa; Sem artista favorito | 3 |
+| UC-05 | Alterações guardadas | Palavra-passe atual errada (US4 b); Dados inválidos: erro com o motivo | 3 |
+| UC-06 | Sugestões e resultados de artistas ou de álbuns | Sem resultados: mensagem (US5 c, US8 c) | 2 |
+| UC-07 | Página do artista com os álbuns mais recentes | Lista completa de álbuns, ordenada por ano (US6 b, c) | 2 |
+| UC-08 | Artista adicionado como favorito | Já tem outro favorito: erro (US7 c); Deixar de ter o artista como favorito (US7 d) | 3 |
+| UC-09 | Página do álbum com faixas, versões e disponibilidade | Álbum nunca esteve na loja: mensagem discreta (US9 e); Versão esgotada: data da última venda (US9 d) | 3 |
+| UC-10 | Versão adicionada à coleção | Versão já está na coleção: erro (US10 c); Ver e ordenar a coleção (US11 c); Remover um álbum (US11 f) | 4 |
+| UC-11 | Lista criada | Nome repetido ou com mais de 100 carateres: erro; Ainda não há listas: mensagem (US16 d); Ordenar as listas (US16 b); Remover uma lista (US16 e) | 5 |
+| UC-12 | Álbum adicionado a uma lista | Álbum já está na lista: erro (US17 c); Lista vazia: mensagem (US18 d); Ordenar o conteúdo (US18 b); Remover um álbum (US18 e) | 5 |
+| UC-13 | Pedido guardado com estado "em análise" | Dados inválidos: erro com o motivo | 2 |
+| UC-14 | Lista dos pedidos do utilizador | Filtrar por estado (US13 e); Abrir a notificação de um pedido aceite ou recusado (US14) | 3 |
+| UC-15 | Versão colocada no carrinho | Versão sem unidades: botão inativo (US26 a); Ver o carrinho (US27); Remover um álbum (US27 d) | 4 |
+| UC-16 | Pagamento com sucesso: fatura, coleção e stock | Uma versão esgotou entretanto: sai do carrinho; Pagamento recusado e nova tentativa com outro serviço (US28 g); Sem resposta no tempo limite: reserva libertada; Cancelamento pelo utilizador (US28 g) | 5 |
+| UC-17 | Artista registado | Dados inválidos: erro com o motivo (US20 b, c); Alterar os dados de um artista (US21) | 3 |
+| UC-18 | Álbum novo registado com a primeira versão | Nova versão de um álbum existente (US22 b); Dados inválidos: erro com o motivo (US22 i); Alterar os dados do álbum e das versões (US23); Capa sugerida pelo Cover Art Archive; Faixas importadas do MusicBrainz | 6 |
+| UC-19 | Pedido aceite: versão criada e utilizador notificado | Pedido recusado: utilizador notificado (US24 d) | 2 |
+| UC-20 | Unidades de uma versão alteradas | Primeira vez à venda: pede o preço e regista a data (US25 b) | 2 |
+| UC-21 | Estatísticas com as três tabelas e o mapa | Abrir a página de um utilizador ou álbum das estatísticas (US29 e) | 2 |
+| **Total** | 21 | 45 | **66** |
+
+Esta lista vai servir de base à estimação de esforço na Etapa 2, tanto pelo método dos Use Case Points como pela decomposição por funcionalidade.
+
 # Modelo de dados
 
 O modelo de dados define a informação que a aplicação web tem de guardar de forma persistente: as classes, os seus atributos, as associações entre elas e as restrições de integridade. Foi construído a partir do universo do discurso do enunciado, das restrições de integridade RI-01 a RI-30 e dos dados que as user stories precisam de mostrar ou alterar.
@@ -165,7 +198,7 @@ Como o modelo completo não cabe numa página A4, foi dividido em cinco agrupame
 
 ![Figura 3 — Diagrama de classes de topo](../classes/img/01-topo.png)
 
-**Tabela 7 — Agrupamentos do modelo de dados**
+**Tabela 8 — Agrupamentos do modelo de dados**
 
 | Cor | Agrupamento | Classes |
 |---|---|---|
@@ -221,7 +254,7 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 
 ## Principais decisões de modelação
 
-**Tabela 8 — Decisões de modelação**
+**Tabela 9 — Decisões de modelação**
 
 | Decisão | Justificação |
 |---|---|
@@ -253,7 +286,7 @@ As restrições RI-01 a RI-30 do enunciado estão representadas nas notas das cl
 
 Foram ainda identificadas 21 restrições novas, a partir do universo do discurso, das notas de rodapé e dos critérios de aceitação das user stories. O Anexo A associa todas as restrições às classes do modelo.
 
-**Tabela 9 — Restrições de integridade novas**
+**Tabela 10 — Restrições de integridade novas**
 
 | ID | Restrição | Origem |
 |---|---|---|
@@ -285,7 +318,7 @@ Os diagramas de atividades mostram os passos dos fluxos de trabalho que a aplica
 
 Foram escolhidos os fluxos que envolvem vários atores ou várias user stories, porque são os mais difíceis de implementar. O fluxo de compra, o mais complexo, foi representado num diagrama de alto nível, com o pagamento decomposto num diagrama de subatividade.
 
-**Tabela 10 — Diagramas de atividades**
+**Tabela 11 — Diagramas de atividades**
 
 | Figura | Fluxo | User stories |
 |---|---|---|
@@ -397,7 +430,7 @@ Para cumprir a RNF-04, os dois ecrãs mais carregados foram também desenhados p
 
 A aplicação precisa de serviços externos para mapas, geocodificação, pagamentos, imagens de capa e importação de faixas. Para cada necessidade foram comparadas alternativas, com preços e condições consultados a 27 de outubro de 2026 (mapas, geocodificação e pagamentos) e a 29 de outubro de 2026 (imagens de capa e importação de faixas).
 
-**Tabela 11 — Resumo das escolhas**
+**Tabela 12 — Resumo das escolhas**
 
 | Necessidade | User stories | Serviço escolhido | Alternativas comparadas |
 |---|---|---|---|
@@ -409,7 +442,7 @@ A aplicação precisa de serviços externos para mapas, geocodificação, pagame
 
 ## Mapas
 
-**Tabela 12 — Comparação de serviços de mapas**
+**Tabela 13 — Comparação de serviços de mapas**
 
 | Critério | Leaflet + OpenStreetMap | Google Maps | Mapbox |
 |---|---|---|---|
@@ -422,7 +455,7 @@ A aplicação precisa de serviços externos para mapas, geocodificação, pagame
 
 ## Geocodificação
 
-**Tabela 13 — Comparação de serviços de geocodificação**
+**Tabela 14 — Comparação de serviços de geocodificação**
 
 | Critério | Nominatim | Google Geocoding | Mapbox Geocoding |
 |---|---|---|---|
@@ -443,7 +476,7 @@ A política de utilização do Nominatim impõe alguns cuidados, que a equipa va
 
 A US28 pede que o utilizador possa escolher o serviço de pagamentos e, se o pagamento falhar, escolher outro. Por isso a aplicação integra dois serviços.
 
-**Tabela 14 — Comparação de serviços de pagamento**
+**Tabela 15 — Comparação de serviços de pagamento**
 
 | Critério | Stripe | PayPal |
 |---|---|---|
@@ -460,7 +493,7 @@ A US28 pede que o utilizador possa escolher o serviço de pagamentos e, se o pag
 
 A página de cada álbum mostra a imagem de capa (US9 a), e o gestor associa uma capa ao registar o álbum (US22 f). Foi preciso decidir onde guardar as imagens e de onde podem vir.
 
-**Tabela 15 — Comparação de soluções para as imagens de capa**
+**Tabela 16 — Comparação de soluções para as imagens de capa**
 
 | Critério | Cloudinary | MongoDB (documento ou GridFS) | Cover Art Archive (só ligar) |
 |---|---|---|---|
@@ -481,9 +514,9 @@ A documentação do Cover Art Archive não define a licença das imagens, cujos 
 
 ## Importação de faixas e canções
 
-Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as faixas de cada álbum. A nota 12 do enunciado sugere um script ou endpoint para as registar em bloco; é a suposição Q4 da Tabela 17.
+Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as faixas de cada álbum. A nota 12 do enunciado sugere um script ou endpoint para as registar em bloco; é a suposição Q4 da Tabela 18.
 
-**Tabela 16 — API do MusicBrainz para importar faixas**
+**Tabela 17 — API do MusicBrainz para importar faixas**
 
 | Critério | API do MusicBrainz | Introdução manual pelo gestor |
 |---|---|---|
@@ -499,20 +532,20 @@ Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as fai
 
 Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos. Estas questões foram colocadas ao docente e, até haver resposta, a equipa seguiu as suposições indicadas.
 
-**Tabela 17 — Questões e suposições**
+**Tabela 18 — Questões e suposições**
 
 | # | Questão | Suposição adotada |
 |---|---|---|
 | Q1 | O critério f) da US28 está incompleto ("Caso tenha sido vendida a última unidade de algum álbum, deve"). | Regista-se a data da última venda dessa versão (RI-17). |
 | Q2 | O estado de um pedido recusado chama-se "recusado" nas US13 e US14 e "rejeitado" na US24. | Usa-se "recusado". |
 | Q3 | A US3 pede para mostrar a palavra-passe no perfil, mas a RNF-12 recomenda guardá-la cifrada. | A palavra-passe é guardada cifrada e mostrada mascarada. |
-| Q4 | Nenhuma user story obrigatória regista as canções e faixas, mas a US9 mostra-as. | As faixas são importadas em bloco por um script que usa a API do MusicBrainz (nota 12 do enunciado; ver Tabela 16). |
+| Q4 | Nenhuma user story obrigatória regista as canções e faixas, mas a US9 mostra-as. | As faixas são importadas em bloco por um script que usa a API do MusicBrainz (nota 12 do enunciado; ver Tabela 17). |
 | — | O enunciado não refere quantidades no carrinho nem nas faturas. | Cada linha corresponde a uma unidade de uma versão. |
 | — | O registo de membros de grupos é uma funcionalidade extra (nota 11). | O modelo suporta membros, mas são opcionais. |
 
 # Anexo A — Restrições de integridade por classe
 
-**Tabela 18 — Associação das restrições às classes do modelo**
+**Tabela 19 — Associação das restrições às classes do modelo**
 
 | Classe | Atributo ou associação | Restrições |
 |---|---|---|
