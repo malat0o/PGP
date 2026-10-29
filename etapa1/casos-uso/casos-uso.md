@@ -2,7 +2,7 @@
 
 **Responsável:** Reis · Diagramas em [`img/`](img): [Utilizador](img/casos-uso-utilizador.png) e [Gestor](img/casos-uso-gestor.png)
 
-Com 21 casos de uso, um só diagrama ficava com linhas cruzadas e difícil de ler. Por isso há um diagrama por ator humano. O UC-02 (Iniciar sessão) aparece nos dois porque é partilhado.
+Com 21 casos de uso, um só diagrama ficava com linhas cruzadas e difícil de ler. Por isso há um diagrama por ator humano. O UC-02 (Iniciar sessão) e o UC-09 (Visualizar página de álbum) aparecem nos dois porque são partilhados.
 
 ## 1. Atores
 
@@ -26,7 +26,7 @@ Com 21 casos de uso, um só diagrama ficava com linhas cruzadas e difícil de le
 | UC-06 | Pesquisar artistas e álbuns | Utilizador | US5, US8 |
 | UC-07 | Visualizar página de artista | Utilizador | US6 |
 | UC-08 | Gerir artista favorito (estende UC-07) | Utilizador | US7 |
-| UC-09 | Visualizar página de álbum | Utilizador | US9 |
+| UC-09 | Visualizar página de álbum | Utilizador, Gestor | US9, US25 a) |
 | UC-10 | Gerir coleção (adicionar, ver, ordenar e remover versões) | Utilizador | US10, US11 |
 | UC-11 | Gerir listas personalizadas (criar, ver, ordenar e remover) | Utilizador | US15, US16 |
 | UC-12 | Gerir conteúdo de uma lista (adicionar, ver e remover álbuns) | Utilizador | US17, US18 |
@@ -37,7 +37,7 @@ Com 21 casos de uso, um só diagrama ficava com linhas cruzadas e difícil de le
 | UC-17 | Gerir artistas (registar e alterar) | Gestor | US20, US21 |
 | UC-18 | Gerir álbuns e versões (registar e alterar) | Gestor | US22, US23 |
 | UC-19 | Responder a pedido de nova versão | Gestor | US24 |
-| UC-20 | Gerir stock | Gestor | US25 |
+| UC-20 | Gerir stock («extend» UC-09) | Gestor | US25 |
 | UC-21 | Visualizar estatísticas | Gestor, Serviço de Mapas | US29 |
 
 As user stories parecidas foram agrupadas num só caso de uso quando atuam sobre os mesmos dados (por exemplo, criar, ver e remover listas), para o diagrama ficar legível.
@@ -64,3 +64,4 @@ Confirma que as 29 user stories estão cobertas.
 ## 4. Relações entre casos de uso
 
 - **UC-08 «extend» UC-07:** adicionar ou remover um artista dos favoritos é uma opção dentro da página do artista (US7 a).
+- **UC-20 «extend» UC-09:** o gestor altera as unidades a partir da página do álbum (US25 a), por isso gerir o stock é uma extensão dessa página.

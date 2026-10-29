@@ -37,7 +37,7 @@ Há dois atores humanos, como define o enunciado, e três sistemas externos, esc
 
 As 29 user stories foram agrupadas em 21 casos de uso. User stories que atuam sobre os mesmos dados ficaram num só caso de uso: por exemplo, "Gerir coleção" junta adicionar uma versão à coleção (US10) e ver, ordenar e remover álbuns da coleção (US11).
 
-Com 21 casos de uso, um só diagrama ficava com muitas linhas cruzadas e difícil de ler. Por isso foram feitos dois diagramas, um por ator humano. O caso de uso "Iniciar sessão" (UC-02) é comum aos dois. A única relação entre casos de uso é **UC-08 «extend» UC-07**: gerir o artista favorito é uma opção dentro da página do artista (US7 a).
+Com 21 casos de uso, um só diagrama ficava com muitas linhas cruzadas e difícil de ler. Por isso foram feitos dois diagramas, um por ator humano. Os casos de uso "Iniciar sessão" (UC-02) e "Visualizar página de álbum" (UC-09) são comuns aos dois. Há duas relações entre casos de uso: **UC-08 «extend» UC-07**, porque gerir o artista favorito é uma opção dentro da página do artista (US7 a); e **UC-20 «extend» UC-09**, porque o gestor altera as unidades a partir da página do álbum (US25 a), por isso gerir o stock é uma extensão dessa página.
 
 ![Figura 1 — Casos de uso do Utilizador](../casos-uso/img/casos-uso-utilizador.png)
 
@@ -57,7 +57,7 @@ Com 21 casos de uso, um só diagrama ficava com muitas linhas cruzadas e difíci
 | UC-06 | Pesquisar artistas e álbuns | Utilizador | US5, US8 |
 | UC-07 | Visualizar página de artista | Utilizador | US6 |
 | UC-08 | Gerir artista favorito | Utilizador | US7 |
-| UC-09 | Visualizar página de álbum | Utilizador | US9 |
+| UC-09 | Visualizar página de álbum | Utilizador, Gestor | US9, US25 a) |
 | UC-10 | Gerir coleção | Utilizador | US10, US11 |
 | UC-11 | Gerir listas personalizadas | Utilizador | US15, US16 |
 | UC-12 | Gerir conteúdo de uma lista | Utilizador | US17, US18 |
@@ -68,7 +68,7 @@ Com 21 casos de uso, um só diagrama ficava com muitas linhas cruzadas e difíci
 | UC-17 | Gerir artistas | Gestor | US20, US21 |
 | UC-18 | Gerir álbuns e versões | Gestor | US22, US23 |
 | UC-19 | Responder a pedido de nova versão | Gestor | US24 |
-| UC-20 | Gerir stock | Gestor | US25 |
+| UC-20 | Gerir stock («extend» UC-09) | Gestor | US25 |
 | UC-21 | Visualizar estatísticas | Gestor, Serviço de Mapas | US29 |
 
 As 29 user stories do enunciado estão todas associadas a um caso de uso.

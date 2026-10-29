@@ -21,11 +21,11 @@ As 29 user stories foram agrupadas em 21 casos de uso. User stories que atuam so
 
 Com 21 casos de uso, um só diagrama ficava com muitas linhas cruzadas. Por isso foram feitos dois diagramas, um por ator humano:
 - **Figura 1:** casos de uso do Utilizador (16 casos de uso).
-- **Figura 2:** casos de uso do Gestor (6 casos de uso).
+- **Figura 2:** casos de uso do Gestor (7 casos de uso).
 
-O caso de uso "Iniciar sessão" (UC-02) é comum aos dois atores.
+Os casos de uso "Iniciar sessão" (UC-02) e "Visualizar página de álbum" (UC-09) são comuns aos dois atores.
 
-A única relação entre casos de uso é **UC-08 «extend» UC-07**: gerir o artista favorito é uma opção que aparece dentro da página do artista (US7 a).
+Há duas relações entre casos de uso: **UC-08 «extend» UC-07**, porque gerir o artista favorito é uma opção dentro da página do artista (US7 a); e **UC-20 «extend» UC-09**, porque o gestor altera as unidades a partir da página do álbum (US25 a), por isso gerir o stock é uma extensão dessa página.
 
 ## Rastreabilidade
 
