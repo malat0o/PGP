@@ -68,7 +68,7 @@ Convenções:
 | **Notificacao** | Aviso ao utilizador de que o seu pedido foi respondido. A resposta é o estado do pedido. | `dataEmissao`, `lida` (Boolean, para o contador do sino no dashboard) | RI-50 |
 
 **Enumerações:**
-- **EstadoPedido:** `emAnalise`, `aceite`, `recusado` (o enunciado também diz "rejeitado" na US24; ver pergunta P2 ao professor)
+- **EstadoPedido:** `emAnalise`, `aceite`, `recusado` (a US24 dizia "rejeitado"; corrigido na versão de 4/nov do enunciado)
 
 ---
 

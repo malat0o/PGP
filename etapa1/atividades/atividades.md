@@ -104,7 +104,7 @@ flowchart TB
     P12("Confirmar a saída das unidades reservadas")
     JN@{ shape: fork }
     D3@{ shape: diam, label: " " }
-    P13("Registar a data da última venda")
+    P13("Atualizar a data de fim de disponibilidade (data da última venda)")
     M3@{ shape: diam, label: " " }
     P14("Esvaziar o carrinho e mostrar o resumo")
     F2@{ shape: fr-circ }
@@ -145,7 +145,7 @@ flowchart TB
   style S fill:#dcfce7,stroke:#15803d
 ```
 
-**Restrições aplicadas:** RI-15 (unidades nunca negativas), RI-17 (data da última venda), RI-27 e RI-28 (data e número da fatura), RI-46 (só versões com unidades), RI-48 (dados de faturação), RI-51 (itens da coleção ligados à linha da fatura).
+**Restrições aplicadas:** RI-15 (unidades nunca negativas), RI-17 (data de fim de disponibilidade = data da última venda, US28 f), RI-27 e RI-28 (data e número da fatura), RI-46 (só versões com unidades), RI-48 (dados de faturação), RI-51 (itens da coleção ligados à linha da fatura).
 
 **Nota sobre o paralelismo:** a fatura é emitida antes do fork porque os itens da coleção ficam ligados às linhas da fatura (RI-51); depois disso, atualizar a coleção e confirmar a saída do stock são independentes e correm em paralelo.
 

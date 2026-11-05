@@ -371,7 +371,7 @@ O pagamento (Figura 15) envolve o serviço externo escolhido pelo utilizador, St
 1. Antes de pagar, a aplicação verifica e **reserva as unidades** das versões do carrinho. Se entretanto outro utilizador tiver comprado a última unidade de alguma versão, essa versão é retirada do carrinho e o utilizador é avisado.
 2. O utilizador escolhe o serviço; a aplicação calcula o total e inicia o pagamento. O utilizador introduz os dados de pagamento na página do serviço, pelo que a aplicação nunca trata os dados do cartão.
 3. A aplicação espera pelo resultado enviado pelo serviço (US28 c). Se o pagamento for recusado ou não houver resposta dentro do **tempo limite**, a reserva é libertada e o utilizador pode tentar com outro serviço ou cancelar o pagamento (US28 g); cancelar é uma ação do utilizador.
-4. Se o pagamento tiver sucesso, a aplicação emite a fatura com os dados de faturação e, **em paralelo** (fork/join), adiciona as versões à coleção do utilizador, ligadas às linhas da fatura, e confirma a saída das unidades reservadas. Se tiver sido vendida a última unidade de uma versão, regista a data da última venda (RI-17). No fim, esvazia o carrinho e mostra um resumo.
+4. Se o pagamento tiver sucesso, a aplicação emite a fatura com os dados de faturação e, **em paralelo** (fork/join), adiciona as versões à coleção do utilizador, ligadas às linhas da fatura, e confirma a saída das unidades reservadas. Se tiver sido vendida a última unidade de uma versão, atualiza a data de fim de disponibilidade, que é a data da última venda (US28 f, RI-17). No fim, esvazia o carrinho e mostra um resumo.
 
 A fatura é emitida antes do fork porque os itens da coleção ficam ligados às linhas da fatura (RI-51); as duas ações seguintes são independentes.
 
@@ -562,14 +562,14 @@ Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as fai
 
 # Suposições e questões em aberto
 
-Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos. Estas questões foram colocadas ao docente e, até haver resposta, a equipa seguiu as suposições indicadas.
+Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos. Estas questões foram colocadas ao docente e, até haver resposta, a equipa seguiu as suposições indicadas. A versão do enunciado de 4 de novembro de 2026 corrigiu a US28 f) e a US24, e confirmou as suposições Q1 e Q2.
 
 **Tabela 19 — Questões e suposições**
 
 | # | Questão | Suposição adotada |
 |---|---|---|
-| Q1 | O critério f) da US28 está incompleto ("Caso tenha sido vendida a última unidade de algum álbum, deve"). | Regista-se a data da última venda dessa versão (RI-17). |
-| Q2 | O estado de um pedido recusado chama-se "recusado" nas US13 e US14 e "rejeitado" na US24. | Usa-se "recusado". |
+| Q1 | O critério f) da US28 estava incompleto ("Caso tenha sido vendida a última unidade de algum álbum, deve"). | Regista-se a data de fim de disponibilidade dessa versão, igual à data da última venda (RI-17). **Confirmado** na versão de 4/nov do enunciado. |
+| Q2 | O estado de um pedido recusado chamava-se "recusado" nas US13 e US14 e "rejeitado" na US24. | Usa-se "recusado". **Confirmado** na versão de 4/nov do enunciado, que corrigiu a US24. |
 | Q3 | A US3 pede para mostrar a palavra-passe no perfil, mas a RNF-12 recomenda guardá-la cifrada. | A palavra-passe é guardada cifrada e mostrada mascarada. |
 | Q4 | Nenhuma user story obrigatória regista as canções e faixas, mas a US9 mostra-as. | As faixas são importadas em bloco por um script que usa a API do MusicBrainz (nota 12 do enunciado; ver Tabela 18). |
 | — | O enunciado não refere quantidades no carrinho nem nas faturas. | Cada linha corresponde a uma unidade de uma versão. |

@@ -26,3 +26,11 @@ Grupo 12 (Rodrigo, Reis, Miguel, Ze, Edson)
 - **Atividades:** nem um só diagrama para todos os fluxos, nem um por user story. Cada diagrama é um fluxo de trabalho, que pode abranger várias user stories (como a compra numa loja do enunciado). Os fluxos não devem ter quebras.
 
 **O que mudámos:** os casos de uso passaram a ter um diagrama de topo com 6 packages (Figura 1) e um diagrama por package (Figuras 2 a 7). No capítulo dos fluxos, o relatório explica como os diagramas se encadeiam sem quebras.
+
+## Enunciado atualizado (versão de 4 de novembro de 2026)
+
+- **US24 d):** passou a dizer "recusado" → resolve a pergunta 2 (como assumimos).
+- **US28 f):** completada: quando se vende a última unidade de uma versão, a data de fim de disponibilidade é atualizada segundo a RI-17 → resolve a pergunta 1 (como assumimos).
+- **Diagrama de casos de uso:** o texto do enunciado passou a incluir a indicação dos packages, que já seguimos.
+
+As perguntas 3 e 4 continuam por responder.

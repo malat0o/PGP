@@ -25,8 +25,8 @@ Nesta entrega faz-se o **desenho inicial** da aplicação e a **pesquisa de tecn
 
 ### Perguntas a fazer ao professor (responsável: Reis, até 28/out)
 
-1. A US28 f) está cortada a meio.
-2. O estado do pedido aparece como "recusado" na US13/US14 e como "rejeitado" na US24. Qual é o certo?
+1. A US28 f) está cortada a meio. *(Corrigida na versão de 4/nov do enunciado: atualiza-se a data de fim de disponibilidade, RI-17.)*
+2. O estado do pedido aparece como "recusado" na US13/US14 e como "rejeitado" na US24. Qual é o certo? *(Corrigido na versão de 4/nov: "recusado".)*
 3. A US3 manda mostrar a palavra-passe, mas a RNF-12 manda cifrá-la.
 4. Nenhuma user story obrigatória regista canções, mas a US9 mostra-as.
 5. Qual é o número do grupo e a data da apresentação?

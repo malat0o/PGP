@@ -30,7 +30,7 @@ Cada restrição nova vem de uma frase do enunciado: do universo do discurso (se
 | **RI-50** | Uma notificação é criada como não lida (`lida` = falso). | US14 a) |
 | **RI-51** | Um item da coleção com origem numa linha de fatura refere-se à mesma versão dessa linha, pertence ao utilizador da fatura e tem como data de registo a data da fatura. | US28 d) |
 
-**Nota sobre a RI-44:** a US24 d) usa a palavra "rejeitado" e as US13 e US14 usam "recusado". Usamos "recusado" até o professor esclarecer.
+**Nota sobre a RI-44:** a US24 d) usava a palavra "rejeitado" e as US13 e US14 "recusado". A versão de 4/nov do enunciado corrigiu a US24: o estado é "recusado".
 
 ## 2. Restrições por classe do modelo de dados
 

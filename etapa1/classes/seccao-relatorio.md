@@ -90,7 +90,7 @@ Representa a informação musical: artistas, álbuns, canções e versões físi
 ## 5. Suposições
 
 1. O carrinho e as faturas não têm quantidades: cada linha corresponde a uma unidade de uma versão, porque o enunciado não refere quantidades.
-2. O estado de um pedido recusado chama-se "recusado", como na US13 e na US14 (a US24 usa "rejeitado").
+2. O estado de um pedido recusado chama-se "recusado", como na US13 e na US14 (a versão de 4/nov do enunciado corrigiu a US24, que dizia "rejeitado").
 3. Os membros de um grupo são opcionais (`0..*`), porque o seu registo é uma funcionalidade extra (nota 11 do enunciado).
 
 ## 6. Restrições de integridade

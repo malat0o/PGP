@@ -252,14 +252,14 @@ s = pres.addSlide({ masterName: "CONTEUDO", sectionTitle: "Fecho" });
 s.addText("O que perguntámos e o que assumimos", { placeholder: "title" });
 presenter(s, "Reis");
 s.addTable([
-  [{ text: "Questão", options: { bold: true, fill: { color: "E4E4E7" } } }, { text: "Suposição até haver resposta", options: { bold: true, fill: { color: "E4E4E7" } } }],
-  ["US28 f) está incompleta", "Regista-se a data da última venda (RI-17)"],
-  ["\"Recusado\" (US13/14) ou \"rejeitado\" (US24)?", "Usamos \"recusado\""],
+  [{ text: "Questão", options: { bold: true, fill: { color: "E4E4E7" } } }, { text: "Suposição", options: { bold: true, fill: { color: "E4E4E7" } } }],
+  ["US28 f) estava incompleta", "Data de fim de disponibilidade (RI-17): confirmado no enunciado de 4/nov"],
+  ["\"Recusado\" (US13/14) ou \"rejeitado\" (US24)?", "\"Recusado\": confirmado no enunciado de 4/nov"],
   ["US3 mostra a palavra-passe, a RNF-12 manda cifrá-la", "Guardada cifrada, mostrada mascarada"],
   ["Nenhuma user story regista as canções", "Importação em bloco (nota 12)"],
   ["Sem quantidades no carrinho", "Cada linha é uma unidade de uma versão"],
 ], { x: 0.6, y: 1.7, w: 12.1, colW: [6.0, 6.1], fontSize: 15, color: C.text1, border: { type: "solid", pt: 0.75, color: "D4D4D8" }, rowH: 0.62, valign: "middle", objectName: "tabela-suposicoes" });
-s.addNotes("Reis: mostrar que lemos o enunciado com atenção — encontrámos pontos ambíguos, perguntámos ao professor e documentámos o que assumimos.");
+s.addNotes("Reis: mostrar que lemos o enunciado com atenção — encontrámos pontos ambíguos, perguntámos ao professor e documentámos o que assumimos. As duas primeiras foram corrigidas pelo professor na versão de 4 de novembro do enunciado, que confirmou as nossas suposições.");
 
 // 13 Fim
 s = pres.addSlide({ masterName: "CAPA", sectionTitle: "Fecho" });

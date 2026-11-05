@@ -103,4 +103,4 @@ Pedidos de novas versões e respetivas notificações.
 
 **Com todos (suposições a confirmar):**
 - O carrinho e as faturas não têm quantidade: cada linha é uma unidade de uma versão, porque o enunciado não fala em quantidades.
-- O nome do estado é `recusado` (US13/US14) e não `rejeitado` (US24), até o professor responder (P2).
+- O nome do estado é `recusado` (US13/US14) ; a versão de 4/nov do enunciado corrigiu a US24, que dizia `rejeitado`.
