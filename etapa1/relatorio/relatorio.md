@@ -90,7 +90,7 @@ O relatório está organizado da seguinte forma:
 - **Capítulo 4:** fluxos de trabalho (diagramas de atividades).
 - **Capítulo 5:** esboços da interface com o utilizador.
 - **Capítulo 6:** pesquisa de serviços externos (mapas, geocodificação, pagamentos, imagens de capa e importação de faixas).
-- **Capítulo 7:** suposições feitas pela equipa e questões em aberto.
+- **Capítulo 7:** suposições feitas pela equipa, questões em aberto e decisões da equipa que vão além do enunciado.
 - **Anexo A:** associação das restrições de integridade às classes do modelo.
 - **Anexo B:** planeamento e estimação do esforço da Etapa 1.
 
@@ -102,7 +102,7 @@ Os diagramas de casos de uso mostram, numa perspetiva de alto nível, as funcion
 
 ## Atores
 
-Há dois atores humanos, como define o enunciado, e cinco sistemas externos, escolhidos na pesquisa de serviços (capítulo 6).
+Há dois atores humanos, como define o enunciado, e seis sistemas externos, escolhidos na pesquisa de serviços (capítulo 6).
 
 **Tabela 5 — Atores**
 
@@ -114,7 +114,8 @@ Há dois atores humanos, como define o enunciado, e cinco sistemas externos, esc
 | Serviço de Mapas (Leaflet + OpenStreetMap) | Sistema externo | Mostra a morada no perfil e as moradas dos maiores colecionadores nas estatísticas. |
 | Serviço de Pagamentos (Stripe / PayPal) | Sistema externo | Processa o pagamento do carrinho de compras. |
 | Cover Art Archive | Sistema externo | Sugere a imagem de capa a partir do MBID, quando o gestor regista o álbum. |
-| MusicBrainz | Sistema externo | Fornece as faixas e canções de um álbum para importação em bloco. |
+| Cloudinary | Sistema externo | Guarda a imagem de capa escolhida pelo gestor e entrega-a, com miniaturas, às páginas dos álbuns. |
+| MusicBrainz | Sistema externo | Fornece as faixas e canções de um álbum, importadas a pedido do gestor quando regista o álbum. |
 
 ## Diagramas de casos de uso
 
@@ -127,7 +128,7 @@ Com 21 casos de uso, um só diagrama não cabia numa página A4 sem muitas linha
 | Package | Casos de uso | Atores |
 |---|---|---|
 | Conta e perfil | UC-01 a UC-05 | Utilizador, Gestor (só UC-02), Serviço de Geocodificação, Serviço de Mapas |
-| Catálogo de música | UC-06 a UC-09, UC-17, UC-18 | Utilizador, Gestor, Cover Art Archive, MusicBrainz |
+| Catálogo de música | UC-06 a UC-09, UC-17, UC-18 | Utilizador, Gestor, Cover Art Archive, Cloudinary, MusicBrainz |
 | Coleção e listas | UC-10 a UC-12 | Utilizador |
 | Pedidos de nova versão | UC-13, UC-14, UC-19 | Utilizador, Gestor |
 | Loja | UC-15, UC-16, UC-20 | Utilizador, Gestor, Serviço de Pagamentos |
@@ -135,7 +136,7 @@ Com 21 casos de uso, um só diagrama não cabia numa página A4 sem muitas linha
 
 A Figura 1 é o **diagrama de topo**: mostra os seis packages e os atores envolvidos em cada um, humanos e sistemas externos. As Figuras 2 a 7 mostram os casos de uso de cada package. Nestes diagramas, os casos de uso só do utilizador estão a azul, os só do gestor a vermelho e os usados pelos dois atores a roxo.
 
-Há duas relações entre casos de uso: **UC-08 «extend» UC-07**, porque gerir o artista favorito é uma opção dentro da página do artista (US7 a); e **UC-20 «extend» UC-09**, porque o gestor altera as unidades a partir da página do álbum (US25 a), por isso gerir o stock é uma extensão dessa página. Como o UC-20 pertence ao package Loja e o UC-09 ao package Catálogo de música, o UC-09 aparece no diagrama da Loja a tracejado, como referência.
+Há duas relações entre casos de uso: **UC-08 «extend» UC-07**, porque gerir o artista favorito é uma opção dentro da página do artista (US7 a); e **UC-20 «extend» UC-09**, porque o gestor altera as unidades a partir da página do álbum (US25 a), por isso gerir o stock é uma extensão dessa página. Como pede a notação UML, cada caso de uso base indica o seu ponto de extensão ("favorito" no UC-07 e "gerir stock" no UC-09) e cada «extend» tem a condição em que ocorre ([Favorito]: o utilizador carrega no botão; [gestor]: o ator é o gestor). Como o UC-20 pertence ao package Loja e o UC-09 ao package Catálogo de música, o UC-09 aparece no diagrama da Loja a tracejado, como referência.
 
 ![Figura 1 — Diagrama de casos de uso de topo, com os packages](../casos-uso/img/casos-uso-00-topo.png)
 
@@ -165,7 +166,7 @@ Há duas relações entre casos de uso: **UC-08 «extend» UC-07**, porque gerir
 | UC-06 | Pesquisar artistas e álbuns | Catálogo de música | Utilizador | US5, US8 |
 | UC-07 | Visualizar página de artista | Catálogo de música | Utilizador | US6 |
 | UC-08 | Gerir artista favorito | Catálogo de música | Utilizador | US7 |
-| UC-09 | Visualizar página de álbum | Catálogo de música | Utilizador, Gestor | US9, US25 a) |
+| UC-09 | Visualizar página de álbum | Catálogo de música | Utilizador, Gestor | US9 |
 | UC-10 | Gerir coleção | Coleção e listas | Utilizador | US10, US11 |
 | UC-11 | Gerir listas personalizadas | Coleção e listas | Utilizador | US15, US16 |
 | UC-12 | Gerir conteúdo de uma lista | Coleção e listas | Utilizador | US17, US18 |
@@ -174,12 +175,12 @@ Há duas relações entre casos de uso: **UC-08 «extend» UC-07**, porque gerir
 | UC-15 | Gerir carrinho de compras | Loja | Utilizador | US26, US27 |
 | UC-16 | Pagar carrinho | Loja | Utilizador, Serviço de Pagamentos | US28 |
 | UC-17 | Gerir artistas | Catálogo de música | Gestor | US20, US21 |
-| UC-18 | Gerir álbuns e versões | Catálogo de música | Gestor, Cover Art Archive, MusicBrainz | US22, US23 |
+| UC-18 | Gerir álbuns e versões | Catálogo de música | Gestor, Cover Art Archive, Cloudinary, MusicBrainz | US22, US23 |
 | UC-19 | Responder a pedido de nova versão | Pedidos de nova versão | Gestor | US24 |
 | UC-20 | Gerir stock («extend» UC-09) | Loja | Gestor | US25 |
 | UC-21 | Visualizar estatísticas | Estatísticas | Gestor, Serviço de Mapas | US29 |
 
-As 29 user stories do enunciado estão todas associadas a um caso de uso.
+As 29 user stories do enunciado estão todas associadas a um caso de uso, e cada uma a um só. A US25 pertence ao UC-20, que é chamado a partir da página do álbum (UC-09) pela relação «extend».
 
 ## Cenários dos casos de uso
 
@@ -249,7 +250,7 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 
 ![Figura 10 — Loja e vendas](../classes/img/03-loja-vendas.png)
 
-- **DisponibilidadeLoja** guarda, para cada versão que alguma vez esteve à venda, a data em que ficou disponível, o número de unidades, o preço e, quando esgota, a data da última venda. Esta data da última venda é a "data de fim de disponibilidade" referida na RI-17: só é preenchida quando a versão esgota. Por ser opcional, distingue as três situações mostradas na página do álbum (US9): nunca esteve na loja, está disponível ou esgotou.
+- **DisponibilidadeLoja** guarda, para cada versão que tem preço na loja, a data em que ficou disponível, o número de unidades, o preço e, quando esgota, a data da última venda. A data de início é opcional (0..1): uma versão pode ser registada com preço e 0 unidades (US22 a), e a data só é preenchida quando passa a ter unidades (US22 g, RI-47). Esta data da última venda é a "data de fim de disponibilidade" referida na RI-17: só é preenchida quando a versão esgota. Por ser opcional, distingue as três situações mostradas na página do álbum (US9): nunca esteve na loja, está disponível ou esgotou.
 - **ItemCarrinho** representa uma versão colocada no carrinho, com a data de adição, para mostrar os itens mais recentes primeiro (US27).
 - **Fatura** é emitida quando o pagamento no serviço externo tem sucesso (US28). O número tem o ano seguido de um sequencial que recomeça em cada ano (por exemplo, 20270001). Cada fatura tem uma ou mais **LinhaFatura**, que guardam o preço pago por cada versão, porque o preço na loja pode mudar depois da compra.
 - A fatura guarda também uma **cópia dos dados de faturação** do utilizador (NIF, nome e morada), que a US28 d) exige na fatura. Estes dados ficam fixos no momento da emissão (RI-48): não mudam se o utilizador alterar o perfil, e a fatura mantém-se se o utilizador apagar a conta (RNF-16). Por isso, do lado da fatura, a ligação ao utilizador é opcional (0..1).
@@ -267,7 +268,7 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 
 ![Figura 12 — Coleções e listas](../classes/img/05-colecoes-listas.png)
 
-- **ItemColecao** regista uma versão que o utilizador tem, com a data de registo. Os itens são criados por adição manual (US10) ou automaticamente depois de uma compra (US28). Neste último caso, o item fica ligado à **LinhaFatura** de origem (associação opcional `origem`), o que permite distinguir os álbuns comprados na loja dos adicionados à mão, por exemplo nas estatísticas (US29).
+- **ItemColecao** regista uma versão que o utilizador tem, com a data de registo. Os itens são criados por adição manual (US10) ou automaticamente depois de uma compra (US28). Neste último caso, o item fica ligado à **LinhaFatura** de origem (associação opcional `origem`), o que permite distinguir os álbuns comprados na loja dos adicionados à mão, por exemplo nas estatísticas (US29). Como cada versão só pode estar uma vez na coleção (RI-41), a compra só cria itens para as versões que o utilizador ainda não tem, e uma versão comprada em várias unidades dá um só item (RI-52).
 - **ListaPersonalizada** tem um nome e a data da última modificação. Cada **ItemLista** liga a lista a um **álbum**, e não a uma versão, com a data de adição, porque as listas organizam álbuns independentemente das versões (US15, US17).
 
 ## Pedidos
@@ -300,6 +301,8 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 | Notificacao com o atributo `lida` | Necessário para o contador de notificações por ler no dashboard (US14 a). |
 | PedidoNovaVersao com `dataResposta` | Regista quando o gestor respondeu ao pedido (US24). |
 | ItemColecao ligado à LinhaFatura de origem | Distingue os itens comprados na loja dos adicionados à mão (útil na US29). |
+| A compra não repete versões na coleção | A US28 d) adiciona as compras à coleção, mas a RI-41 não deixa a mesma versão aparecer duas vezes: só se criam itens para versões novas (RI-52). |
+| dataInicio opcional | Uma versão pode ter preço sem nunca ter tido unidades (US22 a, US25 b). |
 | `dataUltimaVenda` como data de fim de disponibilidade | É a data referida na RI-17; só existe quando a versão esgota. |
 
 ## Restrições de integridade
@@ -310,7 +313,7 @@ As restrições RI-01 a RI-30 do enunciado estão representadas nas notas das cl
 - **RI-10 e RI-11:** o ano de lançamento de um álbum é igual ou posterior ao ano de início de atividade do artista que o interpreta e de todos os artistas das canções das suas faixas.
 - **RI-14, RI-25 e RI-27:** as datas de disponibilidade, de adição à coleção e das faturas não podem ser anteriores ao ano de lançamento do álbum.
 
-Foram ainda identificadas 21 restrições novas, a partir do universo do discurso, das notas de rodapé e dos critérios de aceitação das user stories. O Anexo A associa todas as restrições às classes do modelo.
+Foram ainda identificadas 22 restrições novas, a partir do universo do discurso, das notas de rodapé e dos critérios de aceitação das user stories. O Anexo A associa todas as restrições às classes do modelo.
 
 **Tabela 11 — Restrições de integridade novas**
 
@@ -337,17 +340,18 @@ Foram ainda identificadas 21 restrições novas, a partir do universo do discurs
 | RI-49 | A data de resposta de um pedido existe se e só se o estado for "aceite" ou "recusado", e é igual ou posterior à data do pedido. | US24 c) e d) |
 | RI-50 | Uma notificação é criada como não lida. | US14 a) |
 | RI-51 | Um item da coleção com origem numa linha de fatura refere-se à mesma versão, pertence ao utilizador da fatura e tem como data de registo a data da fatura. | US28 d) |
+| RI-52 | Ao pagar o carrinho, só é criado um item na coleção para cada versão comprada que ainda não esteja na coleção do utilizador; várias unidades da mesma versão dão um só item. | US28 d), RI-41 |
 
 # Fluxos de trabalho
 
-Os diagramas de atividades mostram os passos dos fluxos de trabalho que a aplicação web tem de suportar e quem executa cada passo. Seguem a notação UML: cada diagrama começa num nó inicial (círculo preto) e termina num nó final (anel com ponto); as decisões e os pontos onde os fluxos se juntam (merge) são losangos vazios, com as condições nas guardas `[ ]` das setas; as barras pretas são fork e join, e marcam ações que correm em paralelo. Cada diagrama está dividido em raias (swimlanes), uma por ator: o utilizador, o gestor da loja, a aplicação web e os serviços externos.
+Os diagramas de atividades mostram os passos dos fluxos de trabalho que a aplicação web tem de suportar e quem executa cada passo. Seguem a notação UML: cada diagrama começa num nó inicial (círculo preto) e termina num nó final (anel com ponto); as decisões e os pontos onde os fluxos se juntam (merge) são losangos vazios, com as condições nas guardas `[ ]` das setas; as barras pretas são fork e join, e marcam ações que correm em paralelo; o símbolo ⋔ (ancinho) marca uma ação de chamada (call behavior action), decomposta num diagrama de subatividade. Cada diagrama está dividido em raias (swimlanes), uma por ator: o utilizador, o gestor da loja, a aplicação web e os serviços externos.
 
 Foram escolhidos os fluxos que envolvem vários atores ou várias user stories, porque são os mais difíceis de implementar. O fluxo de compra, o mais complexo, foi representado num diagrama de alto nível, com o pagamento decomposto num diagrama de subatividade.
 
 Não há um diagrama por user story nem um só diagrama para toda a aplicação: cada diagrama representa um **fluxo de trabalho completo**, do início ao fim, que pode juntar várias user stories (como o exemplo da compra numa loja, no enunciado). Os fluxos encadeiam-se **sem quebras**:
 
 - "Criar conta e iniciar sessão" (Figura 17) termina no dashboard, que é o ponto de partida dos fluxos do utilizador: "Comprar álbuns" (Figura 14) e "Pedido de nova versão de um álbum" (Figura 16).
-- "Pagar o carrinho" (Figura 15) é a decomposição da ação ⊕ "Pagar o carrinho" do fluxo de compra; termina com a fatura emitida, as versões na coleção e o stock atualizado, ou com o pagamento cancelado.
+- "Pagar o carrinho" (Figura 15) é a decomposição da ação "Pagar o carrinho ⋔" do fluxo de compra; termina com a fatura emitida, as versões na coleção e o stock atualizado, ou com o pagamento cancelado.
 - "Gerir o catálogo" (Figura 18) termina com a versão registada e com unidades à venda, que é o que torna possível a compra; e "Pedido de nova versão" junta o utilizador e o gestor no mesmo fluxo, até a nova versão poder ser adicionada à coleção.
 
 **Tabela 12 — Diagramas de atividades**
@@ -362,16 +366,16 @@ Não há um diagrama por user story nem um só diagrama para toda a aplicação:
 
 ## Comprar álbuns
 
-O utilizador pesquisa um álbum, abre a sua página, escolhe uma versão e, se estiver disponível na loja, coloca-a no carrinho. Pode repetir estes passos para vários álbuns e remover itens antes de pagar.
+O utilizador pesquisa um álbum, abre a sua página, escolhe uma versão e, se estiver disponível na loja, coloca-a no carrinho. Pode repetir estes passos para vários álbuns e remover itens antes de pagar. Se, ao pagar, alguma versão tiver esgotado entretanto, o utilizador volta ao carrinho já atualizado.
 
 ![Figura 14 — Comprar álbuns (alto nível)](../atividades/img/01-comprar.png)
 
 O pagamento (Figura 15) envolve o serviço externo escolhido pelo utilizador, Stripe ou PayPal:
 
-1. Antes de pagar, a aplicação verifica e **reserva as unidades** das versões do carrinho. Se entretanto outro utilizador tiver comprado a última unidade de alguma versão, essa versão é retirada do carrinho e o utilizador é avisado.
+1. Antes de pagar, a aplicação verifica e **reserva as unidades** das versões do carrinho. Se entretanto outro utilizador tiver comprado a última unidade de alguma versão, as unidades já reservadas são libertadas, essa versão é retirada do carrinho e o utilizador é avisado e volta ao carrinho.
 2. O utilizador escolhe o serviço; a aplicação calcula o total e inicia o pagamento. O utilizador introduz os dados de pagamento na página do serviço, pelo que a aplicação nunca trata os dados do cartão.
 3. A aplicação espera pelo resultado enviado pelo serviço (US28 c). Se o pagamento for recusado ou não houver resposta dentro do **tempo limite**, a reserva é libertada e o utilizador pode tentar com outro serviço ou cancelar o pagamento (US28 g); cancelar é uma ação do utilizador.
-4. Se o pagamento tiver sucesso, a aplicação emite a fatura com os dados de faturação e, **em paralelo** (fork/join), adiciona as versões à coleção do utilizador, ligadas às linhas da fatura, e confirma a saída das unidades reservadas. Se tiver sido vendida a última unidade de uma versão, atualiza a data de fim de disponibilidade, que é a data da última venda (US28 f, RI-17). No fim, esvazia o carrinho e mostra um resumo.
+4. Se o pagamento tiver sucesso, a aplicação emite a fatura com os dados de faturação e, **em paralelo** (fork/join), adiciona à coleção do utilizador as versões que ainda não estão lá, ligadas às linhas da fatura (RI-41, RI-52), e confirma a saída das unidades reservadas. Se tiver sido vendida a última unidade de uma versão, atualiza a data de fim de disponibilidade, que é a data da última venda (US28 f, RI-17). No fim, esvazia o carrinho e mostra um resumo.
 
 A fatura é emitida antes do fork porque os itens da coleção ficam ligados às linhas da fatura (RI-51); as duas ações seguintes são independentes.
 
@@ -398,7 +402,7 @@ No início de sessão, se as credenciais estiverem erradas, a mensagem de erro �
 
 ## Gerir o catálogo
 
-O gestor regista o artista, se ainda não existir (US20). Depois regista um álbum novo, com a primeira versão, ou acrescenta uma versão a um álbum existente (US22). Se a versão for registada com unidades, a aplicação preenche automaticamente a data de início de disponibilidade (US22 g).
+O gestor regista o artista, se ainda não existir (US20); um álbum de compilação não tem artista e segue diretamente para o registo do álbum (US22 e). Depois regista um álbum novo, com a primeira versão, ou acrescenta uma versão a um álbum existente (US22). Se a versão for registada com unidades, a aplicação preenche automaticamente a data de início de disponibilidade (US22 g).
 
 Mais tarde, na página do álbum, o gestor pode alterar as unidades de uma versão. Se for a primeira vez que essa versão é posta à venda, a aplicação pede o preço e regista a data de disponibilidade (US25 b).
 
@@ -412,7 +416,7 @@ Os esboços são de baixa fidelidade: mostram a estrutura, os dados e as ações
 
 ## Página de álbum
 
-É o ecrã mais complexo, porque junta cinco user stories. Mostra os dados do álbum, as faixas e uma tabela de versões. Para cada versão aparece o estado na loja: disponível, esgotada (com a data da última venda) ou "nunca esteve disponível". Os botões "Coleção" e "Carrinho" atuam sobre a versão, e o do carrinho só fica ativo se houver unidades. O gestor vê uma coluna adicional para alterar as unidades. O botão "Adicionar a uma lista" atua sobre o álbum, porque as listas guardam álbuns.
+É o ecrã mais complexo, porque junta cinco user stories. Mostra os dados do álbum, as faixas e uma tabela de versões. Para cada versão aparece o estado na loja: disponível, esgotada (com a data da última venda) ou "nunca esteve disponível". Os botões "Coleção" e "Carrinho" atuam sobre a versão, e o do carrinho só fica ativo se houver unidades. O gestor vê uma coluna adicional para alterar as unidades. O botão "Adicionar a uma lista" atua sobre o álbum, porque as listas guardam álbuns. Uma versão que já está na coleção mostra "✓ Na coleção", inativo (US10 c). A versão Vinil Azul é a que foi criada ao aceitar o pedido nº 12 do esboço de pedidos (US14 c).
 
 ![Figura 19 — Página de álbum](../esbocos/img/E01-pagina-album.png)
 
@@ -444,7 +448,7 @@ A coleção é uma tabela que se pode ordenar por qualquer coluna, com ligaçõe
 
 ## Ecrãs do gestor
 
-O formulário de registo alterna entre "novo álbum" e "nova versão de um álbum existente", e a data de disponibilidade é preenchida automaticamente quando há unidades. As estatísticas mostram as três tabelas pedidas na US29 e um mapa com as moradas dos cinco maiores colecionadores.
+O formulário de registo alterna entre "novo álbum" e "nova versão de um álbum existente", e a data de disponibilidade é preenchida automaticamente quando há unidades. A capa sugerida pelo Cover Art Archive aparece ao lado do campo, para o gestor a confirmar ou carregar outra, e há um botão para importar as faixas do MusicBrainz. As estatísticas mostram as três tabelas pedidas na US29 e um mapa com as moradas dos cinco maiores colecionadores.
 
 ![Figura 27 — Registar álbum ou versão](../esbocos/img/E08-gestor-registar-album.png)
 
@@ -460,17 +464,17 @@ Para cumprir a RNF-04, os dois ecrãs mais carregados foram também desenhados p
 
 # Pesquisa de serviços externos
 
-A aplicação precisa de serviços externos para mapas, geocodificação, pagamentos, imagens de capa e importação de faixas. Para cada necessidade foram comparadas alternativas, com preços e condições consultados a 27 de outubro de 2026 (mapas, geocodificação e pagamentos) e a 29 de outubro de 2026 (imagens de capa e importação de faixas).
+A aplicação precisa de serviços externos para mapas, geocodificação, pagamentos, imagens de capa e importação de faixas. Para cada necessidade foram comparadas alternativas, com preços e condições consultados a 27 de outubro de 2026 (mapas, geocodificação e pagamentos) e a 29 de outubro de 2026 (imagens de capa e importação de faixas; o Discogs foi consultado a 5 de novembro de 2026).
 
 **Tabela 13 — Resumo das escolhas**
 
 | Necessidade | User stories | Serviço escolhido | Alternativas comparadas |
 |---|---|---|---|
 | Mostrar mapas | US3, US29 | Leaflet + OpenStreetMap | Google Maps, Mapbox |
-| Converter moradas em coordenadas | US3, US29 | Nominatim | Google Geocoding, Mapbox Geocoding |
+| Converter moradas em coordenadas | US1, US4 (coordenadas usadas na US3 e US29) | Nominatim | Google Geocoding, Mapbox Geocoding |
 | Pagamentos online | US28 | Stripe e PayPal | Comparados entre si |
 | Imagens de capa | US9 a), US22 f) | Cloudinary, com sugestão do Cover Art Archive | MongoDB (documento ou GridFS) |
-| Importar faixas e canções | US9 b), nota 12 | API do MusicBrainz | Introdução manual |
+| Importar faixas e canções | US9 b), nota 12 | API do MusicBrainz | API do Discogs, introdução manual |
 
 ## Mapas
 
@@ -548,17 +552,17 @@ A documentação do Cover Art Archive não define a licença das imagens, cujos 
 
 Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as faixas de cada álbum. A nota 12 do enunciado sugere um script ou endpoint para as registar em bloco; é a suposição Q4 da Tabela 19.
 
-**Tabela 18 — API do MusicBrainz para importar faixas**
+**Tabela 18 — Comparação de fontes para importar faixas**
 
-| Critério | API do MusicBrainz | Introdução manual pelo gestor |
-|---|---|---|
-| Custo | Gratuito | Gratuito, mas exige trabalho do gestor e user stories extra |
-| Dados | Número e título das faixas, duração, artistas e ISRC das gravações | Os que o gestor escrever |
-| Ligação ao modelo | Usa o MBID que o modelo já guarda | — |
-| Licença | Dados centrais (artistas, releases, gravações, faixas, ISRCs) em CC0, sem restrições | — |
-| Limites | Cerca de 1 pedido por segundo por IP; User-Agent com nome da aplicação e contacto; acima do limite, resposta 503 | — |
+| Critério | API do MusicBrainz | API do Discogs | Introdução manual pelo gestor |
+|---|---|---|---|
+| Custo | Gratuito | Gratuito (com conta e token) | Gratuito, mas exige trabalho do gestor e user stories extra |
+| Dados | Número e título das faixas, duração, artistas e ISRC das gravações | Posição, título e duração das faixas (em texto, ex. "3:07"); sem ISRC por faixa | Os que o gestor escrever |
+| Ligação ao modelo | Usa o MBID que o modelo já guarda | Usa identificadores próprios do Discogs: seria preciso procurar o álbum por título | — |
+| Licença | Dados centrais (artistas, releases, gravações, faixas, ISRCs) em CC0, sem restrições | Parte dos dados em CC0 e parte com restrições dos termos de utilização | — |
+| Limites | Cerca de 1 pedido por segundo por IP; User-Agent com nome da aplicação e contacto; acima do limite, resposta 503 | 60 pedidos por minuto com autenticação, 25 sem | — |
 
-**Escolha: API do MusicBrainz, num script de importação.** Usa o MBID que o modelo já guarda, os dados necessários são CC0 e um álbum inteiro vem num só pedido (`/ws/2/release/{mbid}?inc=recordings+isrcs+artist-credits`), por isso o limite de 1 pedido por segundo não é um problema. Há dois pontos a tratar na implementação: no MusicBrainz as faixas pertencem a um *release* (uma edição concreta), pelo que o script tem de escolher uma edição do álbum; e nem todas as gravações têm ISRC, que no nosso modelo identifica a canção (RI-34). A duração vem em milissegundos e é convertida em segundos (RI-05).
+**Escolha: API do MusicBrainz, num endpoint de importação que o gestor aciona ao registar o álbum (botão "Importar faixas" no esboço do registo) e que também pode ser corrido em bloco por um script.** Em relação ao Discogs, o principal concorrente, tem três vantagens: usa o MBID que o modelo já guarda, enquanto o Discogs exigiria procurar cada álbum pelo título; fornece o ISRC, que no nosso modelo identifica a canção; e os dados necessários são todos CC0. Além disso, um álbum inteiro vem num só pedido (`/ws/2/release/{mbid}?inc=recordings+isrcs+artist-credits`), por isso o limite de 1 pedido por segundo não é um problema. Há dois pontos a tratar na implementação: no MusicBrainz as faixas pertencem a um *release* (uma edição concreta), pelo que a importação tem de escolher uma edição do álbum; e nem todas as gravações têm ISRC, que no nosso modelo identifica a canção (RI-34). A duração vem em milissegundos e é convertida em segundos (RI-05).
 
 # Suposições e questões em aberto
 
@@ -571,13 +575,29 @@ Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos
 | Q1 | O critério f) da US28 estava incompleto ("Caso tenha sido vendida a última unidade de algum álbum, deve"). | Regista-se a data de fim de disponibilidade dessa versão, igual à data da última venda (RI-17). **Confirmado** na versão de 4/nov do enunciado. |
 | Q2 | O estado de um pedido recusado chamava-se "recusado" nas US13 e US14 e "rejeitado" na US24. | Usa-se "recusado". **Confirmado** na versão de 4/nov do enunciado, que corrigiu a US24. |
 | Q3 | A US3 pede para mostrar a palavra-passe no perfil, mas a RNF-12 recomenda guardá-la cifrada. | A palavra-passe é guardada cifrada e mostrada mascarada. |
-| Q4 | Nenhuma user story obrigatória regista as canções e faixas, mas a US9 mostra-as. | As faixas são importadas em bloco por um script que usa a API do MusicBrainz (nota 12 do enunciado; ver Tabela 18). |
+| Q4 | Nenhuma user story obrigatória regista as canções e faixas, mas a US9 mostra-as. | As faixas são importadas da API do MusicBrainz por um endpoint, que o gestor aciona ao registar o álbum ou que um script corre em bloco (nota 12 do enunciado; ver Tabela 18). |
 | — | O enunciado não refere quantidades no carrinho nem nas faturas. | Cada linha corresponde a uma unidade de uma versão. |
 | — | O registo de membros de grupos é uma funcionalidade extra (nota 11). | O modelo suporta membros, mas são opcionais. |
+| — | A US28 d) adiciona os álbuns comprados à coleção, mas a US10 c) e a RI-41 não deixam a mesma versão aparecer duas vezes. | Se o utilizador já tiver a versão, ou comprar várias unidades dela, a coleção fica com um só item dessa versão (RI-52). |
+
+## Decisões da equipa para além do enunciado
+
+Alguns elementos do desenho não são pedidos pelo enunciado: são decisões da equipa para tornar a solução fazível e coerente. Estão aqui reunidos para se distinguirem dos requisitos do cliente e podem ser revistos com ele.
+
+**Tabela 20 — Decisões da equipa que vão além do enunciado**
+
+| Decisão | Onde aparece | Porquê |
+|---|---|---|
+| Reserva das unidades antes de pagar, com tempo limite | Figura 15, UC-16 | Evita vender a mesma última unidade a dois utilizadores que pagam ao mesmo tempo (RI-15). |
+| Notificações com estado "lida" e contador no sino | RI-50, Figura 16, esboços | A US14 a) só pede que a notificação seja acessível a partir da dashboard; o contador ajuda o utilizador a ver que há respostas novas. |
+| Cover Art Archive e Cloudinary para as capas | Capítulo 6, UC-18 | A US22 f) pede uma capa, mas não diz de onde vem nem onde se guarda. |
+| Importação de faixas do MusicBrainz | Capítulo 6, UC-18 | A US9 b) mostra faixas que nenhuma user story obrigatória regista (nota 12). |
+| A compra não repete versões na coleção | RI-52, Figura 15 | Concilia a US28 d) com a US10 c) e a RI-41. |
+| Pressupostos quantitativos | Tabela 3 | O enunciado não indica volumes nem tempos de resposta. |
 
 # Anexo A — Restrições de integridade por classe
 
-**Tabela 20 — Associação das restrições às classes do modelo**
+**Tabela 21 — Associação das restrições às classes do modelo**
 
 | Classe | Atributo ou associação | Restrições |
 |---|---|---|
@@ -594,7 +614,7 @@ Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos
 | VersaoAlbum | suporte | RI-12 |
 | VersaoAlbum | ean13 | RI-13, RI-36 |
 | VersaoAlbum | designacao | RI-39 |
-| DisponibilidadeLoja | dataInicio | RI-14, RI-47 |
+| DisponibilidadeLoja | dataInicio (opcional) | RI-14, RI-47 |
 | DisponibilidadeLoja | unidades | RI-15 |
 | DisponibilidadeLoja | preco | RI-16 |
 | DisponibilidadeLoja | dataUltimaVenda | RI-17 |
@@ -611,7 +631,7 @@ Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos
 | Utilizador | dataNascimento | RI-24 |
 | Utilizador | favorito | RI-40 |
 | ItemColecao | dataRegisto | RI-25, RI-26 |
-| ItemColecao | associação com VersaoAlbum | RI-41 |
+| ItemColecao | associação com VersaoAlbum | RI-41, RI-52 |
 | ItemColecao | associação origem com LinhaFatura | RI-51 |
 | ListaPersonalizada | nome | RI-29, RI-30 |
 | ItemLista | associação com Album | RI-42 |
@@ -627,7 +647,7 @@ O trabalho da Etapa 1 foi dividido por artefacto: cada elemento da equipa ficou 
 
 O esforço foi estimado com a **estimativa de três pontos**: para cada tarefa, a equipa indicou um valor otimista (O), um provável (M) e um pessimista (P), e o esforço esperado é E = (O + 4M + P) ÷ 6. O valor provável é o do plano inicial; o otimista e o pessimista são **estimativas da equipa**.
 
-**Tabela 21 — Estimativa de esforço da Etapa 1 (horas)**
+**Tabela 22 — Estimativa de esforço da Etapa 1 (horas)**
 
 | Tarefa | Responsável | Otimista (O) | Provável (M) | Pessimista (P) | Esperada E = (O + 4M + P) ÷ 6 |
 |---|---|---|---|---|---|
@@ -660,3 +680,4 @@ O esforço esperado total é de cerca de **86 h** (84,5 h no valor provável). O
 - MongoDB. Atlas pricing. https://www.mongodb.com/pricing
 - MusicBrainz. API e limites de utilização. https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting
 - MusicBrainz. Licença dos dados. https://musicbrainz.org/doc/About/Data_License
+- Discogs. API Documentation (autenticação, limites e licença dos dados). https://www.discogs.com/developers

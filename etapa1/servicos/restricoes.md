@@ -29,6 +29,7 @@ Cada restrição nova vem de uma frase do enunciado: do universo do discurso (se
 | **RI-49** | A data de resposta de um pedido existe se e só se o estado for "aceite" ou "recusado", e é igual ou posterior à data do pedido. | US24 c) e d) |
 | **RI-50** | Uma notificação é criada como não lida (`lida` = falso). | US14 a) |
 | **RI-51** | Um item da coleção com origem numa linha de fatura refere-se à mesma versão dessa linha, pertence ao utilizador da fatura e tem como data de registo a data da fatura. | US28 d) |
+| **RI-52** | Ao pagar o carrinho, só é criado um item na coleção para cada versão comprada que ainda não esteja na coleção do utilizador; várias unidades da mesma versão dão um só item. | US28 d), RI-41 |
 
 **Nota sobre a RI-44:** a US24 d) usava a palavra "rejeitado" e as US13 e US14 "recusado". A versão de 4/nov do enunciado corrigiu a US24: o estado é "recusado".
 
@@ -51,7 +52,7 @@ Associação de todas as restrições às classes do [diagrama de classes](../cl
 | **VersaoAlbum** | `suporte` | RI-12 |
 | | `ean13` | RI-13, RI-36 |
 | | `designacao` | RI-39 |
-| **DisponibilidadeLoja** | `dataInicio` | RI-14, RI-47 |
+| **DisponibilidadeLoja** | `dataInicio` (opcional) | RI-14, RI-47 |
 | | `unidades` | RI-15 |
 | | `preco` | RI-16 |
 | | `dataUltimaVenda` | RI-17 |
@@ -68,7 +69,7 @@ Associação de todas as restrições às classes do [diagrama de classes](../cl
 | | `dataNascimento` | RI-24 |
 | | associação `favorito` | RI-40 |
 | **ItemColecao** | `dataRegisto` | RI-25, RI-26 |
-| | associação com VersaoAlbum | RI-41 |
+| | associação com VersaoAlbum | RI-41, RI-52 |
 | | associação `origem` com LinhaFatura | RI-51 |
 | **ListaPersonalizada** | `nome` | RI-29, RI-30 |
 | **ItemLista** | associação com Album | RI-42 |
@@ -79,4 +80,4 @@ Associação de todas as restrições às classes do [diagrama de classes](../cl
 | | `dataResposta` | RI-49 |
 | **Notificacao** | `lida` | RI-50 |
 
-Todas as restrições, da RI-01 à RI-51, estão associadas a pelo menos uma classe.
+Todas as restrições, da RI-01 à RI-52, estão associadas a pelo menos uma classe.

@@ -106,7 +106,7 @@ s.addText([
 stat(s, 7.6, 1.8, "29", "user stories");
 stat(s, 10.3, 1.8, "21", "casos de uso");
 stat(s, 7.6, 4.0, "2", "atores humanos");
-stat(s, 10.3, 4.0, "5", "serviços externos");
+stat(s, 10.3, 4.0, "6", "serviços externos");
 s.addNotes("Reis: explica o problema em duas frases e a escolha da stack MEAN (a sugerida no enunciado). Os números à direita resumem a dimensão do projeto: 29 user stories agrupadas em 21 casos de uso.");
 
 // 2b Âmbito e modelo de processo
@@ -171,7 +171,7 @@ s = pres.addSlide({ masterName: "CONTEUDO", sectionTitle: "Restrições e servi�
 s.addText("Restrições de integridade", { placeholder: "title" });
 presenter(s, "Ze");
 stat(s, 0.6, 1.7, "30", "do enunciado");
-stat(s, 0.6, 3.6, "+21", "novas, cada uma com origem");
+stat(s, 0.6, 3.6, "+22", "novas, cada uma com origem");
 s.addTable([
   [{ text: "ID", options: { bold: true, fill: { color: "E4E4E7" } } }, { text: "Restrição nova", options: { bold: true, fill: { color: "E4E4E7" } } }, { text: "Origem", options: { bold: true, fill: { color: "E4E4E7" } } }],
   ["RI-31", "Um grupo só tem solistas como membros", "Universo do discurso"],
@@ -180,8 +180,8 @@ s.addTable([
   ["RI-44", "Estados do pedido: em análise, aceite, recusado", "US13 d), US24 b)"],
   ["RI-46", "Só vai para o carrinho o que tem stock", "US26 a)"],
 ], { x: 3.8, y: 1.7, w: 8.9, colW: [1.1, 5.0, 2.8], fontSize: 14, color: C.text1, border: { type: "solid", pt: 0.75, color: "D4D4D8" }, rowH: 0.55, valign: "middle", objectName: "tabela-restricoes" });
-s.addText("Todas as 51 restrições estão associadas a uma classe do modelo (Anexo A do relatório).", { x: 3.8, y: 5.4, w: 8.9, h: 0.5, fontSize: 14, italic: true, color: C.text2, isTextBox: true, margin: 0 });
-s.addNotes("Ze: as 30 restrições do enunciado estão nas notas dos diagramas. Encontrámos mais 21 lendo os critérios de aceitação das user stories — nenhuma foi inventada, cada uma tem a frase de origem. Exemplos na tabela.");
+s.addText("Todas as 52 restrições estão associadas a uma classe do modelo (Anexo A do relatório).", { x: 3.8, y: 5.4, w: 8.9, h: 0.5, fontSize: 14, italic: true, color: C.text2, isTextBox: true, margin: 0 });
+s.addNotes("Ze: as 30 restrições do enunciado estão nas notas dos diagramas. Encontrámos mais 22 lendo os critérios de aceitação das user stories — nenhuma foi inventada, cada uma tem a frase de origem. Exemplos na tabela.");
 
 // 7 Serviços externos
 s = pres.addSlide({ masterName: "CONTEUDO", sectionTitle: "Restrições e serviços" });
@@ -203,7 +203,7 @@ s.addText("Fluxo de compra: o pagamento", { placeholder: "title" });
 presenter(s, "Edson");
 fit(s, "atividades/img/01-1-pagar.png", 0.6, 1.4, 3.6, 5.55, "diagrama-pagar");
 steps(s, 4.8, 1.8, 7.9, [
-  "Reserva as unidades; se uma versão esgotou entretanto, sai do carrinho",
+  "Reserva as unidades; se uma versão esgotou entretanto, liberta as reservas e volta ao carrinho",
   "O utilizador escolhe Stripe ou PayPal e paga na página do serviço",
   "Espera pelo resultado (US28 c); sem resposta no tempo limite, liberta a reserva",
   "Sucesso: emite a fatura; coleção e stock atualizados em paralelo (fork/join)",

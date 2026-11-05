@@ -31,7 +31,7 @@ Convenções:
 
 | Entidade | Descrição | Atributos | RIs |
 |---|---|---|---|
-| **DisponibilidadeLoja** | Dados da versão na loja. Só existe se a versão alguma vez esteve à venda. | `dataInicio`, `unidades`, `preco`, `dataUltimaVenda` [0..1] (preenchida quando esgota; é a "data de fim de disponibilidade" da RI-17) | RI-14, RI-15, RI-16, RI-17, RI-47 |
+| **DisponibilidadeLoja** | Dados da versão na loja. Só existe se a versão alguma vez esteve à venda. | `dataInicio` [0..1] (só quando passa a ter unidades; US22 a permite registar com 0 unidades), `unidades`, `preco`, `dataUltimaVenda` [0..1] (preenchida quando esgota; é a "data de fim de disponibilidade" da RI-17) | RI-14, RI-15, RI-16, RI-17, RI-47 |
 | **ItemCarrinho** | Uma versão colocada no carrinho de compras de um utilizador. | `dataAdicao` (para ordenar, mais recente primeiro) | — |
 | **Fatura** | Documento emitido quando um pagamento tem sucesso. Guarda uma cópia dos dados do comprador nesse momento, que não muda se o utilizador alterar o perfil ou apagar a conta. | `numero` (identificador, formato AAAA + sequencial, ex.: 20270001), `data`, `nifFaturacao`, `nomeFaturacao`, `moradaFaturacao` (Morada) | RI-27, RI-28, RI-37, RI-48 |
 | **LinhaFatura** | Uma versão comprada numa fatura, com o preço praticado nesse momento. | `preco` | RI-16 |

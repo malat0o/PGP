@@ -85,17 +85,19 @@
     <table>
       <tr><th>EAN-13</th><th>Suporte</th><th>Designação</th><th>Na loja desde</th><th>Unidades</th><th>Preço</th><th>Ações</th><th class="gestor" style="border-style:dashed">Gestor <span class="n">4</span></th></tr>
       <tr><td>0093624849529</td><td>CD</td><td>—</td><td>12/03/2003</td><td>4</td><td>14,99 €</td><td><span class="btn">＋ Coleção</span> <span class="btn pri">🛒 Carrinho</span> <span class="n">2</span></td><td><span class="btn">−</span> 4 <span class="btn">＋</span></td></tr>
-      <tr><td>0093624849536</td><td>Vinil</td><td>Vermelho</td><td>01/05/2020</td><td>0 · <b>Esgotado</b><br><span class="muted">última venda 03/10/2026</span> <span class="n">3</span></td><td>29,99 €</td><td><span class="btn">＋ Coleção</span> <span class="btn off">🛒 Carrinho</span></td><td><span class="btn">−</span> 0 <span class="btn">＋</span></td></tr>
+      <tr><td>0093624849536</td><td>Vinil</td><td>Vermelho</td><td>01/05/2020</td><td>0 · <b>Esgotado</b><br><span class="muted">última venda 03/10/2026</span> <span class="n">3</span></td><td>29,99 €</td><td><span class="btn off">✓ Na coleção</span> <span class="btn off">🛒 Carrinho</span></td><td><span class="btn">−</span> 0 <span class="btn">＋</span></td></tr>
       <tr><td>0093624849543</td><td>Vinil</td><td>Preto</td><td colspan="3" class="muted">Esta versão nunca esteve disponível na loja.</td><td><span class="btn">＋ Coleção</span></td><td><span class="btn">Pôr à venda</span></td></tr>
+      <tr><td>0093624849550</td><td>Vinil</td><td>Azul <span class="n">6</span></td><td colspan="3" class="muted">Esta versão nunca esteve disponível na loja.</td><td><span class="btn">＋ Coleção</span></td><td><span class="btn">Pôr à venda</span></td></tr>
     </table>
     <div class="msg ok">✔ A versão Vinil (Vermelho) foi adicionada à sua coleção.</div>
   </div>
   <div class="notes"><b>Notas</b><ol>
-    <li><span class="n">1</span> A designação só aparece quando há mais do que uma versão no mesmo suporte (US9 c). Cada versão pode ser adicionada à coleção, uma só vez (US10, RI-41).</li>
+    <li><span class="n">1</span> A designação só aparece quando há mais do que uma versão no mesmo suporte (US9 c). Cada versão pode ser adicionada à coleção uma só vez: se já lá estiver, o botão passa a "✓ Na coleção" e fica inativo (US10 c, RI-41).</li>
     <li><span class="n">2</span> O botão do carrinho só fica ativo se a versão tiver unidades na loja (US26 a, RI-46). O ícone 🛒 no topo mostra o número de itens (US26 b).</li>
     <li><span class="n">3</span> Versão esgotada: mostra a data da última venda (US9 d). Versão que nunca esteve na loja: mensagem discreta (US9 e).</li>
     <li><span class="n">4</span> Coluna visível só para o gestor: aumentar ou diminuir unidades; "Pôr à venda" pede o preço na primeira vez (US25).</li>
     <li><span class="n">5</span> Adicionar o álbum (não a versão) a uma lista personalizada (US17).</li>
+    <li><span class="n">6</span> Versão Vinil Azul criada quando o gestor aceitou o pedido nº 12 (E07): passa a constar na lista de versões (US14 c, US24 c).</li>
   </ol></div>
 </div>
 
@@ -306,7 +308,8 @@
         <div class="field"><label>Título</label><div class="input">Meteora</div></div>
         <div class="row"><div class="col field"><label>Tipo</label><div class="input">LP ▾</div></div><div class="col field"><label>Ano de lançamento</label><div class="input">2003</div></div></div>
         <div class="field"><label>Artista</label><div class="input">Linkin Park ▾</div><div class="hint">☐ Álbum de compilação (vários artistas) <span class="n">2</span></div></div>
-        <div class="field"><label>Imagem de capa</label><span class="btn">Carregar imagem…</span></div>
+        <div class="field"><label>Imagem de capa <span class="n">4</span></label><div style="display:flex;gap:12px;align-items:center"><div class="img" style="width:84px;height:84px"><span style="font-size:11px">Capa</span></div><div><div class="hint" style="margin:0 0 6px">Sugestão do Cover Art Archive (pelo MBID)</div><span class="btn pri">Usar esta capa</span> <span class="btn">Carregar outra…</span></div></div></div>
+        <div class="field"><label>Faixas</label><span class="btn">⇩ Importar faixas do MusicBrainz</span> <span class="muted" style="font-size:12px">opcional, pelo MBID</span></div>
       </div>
       <div class="col">
         <h2 style="margin-top:0">Versão</h2>
@@ -322,6 +325,7 @@
     <li><span class="n">1</span> "Nova versão" mostra primeiro a escolha do álbum e depois só os campos da versão (US22 b). Para alterar (US23), o mesmo formulário aparece preenchido, com todas as versões do álbum.</li>
     <li><span class="n">2</span> Escolher um artista existente ou marcar como compilação (US22 e).</li>
     <li><span class="n">3</span> Se as unidades forem maiores que zero, a data é preenchida automaticamente (US22 g, RI-14). Os erros explicam o motivo (US22 i).</li>
+    <li><span class="n">4</span> Ao escrever o MBID, a aplicação pede a capa ao Cover Art Archive e mostra-a como sugestão; o gestor confirma ou carrega outra, que fica guardada no Cloudinary (US22 f). As faixas podem ser importadas do MusicBrainz pelo mesmo MBID (nota 12).</li>
   </ol></div>
 </div>
 

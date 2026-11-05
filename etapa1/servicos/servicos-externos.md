@@ -10,7 +10,7 @@ A aplicação precisa de três serviços externos:
 | Converter moradas em coordenadas (geocodificação) | US3, US29 | **Nominatim** | Google Geocoding, Mapbox Geocoding |
 | Pagamentos online | US28 (pagar o carrinho, escolhendo o serviço) | **Stripe** e **PayPal** (os dois) | — (comparados entre si) |
 | Imagens de capa | US9 a) (mostrar a capa), US22 f) (associar a capa) | **Cloudinary** (armazenamento), com o **Cover Art Archive** para sugerir a capa | MongoDB (documento ou GridFS) |
-| Importar faixas e canções em bloco | US9 b) (mostrar as faixas), nota 12 | **API do MusicBrainz** | Introdução manual pelo gestor |
+| Importar faixas e canções em bloco | US9 b) (mostrar as faixas), nota 12 | **API do MusicBrainz** | API do Discogs, introdução manual pelo gestor |
 
 ---
 
@@ -110,16 +110,17 @@ A página de cada álbum mostra a imagem de capa (US9 a), e o gestor associa uma
 
 Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as faixas de cada álbum. A nota 12 do enunciado sugere um script ou endpoint para registar as canções em bloco (suposição Q4 do relatório).
 
-| Critério | **API do MusicBrainz** ✅ | Introdução manual pelo gestor |
-|---|---|---|
-| Custo | Gratuito | Gratuito, mas exige trabalho do gestor e user stories extra |
-| Dados disponíveis | Faixas (número e título), duração, artistas e ISRC das gravações | Os que o gestor escrever |
-| Ligação ao nosso modelo | O MBID do álbum é o identificador do MusicBrainz (o enunciado usa o MBID) | — |
-| Licença | Os dados centrais (artistas, releases, gravações, faixas e ISRCs) são **CC0**, sem restrições; os dados complementares (tags, avaliações, anotações) são CC BY-NC-SA 3.0 e não são usados | — |
-| Limites de utilização | Cerca de 1 pedido por segundo por IP; o User-Agent tem de identificar a aplicação e um contacto (ex.: `DiscoLoja/1.0 ( email@exemplo.pt )`); acima do limite responde 503 | — |
-| Pedido usado | `GET /ws/2/release/{mbid}?inc=recordings+isrcs+artist-credits&fmt=json` | — |
+| Critério | **API do MusicBrainz** ✅ | API do Discogs | Introdução manual pelo gestor |
+|---|---|---|---|
+| Custo | Gratuito | Gratuito (com conta e token) | Gratuito, mas exige trabalho do gestor e user stories extra |
+| Dados disponíveis | Faixas (número e título), duração, artistas e ISRC das gravações | Posição, título e duração das faixas (em texto, ex. "3:07"); sem ISRC por faixa | Os que o gestor escrever |
+| Ligação ao nosso modelo | O MBID do álbum é o identificador do MusicBrainz (o enunciado usa o MBID) | Identificadores próprios do Discogs: seria preciso procurar o álbum por título | — |
+| Licença | Os dados centrais (artistas, releases, gravações, faixas e ISRCs) são **CC0**, sem restrições; os dados complementares (tags, avaliações, anotações) são CC BY-NC-SA 3.0 e não são usados | Parte dos dados em CC0 e parte com restrições dos termos de utilização | — |
+| Limites de utilização | Cerca de 1 pedido por segundo por IP; o User-Agent tem de identificar a aplicação e um contacto (ex.: `DiscoLoja/1.0 ( email@exemplo.pt )`); acima do limite responde 503 | 60 pedidos por minuto com autenticação, 25 sem | — |
+| Pedido usado | `GET /ws/2/release/{mbid}?inc=recordings+isrcs+artist-credits&fmt=json` | — | — |
 
-**Escolha: API do MusicBrainz, num script de importação.** Vantagens:
+**Escolha: API do MusicBrainz, num endpoint de importação que o gestor aciona ao registar o álbum (botão "Importar faixas" no esboço E08) e que também pode ser corrido em bloco por um script** (Discogs consultado a 5/nov/2026). Vantagens:
+- Em relação ao Discogs, o principal concorrente: usa o MBID (o Discogs exigiria procurar pelo título), fornece o ISRC e os dados necessários são todos CC0.
 - Usa o MBID que o modelo já guarda, por isso não é preciso procurar o álbum por título.
 - Os dados de que precisamos são CC0 e podem ser usados sem restrições.
 - Um álbum inteiro vem num só pedido, por isso o limite de 1 pedido por segundo não é problema para uma importação em bloco.
@@ -161,3 +162,4 @@ Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as fai
 - [MusicBrainz API — limites de utilização](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting)
 - [MusicBrainz — licença dos dados](https://musicbrainz.org/doc/About/Data_License)
 - [MusicBrainz — dados centrais e complementares](https://musicbrainz.org/doc/MusicBrainz_Database)
+- [Discogs — API Documentation (autenticação, limites e licença)](https://www.discogs.com/developers)

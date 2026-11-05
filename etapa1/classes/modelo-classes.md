@@ -99,7 +99,7 @@ Pedidos de novas versões e respetivas notificações.
 
 ## 8. Pontos para alinhar com a equipa
 
-**Restrições novas (RI-31 a RI-51).** Estão definidas, com a origem de cada uma, em [`etapa1/servicos/restricoes.md`](../servicos/restricoes.md), e já aparecem nas notas dos diagramas acima.
+**Restrições novas (RI-31 a RI-52).** Estão definidas, com a origem de cada uma, em [`etapa1/servicos/restricoes.md`](../servicos/restricoes.md), e já aparecem nas notas dos diagramas acima.
 
 **Com todos (suposições a confirmar):**
 - O carrinho e as faturas não têm quantidade: cada linha é uma unidade de uma versão, porque o enunciado não fala em quantidades.

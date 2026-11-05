@@ -11,6 +11,8 @@ COR = {"Utilizador": ("#dbeafe", "#1d4ed8"), "Gestor": ("#fee2e2", "#b91c1c"), "
 
 # Agrupamentos lógicos: (ficheiro, nome, [(UC, nome, atores humanos)], [(sistema, descrição, [UCs], y opcional)], extends, referências, nota)
 # Uma referência é um caso de uso de outro package, desenhado a tracejado.
+# Cada «extend» tem a condição; o caso de uso base mostra o ponto de extensão (PONTOS).
+PONTOS = {"UC-07": "favorito", "UC-09": "gerir stock"}
 PACKAGES = [
  ("01-conta", "Conta e perfil",
   [("UC-03", "Aceder ao dashboard", "U"), ("UC-04", "Visualizar perfil", "U"), ("UC-01", "Criar conta", "U"),
@@ -20,8 +22,9 @@ PACKAGES = [
  ("02-catalogo", "Catálogo de música",
   [("UC-06", "Pesquisar artistas e álbuns", "U"), ("UC-07", "Visualizar página de artista", "U"), ("UC-08", "Gerir artista favorito", "U"),
    ("UC-09", "Visualizar página de álbum", "UG"), ("UC-17", "Gerir artistas", "G"), ("UC-18", "Gerir álbuns e versões", "G")],
-  [("Cover Art Archive", "(sugestão da capa pelo MBID)", ["UC-18"], TOP + 20 + 4.0 * STEP), ("MusicBrainz", "(importação das faixas)", ["UC-18"], TOP + 20 + 6.2 * STEP)],
-  [("UC-08", "UC-07")], {}, "O utilizador consulta o catálogo; o gestor regista e altera artistas, álbuns e versões."),
+  [("Cover Art Archive", "(sugestão da capa pelo MBID)", ["UC-18"], TOP + 20 + 3.2 * STEP), ("Cloudinary", "(armazenamento das capas)", ["UC-18"], TOP + 20 + 4.6 * STEP),
+   ("MusicBrainz", "(importação das faixas)", ["UC-18"], TOP + 20 + 6.0 * STEP)],
+  [("UC-08", "UC-07", "[Favorito]")], {}, "O utilizador consulta o catálogo; o gestor regista e altera artistas, álbuns e versões."),
  ("03-colecao-listas", "Coleção e listas",
   [("UC-10", "Gerir coleção", "U"), ("UC-11", "Gerir listas personalizadas", "U"), ("UC-12", "Gerir conteúdo de uma lista", "U")],
   [], [], {}, None),
@@ -31,7 +34,7 @@ PACKAGES = [
  ("05-loja", "Loja",
   [("UC-15", "Gerir carrinho de compras", "U"), ("UC-16", "Pagar carrinho", "U"), ("UC-09", "Visualizar página de álbum", ""), ("UC-20", "Gerir stock", "G")],
   [("Serviço de Pagamentos", "(Stripe / PayPal)", ["UC-16"])],
-  [("UC-20", "UC-09")], {"UC-09": "Catálogo de música"}, "UC-09 pertence ao package Catálogo de música; aparece aqui por causa do «extend»."),
+  [("UC-20", "UC-09", "[gestor]")], {"UC-09": "Catálogo de música"}, "UC-09 pertence ao package Catálogo de música; aparece aqui por causa do «extend»."),
  ("06-estatisticas", "Estatísticas",
   [("UC-21", "Visualizar estatísticas", "G")],
   [("Serviço de Mapas", "(Leaflet + OpenStreetMap)", ["UC-21"])],
@@ -102,24 +105,33 @@ def diagrama_package(out, nome, ucs, sistemas, extends, refs, nota):
             cx, cy = pos[t]
             a(f'<line x1="{sx-125}" y1="{sy}" x2="{cx+RX}" y2="{cy}" stroke="#15803d" stroke-width="1.3"/>')
         sistema(a, sx, sy, nm, sub)
-    for f, t in extends:
+    for f, t, cond in extends:
         x1, y1 = pos[f]; x2, y2 = pos[t]
         if y1 > y2:
             a(f'<line x1="{x1+95}" y1="{y1-RY+2}" x2="{x2+95}" y2="{y2+RY-2}" stroke="#333" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#open)"/>')
         else:
             a(f'<line x1="{x1+95}" y1="{y1+RY-2}" x2="{x2+95}" y2="{y2-RY+2}" stroke="#333" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#open)"/>')
-        a(f'<text x="{x1+105}" y="{(y1+y2)/2+5}" font-size="12" fill="#333">«extend»</text>')
+        a(f'<text x="{x1+105}" y="{(y1+y2)/2+5}" font-size="12" fill="#333">«extend» {cond}</text>')
+    bases = {t for _, t, _ in extends}
     for k, nm, q in ucs:
         cx, cy = pos[k]
+        ponto = PONTOS.get(k) if k in bases else None
+        d = 8 if ponto else 0
         if k in refs:
-            a(f'<ellipse cx="{cx}" cy="{cy}" rx="{RX}" ry="{RY}" fill="#fff" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,4"/>')
-            a(f'<text x="{cx}" y="{cy-5}" text-anchor="middle" font-size="12" font-weight="bold" fill="#64748b">{k} (de {html.escape(refs[k])})</text>')
-            a(f'<text x="{cx}" y="{cy+13}" text-anchor="middle" font-size="14" fill="#475569">{html.escape(nm)}</text>')
-            continue
-        fundo, traco = COR["Ambos" if q == "UG" else ("Utilizador" if q == "U" else "Gestor")]
-        a(f'<ellipse cx="{cx}" cy="{cy}" rx="{RX}" ry="{RY}" fill="{fundo}" stroke="{traco}" stroke-width="1.5"/>')
-        a(f'<text x="{cx}" y="{cy-5}" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">{k}</text>')
-        a(f'<text x="{cx}" y="{cy+13}" text-anchor="middle" font-size="14" fill="#0f172a">{html.escape(nm)}</text>')
+            fundo, traco, cor_id, cor_nome = "#fff", "#64748b", "#64748b", "#475569"
+            a(f'<ellipse cx="{cx}" cy="{cy}" rx="{RX}" ry="{RY}" fill="{fundo}" stroke="{traco}" stroke-width="1.5" stroke-dasharray="5,4"/>')
+            rotulo = f"{k} (de {html.escape(refs[k])})"
+        else:
+            fundo, traco = COR["Ambos" if q == "UG" else ("Utilizador" if q == "U" else "Gestor")]
+            cor_id, cor_nome = "#334155", "#0f172a"
+            a(f'<ellipse cx="{cx}" cy="{cy}" rx="{RX}" ry="{RY}" fill="{fundo}" stroke="{traco}" stroke-width="1.5"/>')
+            rotulo = k
+        a(f'<text x="{cx}" y="{cy-5-d}" text-anchor="middle" font-size="12" font-weight="bold" fill="{cor_id}">{rotulo}</text>')
+        a(f'<text x="{cx}" y="{cy+13-d}" text-anchor="middle" font-size="14" fill="{cor_nome}">{html.escape(nm)}</text>')
+        if ponto and k not in refs:
+            a(f'<line x1="{cx-RX+22}" y1="{cy+10}" x2="{cx+RX-22}" y2="{cy+10}" stroke="{traco}" stroke-width="0.8"/>')
+        if ponto:
+            a(f'<text x="{cx}" y="{cy+22}" text-anchor="middle" font-size="10.5" font-style="italic" fill="{cor_nome if k in refs else "#334155"}">pontos de extensão: {ponto}</text>')
     for nomeator, ay in atores.items():
         ator(a, ax, ay, nomeator)
     if nota:
@@ -157,7 +169,7 @@ def diagrama_topo(out):
         for sis in sistemas:
             lig.setdefault((sis[0], sis[1]), []).append(nome)
     sx = PX + PW + 100 + 125
-    ordem = ["Serviço de Geocodificação", "Serviço de Mapas", "Cover Art Archive", "MusicBrainz", "Serviço de Pagamentos"]
+    ordem = ["Serviço de Geocodificação", "Serviço de Mapas", "Cover Art Archive", "Cloudinary", "MusicBrainz", "Serviço de Pagamentos"]
     for j, chave in enumerate(sorted(lig, key=lambda c: ordem.index(c[0]))):
         sy = PY + 10 + j*(n*PSTEP - 60)/(len(lig)-1)
         for nome in lig[chave]:

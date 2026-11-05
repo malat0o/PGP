@@ -10,12 +10,12 @@ Os diagramas seguem a notação UML de diagramas de atividades. A fonte de cada 
 - losango vazio = **decisão** (uma entrada, várias saídas com guardas `[condição]`) ou **merge** (várias entradas, uma saída)
 - barra preta = **fork** (as ações seguintes correm em paralelo) ou **join** (espera que todas terminem)
 - cada coluna é uma **raia** (swimlane) de um ator: Utilizador, Gestor, Aplicação web ou serviço externo
-- ação com ⊕ = subatividade, decomposta num diagrama próprio
+- ação com ⋔ (ancinho) = ação de chamada (call behavior action), decomposta num diagrama de subatividade
 
 | # | Diagrama | User stories |
 |---|---|---|
 | 1 | Comprar álbuns (alto nível) | US8, US9, US26, US27, US28 |
-| 1.1 | ⊕ Pagar o carrinho (subatividade) | US28 |
+| 1.1 | Pagar o carrinho ⋔ (subatividade) | US28 |
 | 2 | Pedido de nova versão de um álbum | US9, US10, US12, US13, US14, US24 |
 | 3 | Criar conta e iniciar sessão | US1, US2, US19 |
 | 4 | Gerir o catálogo (gestor) | US20, US22, US25 |
@@ -40,7 +40,8 @@ flowchart TB
     A9("Ver o carrinho")
     D3@{ shape: diam, label: " " }
     A10("Remover álbum do carrinho")
-    A11("⊕ Pagar o carrinho")
+    A11("Pagar o carrinho ⋔")
+    D4@{ shape: diam, label: " " }
     F1@{ shape: fr-circ }
   end
   subgraph W["Aplicação web"]
@@ -62,7 +63,9 @@ flowchart TB
   D2 -->|"[continuar a comprar]"| M0
   D2 -->|"[terminar]"| A9 --> M2 --> A12 --> D3
   D3 -->|"[remover um álbum]"| A10 --> M2
-  D3 -->|"[pagar]"| A11 --> F1
+  D3 -->|"[pagar]"| A11 --> D4
+  D4 -->|"[pago ou cancelado]"| F1
+  D4 -->|"[o carrinho mudou: versão esgotada]"| M2
 
   style I1 fill:#000,stroke:#000
   style F1 fill:#000,stroke:#000
@@ -72,7 +75,7 @@ flowchart TB
 
 ---
 
-## 1.1 ⊕ Pagar o carrinho (subatividade)
+## 1.1 Pagar o carrinho ⋔ (subatividade)
 
 Antes de pagar, a aplicação **reserva as unidades**, porque outro utilizador pode ter comprado a última unidade entretanto. O resultado chega do serviço externo; se não chegar no tempo limite, a reserva é libertada. Com o pagamento confirmado, a fatura é emitida e, em paralelo, a coleção é atualizada e o stock descontado.
 
@@ -93,14 +96,14 @@ flowchart TB
     M0@{ shape: diam, label: " " }
     P2("Verificar e reservar as unidades das versões do carrinho")
     D1@{ shape: diam, label: " " }
-    P3("Retirar do carrinho as versões esgotadas e avisar o utilizador")
+    P3("Libertar as unidades já reservadas, retirar do carrinho as versões esgotadas e avisar o utilizador")
     F1@{ shape: fr-circ }
     P5("Calcular o total e iniciar o pagamento no serviço")
     P9("Aguardar o resultado do serviço")
     D2@{ shape: diam, label: " " }
     P10("Emitir a fatura com os dados de faturação")
     FK@{ shape: fork }
-    P11("Adicionar as versões à coleção, ligadas às linhas da fatura")
+    P11("Adicionar à coleção as versões que ainda não estão lá, ligadas às linhas da fatura")
     P12("Confirmar a saída das unidades reservadas")
     JN@{ shape: fork }
     D3@{ shape: diam, label: " " }
@@ -145,7 +148,7 @@ flowchart TB
   style S fill:#dcfce7,stroke:#15803d
 ```
 
-**Restrições aplicadas:** RI-15 (unidades nunca negativas), RI-17 (data de fim de disponibilidade = data da última venda, US28 f), RI-27 e RI-28 (data e número da fatura), RI-46 (só versões com unidades), RI-48 (dados de faturação), RI-51 (itens da coleção ligados à linha da fatura).
+**Restrições aplicadas:** RI-15 (unidades nunca negativas), RI-17 (data de fim de disponibilidade = data da última venda, US28 f), RI-27 e RI-28 (data e número da fatura), RI-46 (só versões com unidades), RI-41 e RI-52 (cada versão uma só vez na coleção; a compra só cria itens para versões novas), RI-48 (dados de faturação), RI-51 (itens da coleção ligados à linha da fatura).
 
 **Nota sobre o paralelismo:** a fatura é emitida antes do fork porque os itens da coleção ficam ligados às linhas da fatura (RI-51); depois disso, atualizar a coleção e confirmar a saída do stock são independentes e correm em paralelo.
 
@@ -314,6 +317,7 @@ flowchart TB
   D2 -->|"[dados inválidos]"| K2 --> M0
   D2 -->|"[dados válidos]"| M1
   D1 -->|"[artista já registado]"| M1
+  D1 -->|"[álbum de compilação, sem artista]"| M1
   M1 --> D3
   D3 -->|"[álbum novo]"| K3 --> M2
   D3 -->|"[álbum já existe]"| K4 --> M2

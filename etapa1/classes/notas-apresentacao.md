@@ -10,7 +10,7 @@
    - A Faixa é uma classe própria, porque a mesma canção aparece em vários álbuns (exemplo do enunciado: "Last Resort").
    - O álbum separa-se das versões: o mesmo álbum pode existir em CD, em vinil e em várias edições.
 3. **Loja (Figura 3).** A disponibilidade é opcional e distingue "nunca esteve na loja", "disponível" e "esgotado". A linha da fatura guarda o preço pago.
-4. **Restrições.** As RI-01 a RI-30 estão nas notas de cada classe; as 21 novas (RI-31 a RI-51) vieram das user stories e de requisitos como a RNF-16. São 51 no total.
+4. **Restrições.** As RI-01 a RI-30 estão nas notas de cada classe; as 22 novas (RI-31 a RI-52) vieram das user stories e de requisitos como a RNF-16. São 52 no total.
 5. **Se houver tempo:** a fatura guarda uma cópia dos dados de faturação e sobrevive se a conta for apagada (Utilizador 0..1 do lado da fatura).
 
 ## Perguntas prováveis e respostas

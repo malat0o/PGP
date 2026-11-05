@@ -7,7 +7,7 @@ Com 21 casos de uso, um só diagrama não cabia numa página A4. Como indicou o 
 | Package | Casos de uso | Atores |
 |---|---|---|
 | Conta e perfil | UC-01 a UC-05 | Utilizador, Gestor (só UC-02), Serviço de Geocodificação, Serviço de Mapas |
-| Catálogo de música | UC-06 a UC-09, UC-17, UC-18 | Utilizador, Gestor, Cover Art Archive, MusicBrainz |
+| Catálogo de música | UC-06 a UC-09, UC-17, UC-18 | Utilizador, Gestor, Cover Art Archive, Cloudinary, MusicBrainz |
 | Coleção e listas | UC-10 a UC-12 | Utilizador |
 | Pedidos de nova versão | UC-13, UC-14, UC-19 | Utilizador, Gestor |
 | Loja | UC-15, UC-16, UC-20 | Utilizador, Gestor, Serviço de Pagamentos |
@@ -25,7 +25,8 @@ Cores nos diagramas dos packages: azul = só Utilizador; vermelho = só Gestor; 
 | **Serviço de Mapas** (Leaflet + OpenStreetMap) | Sistema externo | Mostra moradas num mapa. |
 | **Serviço de Pagamentos** (Stripe / PayPal) | Sistema externo | Processa o pagamento do carrinho. |
 | **Cover Art Archive** | Sistema externo | Sugere a capa do álbum a partir do MBID. |
-| **MusicBrainz** | Sistema externo | Fornece as faixas e canções para importação em bloco. |
+| **Cloudinary** | Sistema externo | Guarda a imagem de capa escolhida pelo gestor e entrega-a, com miniaturas, às páginas dos álbuns. |
+| **MusicBrainz** | Sistema externo | Fornece as faixas e canções de um álbum, importadas a pedido do gestor quando regista o álbum. |
 
 ## 2. Lista de casos de uso
 
@@ -39,7 +40,7 @@ Cores nos diagramas dos packages: azul = só Utilizador; vermelho = só Gestor; 
 | UC-06 | Pesquisar artistas e álbuns | Catálogo de música | Utilizador | US5, US8 |
 | UC-07 | Visualizar página de artista | Catálogo de música | Utilizador | US6 |
 | UC-08 | Gerir artista favorito (estende UC-07) | Catálogo de música | Utilizador | US7 |
-| UC-09 | Visualizar página de álbum | Catálogo de música | Utilizador, Gestor | US9, US25 a) |
+| UC-09 | Visualizar página de álbum | Catálogo de música | Utilizador, Gestor | US9 |
 | UC-10 | Gerir coleção (adicionar, ver, ordenar e remover versões) | Coleção e listas | Utilizador | US10, US11 |
 | UC-11 | Gerir listas personalizadas (criar, ver, ordenar e remover) | Coleção e listas | Utilizador | US15, US16 |
 | UC-12 | Gerir conteúdo de uma lista (adicionar, ver e remover álbuns) | Coleção e listas | Utilizador | US17, US18 |
@@ -48,7 +49,7 @@ Cores nos diagramas dos packages: azul = só Utilizador; vermelho = só Gestor; 
 | UC-15 | Gerir carrinho de compras (colocar, ver e remover) | Loja | Utilizador | US26, US27 |
 | UC-16 | Pagar carrinho | Loja | Utilizador, Serviço de Pagamentos | US28 |
 | UC-17 | Gerir artistas (registar e alterar) | Catálogo de música | Gestor | US20, US21 |
-| UC-18 | Gerir álbuns e versões (registar e alterar) | Catálogo de música | Gestor, Cover Art Archive, MusicBrainz | US22, US23 |
+| UC-18 | Gerir álbuns e versões (registar e alterar) | Catálogo de música | Gestor, Cover Art Archive, Cloudinary, MusicBrainz | US22, US23 |
 | UC-19 | Responder a pedido de nova versão | Pedidos de nova versão | Gestor | US24 |
 | UC-20 | Gerir stock («extend» UC-09) | Loja | Gestor | US25 |
 | UC-21 | Visualizar estatísticas | Estatísticas | Gestor, Serviço de Mapas | US29 |
@@ -78,6 +79,7 @@ Confirma que as 29 user stories estão cobertas.
 
 - **UC-08 «extend» UC-07:** adicionar ou remover um artista dos favoritos é uma opção dentro da página do artista (US7 a).
 - **UC-20 «extend» UC-09:** o gestor altera as unidades a partir da página do álbum (US25 a), por isso gerir o stock é uma extensão dessa página.
+- Como pede a notação UML, cada caso de uso base indica o seu **ponto de extensão** ("favorito" no UC-07 e "gerir stock" no UC-09) e cada «extend» tem a **condição** em que ocorre ([Favorito]: o utilizador carrega no botão; [gestor]: o ator é o gestor). A US25 conta só no UC-20, que é chamado a partir da página do álbum.
 
 ## 5. Cenários dos casos de uso
 
