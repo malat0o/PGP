@@ -130,16 +130,16 @@ s.addNotes("Reis: o enunciado não dá volumes nem tempos, por isso a equipa ass
 
 // 3 Casos de uso
 s = pres.addSlide({ masterName: "CONTEUDO", sectionTitle: "Casos de uso" });
-s.addText("Casos de uso: um diagrama por ator", { placeholder: "title" });
+s.addText("Casos de uso: 6 packages", { placeholder: "title" });
 presenter(s, "Reis");
-fit(s, "casos-uso/img/casos-uso-utilizador.png", 0.6, 1.4, 4.3, 5.5, "diagrama-utilizador");
-fit(s, "casos-uso/img/casos-uso-gestor.png", 5.2, 1.6, 4.4, 2.7, "diagrama-gestor");
+fit(s, "casos-uso/img/casos-uso-00-topo.png", 0.6, 1.4, 6.6, 5.5, "diagrama-topo-casos-uso");
+fit(s, "casos-uso/img/casos-uso-05-loja.png", 7.5, 1.4, 5.2, 2.6, "diagrama-loja");
 s.addText([
-  { text: "Um só diagrama com 21 casos de uso tinha linhas cruzadas por todo o lado: dividimos por ator.", options: { bullet: true, breakLine: true } },
-  { text: "Serviços externos ligados aos casos de uso que os usam: mapas, geocodificação e pagamentos.", options: { bullet: true, breakLine: true } },
+  { text: "21 casos de uso não cabem numa A4: um package por agrupamento lógico.", options: { bullet: true, breakLine: true } },
+  { text: "Diagrama de topo com os packages e os atores de cada um; depois um diagrama por package.", options: { bullet: true, breakLine: true } },
   { text: "As 29 user stories estão todas cobertas (matriz US↔UC).", options: { bullet: true } },
-], { x: 5.2, y: 4.6, w: 7.5, h: 2.2, fontSize: 15, color: C.text1, paraSpaceAfter: 8, valign: "top", isTextBox: true, margin: 0 });
-s.addNotes("Reis: o utilizador tem 16 casos de uso, o gestor 7; 'Iniciar sessão' e 'Visualizar página de álbum' são comuns. User stories sobre os mesmos dados foram agrupadas (ex.: Gerir coleção = US10 + US11). Duas relações «extend»: Gerir artista favorito estende Visualizar página de artista, e Gerir stock estende Visualizar página de álbum (o gestor altera o stock a partir dessa página, US25 a).");
+], { x: 7.5, y: 4.3, w: 5.2, h: 2.6, fontSize: 14, color: C.text1, paraSpaceAfter: 8, valign: "top", isTextBox: true, margin: 0 });
+s.addNotes("Reis: como indicou o professor, há um diagrama de topo com seis packages (conta e perfil, catálogo de música, coleção e listas, pedidos de nova versão, loja e estatísticas) e os atores de cada um, e depois um diagrama por package. Exemplo à direita: a Loja. O UC-09 aparece a tracejado porque pertence ao Catálogo, mas o Gerir stock estende-o (o gestor altera o stock a partir da página do álbum, US25 a). User stories sobre os mesmos dados e do mesmo ator foram agrupadas (ex.: Gerir coleção = US10 + US11). A outra relação «extend»: Gerir artista favorito estende Visualizar página de artista.");
 
 // 4 Modelo: visão geral
 sec("Modelo de dados");

@@ -1,8 +1,19 @@
 # Casos de uso
 
-**Responsável:** Reis · Diagramas em [`img/`](img): [Utilizador](img/casos-uso-utilizador.png) e [Gestor](img/casos-uso-gestor.png)
+**Responsável:** Reis · Diagramas em [`img/`](img): [topo](img/casos-uso-00-topo.png), [Conta e perfil](img/casos-uso-01-conta.png), [Catálogo de música](img/casos-uso-02-catalogo.png), [Coleção e listas](img/casos-uso-03-colecao-listas.png), [Pedidos de nova versão](img/casos-uso-04-pedidos.png), [Loja](img/casos-uso-05-loja.png) e [Estatísticas](img/casos-uso-06-estatisticas.png)
 
-Com 21 casos de uso, um só diagrama ficava com linhas cruzadas e difícil de ler. Por isso há um diagrama por ator humano. O UC-02 (Iniciar sessão) e o UC-09 (Visualizar página de álbum) aparecem nos dois porque são partilhados.
+Com 21 casos de uso, um só diagrama não cabia numa página A4. Como indicou o professor, os casos de uso estão organizados em **packages**, um por agrupamento lógico: há um **diagrama de topo** com os packages e os atores envolvidos em cada um, e um diagrama por package com os seus casos de uso.
+
+| Package | Casos de uso | Atores |
+|---|---|---|
+| Conta e perfil | UC-01 a UC-05 | Utilizador, Gestor (só UC-02), Serviço de Geocodificação, Serviço de Mapas |
+| Catálogo de música | UC-06 a UC-09, UC-17, UC-18 | Utilizador, Gestor, Cover Art Archive, MusicBrainz |
+| Coleção e listas | UC-10 a UC-12 | Utilizador |
+| Pedidos de nova versão | UC-13, UC-14, UC-19 | Utilizador, Gestor |
+| Loja | UC-15, UC-16, UC-20 | Utilizador, Gestor, Serviço de Pagamentos |
+| Estatísticas | UC-21 | Gestor, Serviço de Mapas |
+
+Cores nos diagramas dos packages: azul = só Utilizador; vermelho = só Gestor; roxo = os dois atores. Um caso de uso de outro package aparece a tracejado (o UC-09 no package Loja, por causa do «extend» do UC-20).
 
 ## 1. Atores
 
@@ -18,29 +29,29 @@ Com 21 casos de uso, um só diagrama ficava com linhas cruzadas e difícil de le
 
 ## 2. Lista de casos de uso
 
-| ID | Caso de uso | Atores | User stories |
-|---|---|---|---|
-| UC-01 | Criar conta | Utilizador, Serviço de Geocodificação | US1 |
-| UC-02 | Iniciar sessão | Utilizador, Gestor | US2 |
-| UC-03 | Aceder ao dashboard | Utilizador | US19 |
-| UC-04 | Visualizar perfil | Utilizador, Serviço de Mapas | US3 |
-| UC-05 | Gerir perfil | Utilizador, Serviço de Geocodificação | US4 |
-| UC-06 | Pesquisar artistas e álbuns | Utilizador | US5, US8 |
-| UC-07 | Visualizar página de artista | Utilizador | US6 |
-| UC-08 | Gerir artista favorito (estende UC-07) | Utilizador | US7 |
-| UC-09 | Visualizar página de álbum | Utilizador, Gestor | US9, US25 a) |
-| UC-10 | Gerir coleção (adicionar, ver, ordenar e remover versões) | Utilizador | US10, US11 |
-| UC-11 | Gerir listas personalizadas (criar, ver, ordenar e remover) | Utilizador | US15, US16 |
-| UC-12 | Gerir conteúdo de uma lista (adicionar, ver e remover álbuns) | Utilizador | US17, US18 |
-| UC-13 | Submeter pedido de nova versão | Utilizador | US12 |
-| UC-14 | Consultar pedidos e notificações | Utilizador | US13, US14 |
-| UC-15 | Gerir carrinho de compras (colocar, ver e remover) | Utilizador | US26, US27 |
-| UC-16 | Pagar carrinho | Utilizador, Serviço de Pagamentos | US28 |
-| UC-17 | Gerir artistas (registar e alterar) | Gestor | US20, US21 |
-| UC-18 | Gerir álbuns e versões (registar e alterar) | Gestor, Cover Art Archive, MusicBrainz | US22, US23 |
-| UC-19 | Responder a pedido de nova versão | Gestor | US24 |
-| UC-20 | Gerir stock («extend» UC-09) | Gestor | US25 |
-| UC-21 | Visualizar estatísticas | Gestor, Serviço de Mapas | US29 |
+| ID | Caso de uso | Package | Atores | User stories |
+|---|---|---|---|---|
+| UC-01 | Criar conta | Conta e perfil | Utilizador, Serviço de Geocodificação | US1 |
+| UC-02 | Iniciar sessão | Conta e perfil | Utilizador, Gestor | US2 |
+| UC-03 | Aceder ao dashboard | Conta e perfil | Utilizador | US19 |
+| UC-04 | Visualizar perfil | Conta e perfil | Utilizador, Serviço de Mapas | US3 |
+| UC-05 | Gerir perfil | Conta e perfil | Utilizador, Serviço de Geocodificação | US4 |
+| UC-06 | Pesquisar artistas e álbuns | Catálogo de música | Utilizador | US5, US8 |
+| UC-07 | Visualizar página de artista | Catálogo de música | Utilizador | US6 |
+| UC-08 | Gerir artista favorito (estende UC-07) | Catálogo de música | Utilizador | US7 |
+| UC-09 | Visualizar página de álbum | Catálogo de música | Utilizador, Gestor | US9, US25 a) |
+| UC-10 | Gerir coleção (adicionar, ver, ordenar e remover versões) | Coleção e listas | Utilizador | US10, US11 |
+| UC-11 | Gerir listas personalizadas (criar, ver, ordenar e remover) | Coleção e listas | Utilizador | US15, US16 |
+| UC-12 | Gerir conteúdo de uma lista (adicionar, ver e remover álbuns) | Coleção e listas | Utilizador | US17, US18 |
+| UC-13 | Submeter pedido de nova versão | Pedidos de nova versão | Utilizador | US12 |
+| UC-14 | Consultar pedidos e notificações | Pedidos de nova versão | Utilizador | US13, US14 |
+| UC-15 | Gerir carrinho de compras (colocar, ver e remover) | Loja | Utilizador | US26, US27 |
+| UC-16 | Pagar carrinho | Loja | Utilizador, Serviço de Pagamentos | US28 |
+| UC-17 | Gerir artistas (registar e alterar) | Catálogo de música | Gestor | US20, US21 |
+| UC-18 | Gerir álbuns e versões (registar e alterar) | Catálogo de música | Gestor, Cover Art Archive, MusicBrainz | US22, US23 |
+| UC-19 | Responder a pedido de nova versão | Pedidos de nova versão | Gestor | US24 |
+| UC-20 | Gerir stock («extend» UC-09) | Loja | Gestor | US25 |
+| UC-21 | Visualizar estatísticas | Estatísticas | Gestor, Serviço de Mapas | US29 |
 
 **Critério de agrupamento:** as user stories que atuam sobre os mesmos dados e pelo mesmo ator formam um só caso de uso (por exemplo, criar, ver e remover listas). Por isso alguns casos de uso correspondem a duas user stories e outros a uma só; a secção 5 conta os cenários de cada um.
 

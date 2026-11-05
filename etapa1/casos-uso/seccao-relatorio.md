@@ -19,11 +19,9 @@ Há também três **sistemas externos**, escolhidos na pesquisa de serviços:
 
 As 29 user stories foram agrupadas em 21 casos de uso. User stories que atuam sobre os mesmos dados ficaram num só caso de uso: por exemplo, "Gerir coleção" junta adicionar uma versão (US10) e ver, ordenar e remover a coleção (US11).
 
-Com 21 casos de uso, um só diagrama ficava com muitas linhas cruzadas. Por isso foram feitos dois diagramas, um por ator humano:
-- **Figura 1:** casos de uso do Utilizador (16 casos de uso).
-- **Figura 2:** casos de uso do Gestor (7 casos de uso).
-
-Os casos de uso "Iniciar sessão" (UC-02) e "Visualizar página de álbum" (UC-09) são comuns aos dois atores.
+Com 21 casos de uso, um só diagrama não cabia numa página A4. Por isso foram organizados em seis packages, um por agrupamento lógico:
+- **Figura 1:** diagrama de topo, com os packages e os atores envolvidos em cada um.
+- **Figuras 2 a 7:** um diagrama por package (Conta e perfil, Catálogo de música, Coleção e listas, Pedidos de nova versão, Loja e Estatísticas).
 
 Há duas relações entre casos de uso: **UC-08 «extend» UC-07**, porque gerir o artista favorito é uma opção dentro da página do artista (US7 a); e **UC-20 «extend» UC-09**, porque o gestor altera as unidades a partir da página do álbum (US25 a), por isso gerir o stock é uma extensão dessa página.
 

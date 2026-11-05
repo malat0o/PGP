@@ -118,49 +118,74 @@ Há dois atores humanos, como define o enunciado, e cinco sistemas externos, esc
 
 ## Diagramas de casos de uso
 
-As 29 user stories foram agrupadas em 21 casos de uso com um critério explícito: **as user stories que atuam sobre os mesmos dados e pelo mesmo ator formam um só caso de uso**. Por exemplo, "Gerir coleção" junta adicionar uma versão à coleção (US10) e ver, ordenar e remover álbuns da coleção (US11), porque ambas atuam sobre a coleção do utilizador. Por isso, alguns casos de uso correspondem a duas user stories e outros a uma só; para comparar o seu tamanho, a secção seguinte conta os cenários de cada um (Tabela 7).
+As 29 user stories foram agrupadas em 21 casos de uso com um critério explícito: **as user stories que atuam sobre os mesmos dados e pelo mesmo ator formam um só caso de uso**. Por exemplo, "Gerir coleção" junta adicionar uma versão à coleção (US10) e ver, ordenar e remover álbuns da coleção (US11), porque ambas atuam sobre a coleção do utilizador. Por isso, alguns casos de uso correspondem a duas user stories e outros a uma só; para comparar o seu tamanho, a secção seguinte conta os cenários de cada um (Tabela 8).
 
-Com 21 casos de uso, um só diagrama ficava com muitas linhas cruzadas e difícil de ler. Por isso foram feitos dois diagramas, um por ator humano. Os casos de uso "Iniciar sessão" (UC-02) e "Visualizar página de álbum" (UC-09) são comuns aos dois. Há duas relações entre casos de uso: **UC-08 «extend» UC-07**, porque gerir o artista favorito é uma opção dentro da página do artista (US7 a); e **UC-20 «extend» UC-09**, porque o gestor altera as unidades a partir da página do álbum (US25 a), por isso gerir o stock é uma extensão dessa página.
+Com 21 casos de uso, um só diagrama não cabia numa página A4 sem muitas linhas cruzadas. Por isso os casos de uso foram organizados em **seis packages**, um por agrupamento lógico de funcionalidades:
 
-![Figura 1 — Casos de uso do Utilizador](../casos-uso/img/casos-uso-utilizador.png)
+**Tabela 6 — Packages de casos de uso**
 
-![Figura 2 — Casos de uso do Gestor](../casos-uso/img/casos-uso-gestor.png)
+| Package | Casos de uso | Atores |
+|---|---|---|
+| Conta e perfil | UC-01 a UC-05 | Utilizador, Gestor (só UC-02), Serviço de Geocodificação, Serviço de Mapas |
+| Catálogo de música | UC-06 a UC-09, UC-17, UC-18 | Utilizador, Gestor, Cover Art Archive, MusicBrainz |
+| Coleção e listas | UC-10 a UC-12 | Utilizador |
+| Pedidos de nova versão | UC-13, UC-14, UC-19 | Utilizador, Gestor |
+| Loja | UC-15, UC-16, UC-20 | Utilizador, Gestor, Serviço de Pagamentos |
+| Estatísticas | UC-21 | Gestor, Serviço de Mapas |
+
+A Figura 1 é o **diagrama de topo**: mostra os seis packages e os atores envolvidos em cada um, humanos e sistemas externos. As Figuras 2 a 7 mostram os casos de uso de cada package. Nestes diagramas, os casos de uso só do utilizador estão a azul, os só do gestor a vermelho e os usados pelos dois atores a roxo.
+
+Há duas relações entre casos de uso: **UC-08 «extend» UC-07**, porque gerir o artista favorito é uma opção dentro da página do artista (US7 a); e **UC-20 «extend» UC-09**, porque o gestor altera as unidades a partir da página do álbum (US25 a), por isso gerir o stock é uma extensão dessa página. Como o UC-20 pertence ao package Loja e o UC-09 ao package Catálogo de música, o UC-09 aparece no diagrama da Loja a tracejado, como referência.
+
+![Figura 1 — Diagrama de casos de uso de topo, com os packages](../casos-uso/img/casos-uso-00-topo.png)
+
+![Figura 2 — Package Conta e perfil](../casos-uso/img/casos-uso-01-conta.png)
+
+![Figura 3 — Package Catálogo de música](../casos-uso/img/casos-uso-02-catalogo.png)
+
+![Figura 4 — Package Coleção e listas](../casos-uso/img/casos-uso-03-colecao-listas.png)
+
+![Figura 5 — Package Pedidos de nova versão](../casos-uso/img/casos-uso-04-pedidos.png)
+
+![Figura 6 — Package Loja](../casos-uso/img/casos-uso-05-loja.png)
+
+![Figura 7 — Package Estatísticas](../casos-uso/img/casos-uso-06-estatisticas.png)
 
 ## Lista de casos de uso
 
-**Tabela 6 — Casos de uso e user stories correspondentes**
+**Tabela 7 — Casos de uso e user stories correspondentes**
 
-| ID | Caso de uso | Atores | User stories |
-|---|---|---|---|
-| UC-01 | Criar conta | Utilizador, Serviço de Geocodificação | US1 |
-| UC-02 | Iniciar sessão | Utilizador, Gestor | US2 |
-| UC-03 | Aceder ao dashboard | Utilizador | US19 |
-| UC-04 | Visualizar perfil | Utilizador, Serviço de Mapas | US3 |
-| UC-05 | Gerir perfil | Utilizador, Serviço de Geocodificação | US4 |
-| UC-06 | Pesquisar artistas e álbuns | Utilizador | US5, US8 |
-| UC-07 | Visualizar página de artista | Utilizador | US6 |
-| UC-08 | Gerir artista favorito | Utilizador | US7 |
-| UC-09 | Visualizar página de álbum | Utilizador, Gestor | US9, US25 a) |
-| UC-10 | Gerir coleção | Utilizador | US10, US11 |
-| UC-11 | Gerir listas personalizadas | Utilizador | US15, US16 |
-| UC-12 | Gerir conteúdo de uma lista | Utilizador | US17, US18 |
-| UC-13 | Submeter pedido de nova versão | Utilizador | US12 |
-| UC-14 | Consultar pedidos e notificações | Utilizador | US13, US14 |
-| UC-15 | Gerir carrinho de compras | Utilizador | US26, US27 |
-| UC-16 | Pagar carrinho | Utilizador, Serviço de Pagamentos | US28 |
-| UC-17 | Gerir artistas | Gestor | US20, US21 |
-| UC-18 | Gerir álbuns e versões | Gestor, Cover Art Archive, MusicBrainz | US22, US23 |
-| UC-19 | Responder a pedido de nova versão | Gestor | US24 |
-| UC-20 | Gerir stock («extend» UC-09) | Gestor | US25 |
-| UC-21 | Visualizar estatísticas | Gestor, Serviço de Mapas | US29 |
+| ID | Caso de uso | Package | Atores | User stories |
+|---|---|---|---|---|
+| UC-01 | Criar conta | Conta e perfil | Utilizador, Serviço de Geocodificação | US1 |
+| UC-02 | Iniciar sessão | Conta e perfil | Utilizador, Gestor | US2 |
+| UC-03 | Aceder ao dashboard | Conta e perfil | Utilizador | US19 |
+| UC-04 | Visualizar perfil | Conta e perfil | Utilizador, Serviço de Mapas | US3 |
+| UC-05 | Gerir perfil | Conta e perfil | Utilizador, Serviço de Geocodificação | US4 |
+| UC-06 | Pesquisar artistas e álbuns | Catálogo de música | Utilizador | US5, US8 |
+| UC-07 | Visualizar página de artista | Catálogo de música | Utilizador | US6 |
+| UC-08 | Gerir artista favorito | Catálogo de música | Utilizador | US7 |
+| UC-09 | Visualizar página de álbum | Catálogo de música | Utilizador, Gestor | US9, US25 a) |
+| UC-10 | Gerir coleção | Coleção e listas | Utilizador | US10, US11 |
+| UC-11 | Gerir listas personalizadas | Coleção e listas | Utilizador | US15, US16 |
+| UC-12 | Gerir conteúdo de uma lista | Coleção e listas | Utilizador | US17, US18 |
+| UC-13 | Submeter pedido de nova versão | Pedidos de nova versão | Utilizador | US12 |
+| UC-14 | Consultar pedidos e notificações | Pedidos de nova versão | Utilizador | US13, US14 |
+| UC-15 | Gerir carrinho de compras | Loja | Utilizador | US26, US27 |
+| UC-16 | Pagar carrinho | Loja | Utilizador, Serviço de Pagamentos | US28 |
+| UC-17 | Gerir artistas | Catálogo de música | Gestor | US20, US21 |
+| UC-18 | Gerir álbuns e versões | Catálogo de música | Gestor, Cover Art Archive, MusicBrainz | US22, US23 |
+| UC-19 | Responder a pedido de nova versão | Pedidos de nova versão | Gestor | US24 |
+| UC-20 | Gerir stock («extend» UC-09) | Loja | Gestor | US25 |
+| UC-21 | Visualizar estatísticas | Estatísticas | Gestor, Serviço de Mapas | US29 |
 
 As 29 user stories do enunciado estão todas associadas a um caso de uso.
 
 ## Cenários dos casos de uso
 
-Como os casos de uso não estão todos no mesmo nível de abstração, o número de cenários é uma medida de tamanho mais justa do que o número de casos de uso. A Tabela 7 lista o cenário principal e os cenários alternativos de cada caso de uso, derivados dos critérios de aceitação das user stories.
+Como os casos de uso não estão todos no mesmo nível de abstração, o número de cenários é uma medida de tamanho mais justa do que o número de casos de uso. A Tabela 8 lista o cenário principal e os cenários alternativos de cada caso de uso, derivados dos critérios de aceitação das user stories.
 
-**Tabela 7 — Cenários dos casos de uso**
+**Tabela 8 — Cenários dos casos de uso**
 
 | Caso de uso | Cenário principal | Cenários alternativos | N.º de cenários |
 |---|---|---|---|
@@ -193,13 +218,13 @@ Esta lista vai servir de base à estimação de esforço na Etapa 2, tanto pelo 
 
 O modelo de dados define a informação que a aplicação web tem de guardar de forma persistente: as classes, os seus atributos, as associações entre elas e as restrições de integridade. Foi construído a partir do universo do discurso do enunciado, das restrições de integridade RI-01 a RI-30 e dos dados que as user stories precisam de mostrar ou alterar.
 
-Como o modelo completo não cabe numa página A4, foi dividido em cinco agrupamentos lógicos. A Figura 3 mostra a visão geral, só com classes e associações e os agrupamentos identificados por cores. As Figuras 4 a 8 mostram cada agrupamento com os atributos e as restrições de integridade.
+Como o modelo completo não cabe numa página A4, foi dividido em cinco agrupamentos lógicos. A Figura 8 mostra a visão geral, só com classes e associações e os agrupamentos identificados por cores. As Figuras 9 a 13 mostram cada agrupamento com os atributos e as restrições de integridade.
 
 ## Visão geral
 
-![Figura 3 — Diagrama de classes de topo](../classes/img/01-topo.png)
+![Figura 8 — Diagrama de classes de topo](../classes/img/01-topo.png)
 
-**Tabela 8 — Agrupamentos do modelo de dados**
+**Tabela 9 — Agrupamentos do modelo de dados**
 
 | Cor | Agrupamento | Classes |
 |---|---|---|
@@ -213,7 +238,7 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 
 ## Catálogo
 
-![Figura 4 — Catálogo](../classes/img/02-catalogo.png)
+![Figura 9 — Catálogo](../classes/img/02-catalogo.png)
 
 - **Artista** é uma classe abstrata com duas especializações, **Solista** e **Grupo**. Os membros de um grupo são representados pela associação `membros` entre Grupo e Solista; como esta associação só liga grupos a solistas, o próprio modelo garante que um grupo não pode ter outros grupos como membros, nem a si próprio.
 - **Album** é interpretado por no máximo um artista. Os álbuns de compilação não têm artista associado e a aplicação mostra um texto por omissão, como "Vários artistas".
@@ -222,7 +247,7 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 
 ## Loja e vendas
 
-![Figura 5 — Loja e vendas](../classes/img/03-loja-vendas.png)
+![Figura 10 — Loja e vendas](../classes/img/03-loja-vendas.png)
 
 - **DisponibilidadeLoja** guarda, para cada versão que alguma vez esteve à venda, a data em que ficou disponível, o número de unidades, o preço e, quando esgota, a data da última venda. Esta data da última venda é a "data de fim de disponibilidade" referida na RI-17: só é preenchida quando a versão esgota. Por ser opcional, distingue as três situações mostradas na página do álbum (US9): nunca esteve na loja, está disponível ou esgotou.
 - **ItemCarrinho** representa uma versão colocada no carrinho, com a data de adição, para mostrar os itens mais recentes primeiro (US27).
@@ -231,7 +256,7 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 
 ## Utilizadores
 
-![Figura 6 — Utilizadores](../classes/img/04-utilizadores.png)
+![Figura 11 — Utilizadores](../classes/img/04-utilizadores.png)
 
 - **Conta** é uma classe abstrata com os dados de acesso comuns: username, e-mail e palavra-passe. A palavra-passe é guardada cifrada, como recomenda a RNF-12.
 - **Utilizador** acrescenta os dados pessoais: NIF, nome, género, morada e data de nascimento. A **Morada** é um tipo de dados com o texto e as coordenadas geográficas, opcionais porque só existem quando o serviço de geocodificação consegue converter a morada (US3).
@@ -240,14 +265,14 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 
 ## Coleções e listas
 
-![Figura 7 — Coleções e listas](../classes/img/05-colecoes-listas.png)
+![Figura 12 — Coleções e listas](../classes/img/05-colecoes-listas.png)
 
 - **ItemColecao** regista uma versão que o utilizador tem, com a data de registo. Os itens são criados por adição manual (US10) ou automaticamente depois de uma compra (US28). Neste último caso, o item fica ligado à **LinhaFatura** de origem (associação opcional `origem`), o que permite distinguir os álbuns comprados na loja dos adicionados à mão, por exemplo nas estatísticas (US29).
 - **ListaPersonalizada** tem um nome e a data da última modificação. Cada **ItemLista** liga a lista a um **álbum**, e não a uma versão, com a data de adição, porque as listas organizam álbuns independentemente das versões (US15, US17).
 
 ## Pedidos
 
-![Figura 8 — Pedidos](../classes/img/06-pedidos.png)
+![Figura 13 — Pedidos](../classes/img/06-pedidos.png)
 
 - **PedidoNovaVersao** guarda o pedido de um utilizador para acrescentar uma versão a um álbum existente: identificador, data, estado, data de resposta e dados da versão pedida (EAN-13, suporte físico e designação). A data de resposta só é preenchida quando o gestor aceita ou recusa o pedido (RI-49).
 - O estado é "em análise" quando o pedido é criado e passa a "aceite" ou "recusado" quando o gestor responde (US24). Quando o pedido é aceite, é criada uma nova VersaoAlbum, que fica associada ao pedido.
@@ -255,7 +280,7 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 
 ## Principais decisões de modelação
 
-**Tabela 9 — Decisões de modelação**
+**Tabela 10 — Decisões de modelação**
 
 | Decisão | Justificação |
 |---|---|
@@ -279,7 +304,7 @@ A classe central do modelo é a **VersaoAlbum**: a versão concreta de um álbum
 
 ## Restrições de integridade
 
-As restrições RI-01 a RI-30 do enunciado estão representadas nas notas das classes a que se aplicam (Figuras 4 a 8). As que envolvem várias classes são:
+As restrições RI-01 a RI-30 do enunciado estão representadas nas notas das classes a que se aplicam (Figuras 9 a 13). As que envolvem várias classes são:
 
 - **RI-06:** se um álbum é interpretado por um artista, esse artista interpreta todas as canções das faixas do álbum.
 - **RI-10 e RI-11:** o ano de lançamento de um álbum é igual ou posterior ao ano de início de atividade do artista que o interpreta e de todos os artistas das canções das suas faixas.
@@ -287,7 +312,7 @@ As restrições RI-01 a RI-30 do enunciado estão representadas nas notas das cl
 
 Foram ainda identificadas 21 restrições novas, a partir do universo do discurso, das notas de rodapé e dos critérios de aceitação das user stories. O Anexo A associa todas as restrições às classes do modelo.
 
-**Tabela 10 — Restrições de integridade novas**
+**Tabela 11 — Restrições de integridade novas**
 
 | ID | Restrição | Origem |
 |---|---|---|
@@ -319,23 +344,29 @@ Os diagramas de atividades mostram os passos dos fluxos de trabalho que a aplica
 
 Foram escolhidos os fluxos que envolvem vários atores ou várias user stories, porque são os mais difíceis de implementar. O fluxo de compra, o mais complexo, foi representado num diagrama de alto nível, com o pagamento decomposto num diagrama de subatividade.
 
-**Tabela 11 — Diagramas de atividades**
+Não há um diagrama por user story nem um só diagrama para toda a aplicação: cada diagrama representa um **fluxo de trabalho completo**, do início ao fim, que pode juntar várias user stories (como o exemplo da compra numa loja, no enunciado). Os fluxos encadeiam-se **sem quebras**:
+
+- "Criar conta e iniciar sessão" (Figura 17) termina no dashboard, que é o ponto de partida dos fluxos do utilizador: "Comprar álbuns" (Figura 14) e "Pedido de nova versão de um álbum" (Figura 16).
+- "Pagar o carrinho" (Figura 15) é a decomposição da ação ⊕ "Pagar o carrinho" do fluxo de compra; termina com a fatura emitida, as versões na coleção e o stock atualizado, ou com o pagamento cancelado.
+- "Gerir o catálogo" (Figura 18) termina com a versão registada e com unidades à venda, que é o que torna possível a compra; e "Pedido de nova versão" junta o utilizador e o gestor no mesmo fluxo, até a nova versão poder ser adicionada à coleção.
+
+**Tabela 12 — Diagramas de atividades**
 
 | Figura | Fluxo | User stories |
 |---|---|---|
-| 9 | Comprar álbuns (alto nível) | US8, US9, US26, US27, US28 |
-| 10 | Pagar o carrinho (subatividade) | US28 |
-| 11 | Pedido de nova versão de um álbum | US9, US10, US12, US13, US14, US24 |
-| 12 | Criar conta e iniciar sessão | US1, US2, US19 |
-| 13 | Gerir o catálogo | US20, US22, US25 |
+| 14 | Comprar álbuns (alto nível) | US8, US9, US26, US27, US28 |
+| 15 | Pagar o carrinho (subatividade) | US28 |
+| 16 | Pedido de nova versão de um álbum | US9, US10, US12, US13, US14, US24 |
+| 17 | Criar conta e iniciar sessão | US1, US2, US19 |
+| 18 | Gerir o catálogo | US20, US22, US25 |
 
 ## Comprar álbuns
 
 O utilizador pesquisa um álbum, abre a sua página, escolhe uma versão e, se estiver disponível na loja, coloca-a no carrinho. Pode repetir estes passos para vários álbuns e remover itens antes de pagar.
 
-![Figura 9 — Comprar álbuns (alto nível)](../atividades/img/01-comprar.png)
+![Figura 14 — Comprar álbuns (alto nível)](../atividades/img/01-comprar.png)
 
-O pagamento (Figura 10) envolve o serviço externo escolhido pelo utilizador, Stripe ou PayPal:
+O pagamento (Figura 15) envolve o serviço externo escolhido pelo utilizador, Stripe ou PayPal:
 
 1. Antes de pagar, a aplicação verifica e **reserva as unidades** das versões do carrinho. Se entretanto outro utilizador tiver comprado a última unidade de alguma versão, essa versão é retirada do carrinho e o utilizador é avisado.
 2. O utilizador escolhe o serviço; a aplicação calcula o total e inicia o pagamento. O utilizador introduz os dados de pagamento na página do serviço, pelo que a aplicação nunca trata os dados do cartão.
@@ -344,7 +375,7 @@ O pagamento (Figura 10) envolve o serviço externo escolhido pelo utilizador, St
 
 A fatura é emitida antes do fork porque os itens da coleção ficam ligados às linhas da fatura (RI-51); as duas ações seguintes são independentes.
 
-![Figura 10 — Pagar o carrinho (subatividade)](../atividades/img/01-1-pagar.png)
+![Figura 15 — Pagar o carrinho (subatividade)](../atividades/img/01-1-pagar.png)
 
 ## Pedido de nova versão de um álbum
 
@@ -355,7 +386,7 @@ Este fluxo junta quatro user stories e três atores:
 3. Em ambos os casos é criada uma notificação, por ler, que o utilizador vê no dashboard (US14).
 4. Se o pedido foi aceite, a nova versão aparece na página do álbum e o utilizador pode adicioná-la à coleção (US9, US10).
 
-![Figura 11 — Pedido de nova versão de um álbum](../atividades/img/02-pedido-nova-versao.png)
+![Figura 16 — Pedido de nova versão de um álbum](../atividades/img/02-pedido-nova-versao.png)
 
 ## Criar conta e iniciar sessão
 
@@ -363,7 +394,7 @@ Na criação de conta, a aplicação mostra os requisitos do username e da palav
 
 No início de sessão, se as credenciais estiverem erradas, a mensagem de erro é genérica e não revela se o username existe (US2 b). Se estiverem certas, a aplicação mostra o dashboard.
 
-![Figura 12 — Criar conta e iniciar sessão](../atividades/img/03-conta-sessao.png)
+![Figura 17 — Criar conta e iniciar sessão](../atividades/img/03-conta-sessao.png)
 
 ## Gerir o catálogo
 
@@ -371,7 +402,7 @@ O gestor regista o artista, se ainda não existir (US20). Depois regista um álb
 
 Mais tarde, na página do álbum, o gestor pode alterar as unidades de uma versão. Se for a primeira vez que essa versão é posta à venda, a aplicação pede o preço e regista a data de disponibilidade (US25 b).
 
-![Figura 13 — Gerir o catálogo](../atividades/img/04-gerir-catalogo.png)
+![Figura 18 — Gerir o catálogo](../atividades/img/04-gerir-catalogo.png)
 
 # Esboços da interface
 
@@ -383,55 +414,55 @@ Os esboços são de baixa fidelidade: mostram a estrutura, os dados e as ações
 
 É o ecrã mais complexo, porque junta cinco user stories. Mostra os dados do álbum, as faixas e uma tabela de versões. Para cada versão aparece o estado na loja: disponível, esgotada (com a data da última venda) ou "nunca esteve disponível". Os botões "Coleção" e "Carrinho" atuam sobre a versão, e o do carrinho só fica ativo se houver unidades. O gestor vê uma coluna adicional para alterar as unidades. O botão "Adicionar a uma lista" atua sobre o álbum, porque as listas guardam álbuns.
 
-![Figura 14 — Página de álbum](../esbocos/img/E01-pagina-album.png)
+![Figura 19 — Página de álbum](../esbocos/img/E01-pagina-album.png)
 
 ## Carrinho e pagamento
 
 Os álbuns aparecem do mais recente para o mais antigo, com o total no fim. Ao pagar, o utilizador escolhe entre Stripe e PayPal e é redirecionado para a página segura do serviço. O esboço mostra também as mensagens de falha e de sucesso.
 
-![Figura 15 — Carrinho e pagamento](../esbocos/img/E02-carrinho-pagamento.png)
+![Figura 20 — Carrinho e pagamento](../esbocos/img/E02-carrinho-pagamento.png)
 
 ## Conta, perfil e pesquisa
 
 Na criação de conta, os requisitos do username e da palavra-passe estão sempre visíveis e os erros aparecem junto ao campo. O campo da morada não tem sugestões automáticas, por causa da política de utilização do Nominatim. No perfil, a palavra-passe aparece mascarada e o mapa só aparece se a morada tiver coordenadas. Na pesquisa, um único campo serve para álbuns e artistas, com sugestões à medida que se escreve.
 
-![Figura 16 — Criar conta](../esbocos/img/E03-criar-conta.png)
+![Figura 21 — Criar conta](../esbocos/img/E03-criar-conta.png)
 
-![Figura 17 — Perfil](../esbocos/img/E04-perfil.png)
+![Figura 22 — Perfil](../esbocos/img/E04-perfil.png)
 
-![Figura 18 — Pesquisa](../esbocos/img/E05-pesquisa.png)
+![Figura 23 — Pesquisa](../esbocos/img/E05-pesquisa.png)
 
 ## Coleção, pedidos e dashboard
 
 A coleção é uma tabela que se pode ordenar por qualquer coluna, com ligações para as páginas do álbum e do artista. A página de pedidos tem filtro por estado, um formulário para pedidos novos e o painel de notificações. O dashboard dá acesso a todas as funcionalidades do utilizador.
 
-![Figura 19 — Coleção](../esbocos/img/E06-colecao.png)
+![Figura 24 — Coleção](../esbocos/img/E06-colecao.png)
 
-![Figura 20 — Pedidos e notificações](../esbocos/img/E07-pedidos-notificacoes.png)
+![Figura 25 — Pedidos e notificações](../esbocos/img/E07-pedidos-notificacoes.png)
 
-![Figura 21 — Dashboard](../esbocos/img/E10-dashboard.png)
+![Figura 26 — Dashboard](../esbocos/img/E10-dashboard.png)
 
 ## Ecrãs do gestor
 
 O formulário de registo alterna entre "novo álbum" e "nova versão de um álbum existente", e a data de disponibilidade é preenchida automaticamente quando há unidades. As estatísticas mostram as três tabelas pedidas na US29 e um mapa com as moradas dos cinco maiores colecionadores.
 
-![Figura 22 — Registar álbum ou versão](../esbocos/img/E08-gestor-registar-album.png)
+![Figura 27 — Registar álbum ou versão](../esbocos/img/E08-gestor-registar-album.png)
 
-![Figura 23 — Estatísticas](../esbocos/img/E09-gestor-estatisticas.png)
+![Figura 28 — Estatísticas](../esbocos/img/E09-gestor-estatisticas.png)
 
 ## Adaptação a telemóvel
 
 Para cumprir a RNF-04, os dois ecrãs mais carregados foram também desenhados para telemóvel: as tabelas passam a cartões empilhados, as faixas ficam numa secção que se expande e o total do carrinho fica numa barra fixa no fundo do ecrã.
 
-![Figura 24 — Página de álbum no telemóvel](../esbocos/img/E11-telemovel-pagina-album.png)
+![Figura 29 — Página de álbum no telemóvel](../esbocos/img/E11-telemovel-pagina-album.png)
 
-![Figura 25 — Carrinho no telemóvel](../esbocos/img/E12-telemovel-carrinho.png)
+![Figura 30 — Carrinho no telemóvel](../esbocos/img/E12-telemovel-carrinho.png)
 
 # Pesquisa de serviços externos
 
 A aplicação precisa de serviços externos para mapas, geocodificação, pagamentos, imagens de capa e importação de faixas. Para cada necessidade foram comparadas alternativas, com preços e condições consultados a 27 de outubro de 2026 (mapas, geocodificação e pagamentos) e a 29 de outubro de 2026 (imagens de capa e importação de faixas).
 
-**Tabela 12 — Resumo das escolhas**
+**Tabela 13 — Resumo das escolhas**
 
 | Necessidade | User stories | Serviço escolhido | Alternativas comparadas |
 |---|---|---|---|
@@ -443,7 +474,7 @@ A aplicação precisa de serviços externos para mapas, geocodificação, pagame
 
 ## Mapas
 
-**Tabela 13 — Comparação de serviços de mapas**
+**Tabela 14 — Comparação de serviços de mapas**
 
 | Critério | Leaflet + OpenStreetMap | Google Maps | Mapbox |
 |---|---|---|---|
@@ -456,7 +487,7 @@ A aplicação precisa de serviços externos para mapas, geocodificação, pagame
 
 ## Geocodificação
 
-**Tabela 14 — Comparação de serviços de geocodificação**
+**Tabela 15 — Comparação de serviços de geocodificação**
 
 | Critério | Nominatim | Google Geocoding | Mapbox Geocoding |
 |---|---|---|---|
@@ -477,7 +508,7 @@ A política de utilização do Nominatim impõe alguns cuidados, que a equipa va
 
 A US28 pede que o utilizador possa escolher o serviço de pagamentos e, se o pagamento falhar, escolher outro. Por isso a aplicação integra dois serviços.
 
-**Tabela 15 — Comparação de serviços de pagamento**
+**Tabela 16 — Comparação de serviços de pagamento**
 
 | Critério | Stripe | PayPal |
 |---|---|---|
@@ -494,7 +525,7 @@ A US28 pede que o utilizador possa escolher o serviço de pagamentos e, se o pag
 
 A página de cada álbum mostra a imagem de capa (US9 a), e o gestor associa uma capa ao registar o álbum (US22 f). Foi preciso decidir onde guardar as imagens e de onde podem vir.
 
-**Tabela 16 — Comparação de soluções para as imagens de capa**
+**Tabela 17 — Comparação de soluções para as imagens de capa**
 
 | Critério | Cloudinary | MongoDB (documento ou GridFS) | Cover Art Archive (só ligar) |
 |---|---|---|---|
@@ -515,9 +546,9 @@ A documentação do Cover Art Archive não define a licença das imagens, cujos 
 
 ## Importação de faixas e canções
 
-Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as faixas de cada álbum. A nota 12 do enunciado sugere um script ou endpoint para as registar em bloco; é a suposição Q4 da Tabela 18.
+Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as faixas de cada álbum. A nota 12 do enunciado sugere um script ou endpoint para as registar em bloco; é a suposição Q4 da Tabela 19.
 
-**Tabela 17 — API do MusicBrainz para importar faixas**
+**Tabela 18 — API do MusicBrainz para importar faixas**
 
 | Critério | API do MusicBrainz | Introdução manual pelo gestor |
 |---|---|---|
@@ -533,20 +564,20 @@ Nenhuma user story obrigatória regista as canções, mas a US9 b) mostra as fai
 
 Durante o desenho foram encontrados pontos do enunciado ambíguos ou incompletos. Estas questões foram colocadas ao docente e, até haver resposta, a equipa seguiu as suposições indicadas.
 
-**Tabela 18 — Questões e suposições**
+**Tabela 19 — Questões e suposições**
 
 | # | Questão | Suposição adotada |
 |---|---|---|
 | Q1 | O critério f) da US28 está incompleto ("Caso tenha sido vendida a última unidade de algum álbum, deve"). | Regista-se a data da última venda dessa versão (RI-17). |
 | Q2 | O estado de um pedido recusado chama-se "recusado" nas US13 e US14 e "rejeitado" na US24. | Usa-se "recusado". |
 | Q3 | A US3 pede para mostrar a palavra-passe no perfil, mas a RNF-12 recomenda guardá-la cifrada. | A palavra-passe é guardada cifrada e mostrada mascarada. |
-| Q4 | Nenhuma user story obrigatória regista as canções e faixas, mas a US9 mostra-as. | As faixas são importadas em bloco por um script que usa a API do MusicBrainz (nota 12 do enunciado; ver Tabela 17). |
+| Q4 | Nenhuma user story obrigatória regista as canções e faixas, mas a US9 mostra-as. | As faixas são importadas em bloco por um script que usa a API do MusicBrainz (nota 12 do enunciado; ver Tabela 18). |
 | — | O enunciado não refere quantidades no carrinho nem nas faturas. | Cada linha corresponde a uma unidade de uma versão. |
 | — | O registo de membros de grupos é uma funcionalidade extra (nota 11). | O modelo suporta membros, mas são opcionais. |
 
 # Anexo A — Restrições de integridade por classe
 
-**Tabela 19 — Associação das restrições às classes do modelo**
+**Tabela 20 — Associação das restrições às classes do modelo**
 
 | Classe | Atributo ou associação | Restrições |
 |---|---|---|
@@ -596,7 +627,7 @@ O trabalho da Etapa 1 foi dividido por artefacto: cada elemento da equipa ficou 
 
 O esforço foi estimado com a **estimativa de três pontos**: para cada tarefa, a equipa indicou um valor otimista (O), um provável (M) e um pessimista (P), e o esforço esperado é E = (O + 4M + P) ÷ 6. O valor provável é o do plano inicial; o otimista e o pessimista são **estimativas da equipa**.
 
-**Tabela 20 — Estimativa de esforço da Etapa 1 (horas)**
+**Tabela 21 — Estimativa de esforço da Etapa 1 (horas)**
 
 | Tarefa | Responsável | Otimista (O) | Provável (M) | Pessimista (P) | Esperada E = (O + 4M + P) ÷ 6 |
 |---|---|---|---|---|---|

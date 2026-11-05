@@ -9,7 +9,7 @@ Cada pessoa apresenta a sua parte. O que dizer em cada slide está nas notas do 
 | 1 | **Título** | "Gestão de coleções de álbuns físicos": PGP 2026/27, grupo 12, nomes dos 5 | — | Reis |
 | 2 | **O problema** | Aplicação web para uma loja de música: colecionar, comprar e organizar álbuns físicos (CD, vinil, cassete). Dois atores: utilizador e gestor. Stack MEAN. | — | Reis |
 | 3 | **Âmbito e porquê Scrum** | Pressupostos quantitativos (estimativas da equipa) e restrições; critérios cliente, pessoas, produto e ambiente; comparação com a cascata | — | Reis |
-| 4 | **Casos de uso** | Visão geral das funcionalidades e dos serviços externos | `casos-uso/img/casos-uso-utilizador.png` e `casos-uso-gestor.png` | Reis |
+| 4 | **Casos de uso** | Diagrama de topo com 6 packages e os atores de cada um; exemplo de um package (Loja) | `casos-uso/img/casos-uso-00-topo.png` e `casos-uso-05-loja.png` | Reis |
 | 5 | **Modelo de dados: visão geral** | 19 classes em 5 agrupamentos; a VersaoAlbum é a classe central | `classes/img/01-topo.png` | Rodrigo |
 | 6 | **Modelo de dados: decisões** | Solista/Grupo, Faixa, Versão vs Álbum, disponibilidade opcional | `classes/img/02-catalogo.png` | Rodrigo |
 | 7 | **Restrições de integridade** | 30 do enunciado + 21 novas (RI-31 a RI-51), cada uma com origem | Tabela resumida de `servicos/restricoes.md` | Ze |
