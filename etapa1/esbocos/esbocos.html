@@ -51,6 +51,7 @@
       <div class="col">
         <h1>Meteora</h1>
         <div>Linkin Park · 2003 · LP</div>
+        <div class="muted">MBID 6f1b8c0f-31d6-4b4f-9a7e-1c2d3e4f5a6b</div>
         <div style="margin-top:10px"><span class="btn">+ Adicionar a uma lista</span> <span class="n">5</span></div>
         <h2>Faixas</h2>
         <div>1. Foreword · 0:13</div><div>2. Don't Stay · 3:07</div><div class="muted">…</div>
@@ -60,7 +61,7 @@
     <table>
       <tr><th>EAN-13</th><th>Suporte</th><th>Designação</th><th>Na loja</th><th>Preço</th><th>Ações</th><th>Gestor <span class="n">4</span></th></tr>
       <tr><td>0093624849529</td><td>CD</td><td>—</td><td>4 unid. · desde 12/03/2003</td><td>14,99 €</td><td><span class="btn">+ Coleção</span> <span class="btn pri">Carrinho</span> <span class="n">2</span></td><td><span class="btn">−</span> 4 <span class="btn">+</span></td></tr>
-      <tr><td>0093624849536</td><td>Vinil</td><td>Vermelho</td><td>Esgotado · última venda 03/10/2026 <span class="n">3</span></td><td>29,99 €</td><td><span class="btn off">✓ Na coleção</span> <span class="btn off">Carrinho</span></td><td><span class="btn">−</span> 0 <span class="btn">+</span></td></tr>
+      <tr><td>0093624849536</td><td>Vinil</td><td>Vermelho</td><td>Esgotado · desde 01/05/2020 · última venda 03/10/2026 <span class="n">3</span></td><td>29,99 €</td><td><span class="btn off">✓ Na coleção</span> <span class="btn off">Carrinho</span></td><td><span class="btn">−</span> 0 <span class="btn">+</span></td></tr>
       <tr><td>0093624849550</td><td>Vinil</td><td>Azul <span class="n">6</span></td><td class="muted">Nunca esteve disponível na loja</td><td></td><td><span class="btn">+ Coleção</span></td><td><span class="btn">Pôr à venda</span></td></tr>
     </table>
   </div>
@@ -128,7 +129,7 @@
         <div class="field"><div>Data de nascimento</div><div class="input">dd/mm/aaaa</div></div>
       </div>
       <div class="col">
-        <div class="msg"><b>Requisitos</b> <span class="n">1</span><br>Username: letras e dígitos.<br>Palavra-passe: 8+ carateres, maiúscula, minúscula e algarismo.<br>Idade mínima: 16 anos.</div>
+        <div class="msg"><b>Requisitos</b> <span class="n">1</span><br>Username: letras e dígitos.<br>Palavra-passe: 8+ carateres, maiúscula, minúscula e algarismo.</div>
       </div>
     </div>
     <span class="btn pri">Criar conta</span>
@@ -152,8 +153,11 @@
           <tr><td style="width:170px">Username</td><td>rodrigo2006</td></tr>
           <tr><td>E-mail</td><td>rodrigo@exemplo.pt</td></tr>
           <tr><td>Palavra-passe</td><td>•••••••• <span class="n">1</span></td></tr>
-          <tr><td>NIF · Nome · Género</td><td class="muted">…</td></tr>
+          <tr><td>NIF</td><td>123456789</td></tr>
+          <tr><td>Nome</td><td>Rodrigo Silva</td></tr>
+          <tr><td>Género</td><td>Masculino</td></tr>
           <tr><td>Morada</td><td>Rua do Exemplo 10, Lisboa</td></tr>
+          <tr><td>Data de nascimento</td><td>14/05/2006</td></tr>
           <tr><td>Artista favorito</td><td><u>Linkin Park</u> <span class="n">4</span></td></tr>
         </table>
       </div>
@@ -226,10 +230,10 @@
         <h1>Os meus pedidos</h1>
         <div style="margin-bottom:8px">Estado: <span class="btn">Todos ▾</span> <span class="n">2</span></div>
         <table>
-          <tr><th>ID</th><th>Álbum</th><th>EAN-13</th><th>Suporte</th><th>Designação</th><th>Estado</th></tr>
-          <tr><td>14</td><td>Infest</td><td>0602498614291</td><td>Cassete</td><td>—</td><td>em análise</td></tr>
-          <tr><td>12</td><td>Meteora</td><td>0093624849550</td><td>Vinil</td><td>Azul</td><td>aceite</td></tr>
-          <tr><td>9</td><td>Now 4</td><td>5099750812530</td><td>Vinil</td><td>—</td><td>recusado</td></tr>
+          <tr><th>ID</th><th>Álbum</th><th>EAN-13</th><th>Suporte</th><th>Designação</th><th>Data</th><th>Estado</th></tr>
+          <tr><td>14</td><td>Infest</td><td>0602498614291</td><td>Cassete</td><td>—</td><td>27/10/2026</td><td>em análise</td></tr>
+          <tr><td>12</td><td>Meteora</td><td>0093624849550</td><td>Vinil</td><td>Azul</td><td>20/10/2026</td><td>aceite</td></tr>
+          <tr><td>9</td><td>Now 4</td><td>5099750812530</td><td>Vinil</td><td>—</td><td>02/09/2026</td><td>recusado</td></tr>
         </table>
         <h2>Novo pedido <span class="n">1</span></h2>
         <div class="row" style="gap:10px">
@@ -238,8 +242,8 @@
       </div>
       <div class="col">
         <h2 style="margin-top:4px">Notificações <span class="n">3</span></h2>
-        <div class="card"><b>Pedido nº 12 aceite</b><br>Meteora · Vinil · Azul<br><span class="btn" style="margin-top:6px">Ver álbum</span></div>
-        <div class="card"><b>Pedido nº 9 recusado</b><br>Now 4 · Vinil</div>
+        <div class="card"><b>Pedido nº 12 aceite</b><br>Meteora · 0093624849550 · Vinil · Azul</div>
+        <div class="card"><b>Pedido nº 9 recusado</b><br>Now 4 · 5099750812530 · Vinil</div>
       </div>
     </div>
   </div>
@@ -324,10 +328,10 @@
   <div class="page">
     <h1>Olá, Rodrigo <span class="n">1</span></h1>
     <div class="row" style="margin-bottom:14px"><div class="tile">Pesquisar</div><div class="tile">Coleção</div><div class="tile">Listas</div></div>
-    <div class="row"><div class="tile">Pedidos</div><div class="tile">Notificações (1) <span class="n">2</span></div><div class="tile">Carrinho</div></div>
+    <div class="row"><div class="tile">Pedidos</div><div class="tile">Notificações (1) <span class="n">2</span></div></div>
   </div>
   <div class="notes">
-    <div><span class="n">1</span> Aparece depois de iniciar sessão (US2 c); dá acesso a todas as funcionalidades (US19 a).</div>
+    <div><span class="n">1</span> Aparece depois de iniciar sessão (US2 c); dá acesso à pesquisa, coleção, listas e pedidos (US19 a).</div>
     <div><span class="n">2</span> Notificações dos pedidos respondidos (US14 a).</div>
   </div>
 </div>

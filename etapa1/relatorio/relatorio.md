@@ -438,7 +438,7 @@ Na criação de conta, os requisitos do username e da palavra-passe estão sempr
 
 ## Coleção, pedidos e dashboard
 
-A coleção é uma tabela que se pode ordenar por qualquer coluna, com ligações para as páginas do álbum e do artista. A página de pedidos tem filtro por estado, um formulário para pedidos novos e o painel de notificações. O dashboard dá acesso a todas as funcionalidades do utilizador.
+A coleção é uma tabela que se pode ordenar por qualquer coluna, com ligações para as páginas do álbum e do artista. A página de pedidos tem filtro por estado, um formulário para pedidos novos e o painel de notificações. O dashboard dá acesso à pesquisa, à coleção, às listas, aos pedidos e às notificações (US19 a, US14 a).
 
 ![Figura 24 — Coleção](../esbocos/img/E06-colecao.png)
 
