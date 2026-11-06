@@ -234,7 +234,7 @@ s.addText([
   { text: "Uma linha por versão, com o estado na loja: disponível, esgotada ou nunca vendida", options: { bullet: true, breakLine: true } },
   { text: "Carrinho só ativo com stock", options: { bullet: true, breakLine: true } },
   { text: "Coluna extra só para o gestor alterar unidades", options: { bullet: true, breakLine: true } },
-  { text: "Notas amarelas ligam cada elemento à sua user story", options: { bullet: true } },
+  { text: "Notas numeradas ligam cada elemento à sua user story", options: { bullet: true } },
 ], { x: 9.1, y: 1.7, w: 3.6, h: 5.0, fontSize: 15, color: C.text1, paraSpaceAfter: 12, valign: "top", isTextBox: true, margin: 0 });
 s.addNotes("Miguel: fizemos 12 esboços de baixa fidelidade; este é o mais complexo. Os botões 'Coleção' e 'Carrinho' atuam sobre a versão; 'Adicionar a uma lista' atua sobre o álbum.");
 

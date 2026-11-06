@@ -412,7 +412,7 @@ Mais tarde, na página do álbum, o gestor pode alterar as unidades de uma vers�
 
 Os esboços mostram como o utilizador e o gestor interagem com a aplicação, e ajudam a perceber a complexidade das user stories antes de as implementar. Como pede o enunciado, o foco está nas funcionalidades mais complexas: as que juntam várias user stories no mesmo ecrã ou envolvem serviços externos.
 
-Os esboços são de baixa fidelidade: mostram a estrutura, os dados e as ações de cada ecrã, mas não o aspeto gráfico final. Cada esboço tem notas numeradas, a amarelo, que indicam a user story ou a restrição que justifica cada elemento.
+Os esboços são de baixa fidelidade: mostram a estrutura, os dados e as ações de cada ecrã, mas não o aspeto gráfico final. São desenhados só a preto e branco, sem cores nem ícones, para que a atenção fique no conteúdo de cada ecrã. Cada esboço tem notas numeradas que indicam a user story ou a restrição que justifica cada elemento.
 
 ## Página de álbum
 
