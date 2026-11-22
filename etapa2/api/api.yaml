@@ -1,0 +1,1497 @@
+openapi: 3.0.3
+info:
+  title: API da aplicação de gestão de coleções de álbuns
+  version: 0.1.0
+  description: |
+    Descrição preliminar da API REST (Etapa 2 de PGP 2026/27, grupo 12).
+
+    - Os nomes dos recursos e atributos seguem o glossário da Etapa 1 (etapa1/classes/glossario.md).
+    - As validações remetem para as restrições de integridade do enunciado (RI-01 a RI-30) e da equipa (RI-31 a RI-52).
+    - Cada operação indica a user story que operacionaliza. A US19 (dashboard) é só do frontend: usa os endpoints das outras funcionalidades, como as notificações e o carrinho.
+    - Todos os pedidos exigem sessão autenticada, exceto criar conta, iniciar sessão e os webhooks dos pagamentos (RNF-12).
+    - As operações marcadas "Só gestor" devolvem 403 a um utilizador normal.
+    - Erros: o corpo segue o esquema Erro; 400 para dados inválidos (com o campo e o motivo), 401 sem sessão, 403 sem permissão, 404 recurso inexistente, 409 conflito com uma restrição de unicidade ou de estado.
+  license:
+    name: MIT
+servers:
+  - url: https://api.exemplo.pt/v1
+    description: Produção (o nome de domínio é escolhido na RED.13)
+  - url: http://localhost:3000/v1
+    description: Desenvolvimento
+tags:
+  - name: Conta e perfil
+  - name: Catálogo de música
+  - name: Coleção e listas
+  - name: Pedidos de nova versão
+  - name: Loja
+  - name: Estatísticas
+security:
+  - tokenSessao: []
+
+paths:
+  /sessoes:
+    post:
+      tags: [Conta e perfil]
+      summary: Iniciar sessão (US2)
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Credenciais' }
+      responses:
+        '200':
+          description: Sessão iniciada; o frontend mostra o dashboard (US2 c)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Sessao' }
+        '401':
+          description: Username ou palavra-passe errados. A mensagem não diz se o username existe (US2 b)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Erro' }
+
+  /utilizadores:
+    post:
+      tags: [Conta e perfil]
+      summary: Criar conta (US1)
+      description: Valida RI-18 a RI-24, cifra a palavra-passe (RNF-12) e pede as coordenadas da morada ao Nominatim (INT.01).
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UtilizadorNovo' }
+      responses:
+        '201':
+          description: Conta criada (US1 f)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Utilizador' }
+        '400': { $ref: '#/components/responses/DadosInvalidos' }
+        '409':
+          description: Username ou e-mail já existem (RI-18, RI-20)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Erro' }
+
+  /utilizadores/eu:
+    get:
+      tags: [Conta e perfil]
+      summary: Visualizar o perfil (US3)
+      description: Devolve todos os dados do utilizador, sem a palavra-passe. Também serve para o utilizador consultar os seus dados pessoais (RNF-16).
+      responses:
+        '200':
+          description: Dados do utilizador, com coordenadas da morada se existirem (US3 b) e artista favorito (US3 c)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Utilizador' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+    put:
+      tags: [Conta e perfil]
+      summary: Gerir o perfil (US4)
+      description: Exige a palavra-passe atual (US4 b) e aplica as validações da US1 (US4 c).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UtilizadorAlteracao' }
+      responses:
+        '200':
+          description: Perfil alterado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Utilizador' }
+        '400': { $ref: '#/components/responses/DadosInvalidos' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403':
+          description: Palavra-passe atual errada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Erro' }
+        '409':
+          description: Username ou e-mail já usados por outra conta
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Erro' }
+    delete:
+      tags: [Conta e perfil]
+      summary: Eliminar a conta e os dados pessoais (RNF-16)
+      description: As faturas mantêm-se com a cópia dos dados de faturação (RI-48).
+      parameters:
+        - in: header
+          name: X-Palavra-Passe
+          required: true
+          schema: { type: string }
+          description: Palavra-passe atual, para confirmar a eliminação
+      responses:
+        '204': { description: Conta eliminada }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { description: Palavra-passe errada }
+
+  /utilizadores/eu/artista-favorito:
+    put:
+      tags: [Catálogo de música]
+      summary: Adicionar um artista como favorito (US7)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [isni]
+              properties:
+                isni: { $ref: '#/components/schemas/Isni' }
+      responses:
+        '200':
+          description: Artista adicionado como favorito (US7 b)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ArtistaResumo' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+        '409':
+          description: O utilizador já tem outro artista favorito (US7 c)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Erro' }
+    delete:
+      tags: [Catálogo de música]
+      summary: Deixar de ter o artista como favorito (US7 d)
+      responses:
+        '204': { description: Favorito removido }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { description: O utilizador não tem artista favorito }
+
+  /artistas:
+    get:
+      tags: [Catálogo de música]
+      summary: Pesquisar artistas (US5)
+      description: Sugestões com correspondência parcial ao nome, para mostrar à medida que o utilizador escreve (US5 b). Resposta esperada em 300 ms (RNF-08).
+      parameters:
+        - $ref: '#/components/parameters/Pesquisa'
+        - $ref: '#/components/parameters/Limite'
+      responses:
+        '200':
+          description: Artistas encontrados; lista vazia quando não há resultados (o frontend mostra a mensagem da US5 c)
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/ArtistaResumo' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+    post:
+      tags: [Catálogo de música]
+      summary: Registar artista (US20). Só gestor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ArtistaNovo' }
+      responses:
+        '201':
+          description: Artista registado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Artista' }
+        '400': { $ref: '#/components/responses/DadosInvalidos' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { $ref: '#/components/responses/SoGestor' }
+        '409':
+          description: Já existe um artista com este ISNI
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Erro' }
+
+  /artistas/{isni}:
+    parameters:
+      - $ref: '#/components/parameters/IsniPath'
+    get:
+      tags: [Catálogo de música]
+      summary: Visualizar página de artista (US6)
+      description: Inclui os 5 álbuns mais recentes (US6 b); a lista completa está em /artistas/{isni}/albuns.
+      responses:
+        '200':
+          description: Dados do artista
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Artista' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+    put:
+      tags: [Catálogo de música]
+      summary: Gerir dados de um artista (US21). Só gestor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ArtistaNovo' }
+      responses:
+        '200':
+          description: Artista alterado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Artista' }
+        '400': { $ref: '#/components/responses/DadosInvalidos' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { $ref: '#/components/responses/SoGestor' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+
+  /artistas/{isni}/albuns:
+    parameters:
+      - $ref: '#/components/parameters/IsniPath'
+    get:
+      tags: [Catálogo de música]
+      summary: Lista completa dos álbuns de um artista (US6 b, c)
+      description: Título e ano de lançamento, ordenados por ano (US6 c).
+      responses:
+        '200':
+          description: Álbuns do artista
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/AlbumResumo' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+
+  /albuns:
+    get:
+      tags: [Catálogo de música]
+      summary: Pesquisar álbuns (US8)
+      description: Sugestões com correspondência parcial ao título (US8 b).
+      parameters:
+        - $ref: '#/components/parameters/Pesquisa'
+        - $ref: '#/components/parameters/Limite'
+      responses:
+        '200':
+          description: Álbuns encontrados; lista vazia quando não há resultados (US8 c)
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/AlbumResumo' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+    post:
+      tags: [Catálogo de música]
+      summary: Registar um novo álbum com a sua primeira versão (US22 a). Só gestor
+      description: Valida RI-01, RI-02, RI-09, RI-12, RI-13, RI-15 e RI-16. Se houver unidades, preenche a data de início de disponibilidade (US22 g, RI-14).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AlbumNovo' }
+      responses:
+        '201':
+          description: Álbum registado (US22 h)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Album' }
+        '400': { $ref: '#/components/responses/DadosInvalidos' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { $ref: '#/components/responses/SoGestor' }
+        '409':
+          description: Já existe um álbum com este MBID ou uma versão com este EAN-13
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Erro' }
+
+  /albuns/{mbid}:
+    parameters:
+      - $ref: '#/components/parameters/MbidPath'
+    get:
+      tags: [Catálogo de música]
+      summary: Visualizar página de álbum (US9)
+      description: Dados do álbum, faixas (US9 b) e versões com a disponibilidade na loja (US9 c, d, e). Para o gestor, a resposta é a mesma; o frontend mostra a coluna de gestão do stock (US25).
+      responses:
+        '200':
+          description: Dados do álbum
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Album' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+    put:
+      tags: [Catálogo de música]
+      summary: Gerir dados de um álbum (US23). Só gestor
+      description: Altera os dados do álbum (título, tipo, ano, artista, capa). As versões alteram-se em /versoes/{ean13}.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AlbumAlteracao' }
+      responses:
+        '200':
+          description: Álbum alterado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Album' }
+        '400': { $ref: '#/components/responses/DadosInvalidos' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { $ref: '#/components/responses/SoGestor' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+
+  /albuns/{mbid}/versoes:
+    parameters:
+      - $ref: '#/components/parameters/MbidPath'
+    post:
+      tags: [Catálogo de música]
+      summary: Registar uma versão de um álbum existente (US22 b). Só gestor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/VersaoNova' }
+      responses:
+        '201':
+          description: Versão registada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Versao' }
+        '400': { $ref: '#/components/responses/DadosInvalidos' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { $ref: '#/components/responses/SoGestor' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+        '409':
+          description: Já existe uma versão com este EAN-13
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Erro' }
+
+  /albuns/{mbid}/capa:
+    parameters:
+      - $ref: '#/components/parameters/MbidPath'
+    get:
+      tags: [Catálogo de música]
+      summary: Sugestão de capa do Cover Art Archive (US22 f; INT.05). Só gestor
+      responses:
+        '200':
+          description: Endereço da capa sugerida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  urlSugestao: { type: string, format: uri }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { $ref: '#/components/responses/SoGestor' }
+        '404': { description: O Cover Art Archive não tem capa para este MBID }
+    put:
+      tags: [Catálogo de música]
+      summary: Associar uma imagem de capa ao álbum (US22 f, US23 a; INT.05). Só gestor
+      description: A imagem é enviada para o Cloudinary e o álbum guarda o endereço devolvido.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                imagem: { type: string, format: binary }
+                urlSugestao:
+                  type: string
+                  format: uri
+                  description: Em alternativa à imagem, usar a capa sugerida
+      responses:
+        '200':
+          description: Capa associada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imagemCapa: { type: string, format: uri }
+        '400': { $ref: '#/components/responses/DadosInvalidos' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { $ref: '#/components/responses/SoGestor' }
+
+  /albuns/{mbid}/faixas/importacao:
+    parameters:
+      - $ref: '#/components/parameters/MbidPath'
+    post:
+      tags: [Catálogo de música]
+      summary: Importar faixas e canções do MusicBrainz (nota 12; INT.06). Só gestor
+      responses:
+        '200':
+          description: Faixas importadas
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Faixa' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { $ref: '#/components/responses/SoGestor' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+        '502': { description: O MusicBrainz não respondeu ou recusou o pedido }
+
+  /versoes/{ean13}:
+    parameters:
+      - $ref: '#/components/parameters/Ean13Path'
+    put:
+      tags: [Catálogo de música]
+      summary: Alterar os dados de uma versão (US23). Só gestor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/VersaoNova' }
+      responses:
+        '200':
+          description: Versão alterada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Versao' }
+        '400': { $ref: '#/components/responses/DadosInvalidos' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { $ref: '#/components/responses/SoGestor' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+
+  /versoes/{ean13}/disponibilidade:
+    parameters:
+      - $ref: '#/components/parameters/Ean13Path'
+    patch:
+      tags: [Loja]
+      summary: Aumentar ou diminuir as unidades de uma versão (US25). Só gestor
+      description: Na primeira vez que a versão fica à venda, o preço é obrigatório e a data de início é preenchida (US25 b, RI-14).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DisponibilidadeAlteracao' }
+      responses:
+        '200':
+          description: Disponibilidade atualizada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Disponibilidade' }
+        '400': { $ref: '#/components/responses/DadosInvalidos' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { $ref: '#/components/responses/SoGestor' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+
+  /utilizadores/eu/colecao:
+    get:
+      tags: [Coleção e listas]
+      summary: Visualizar a coleção (US11)
+      parameters:
+        - in: query
+          name: ordenar
+          schema:
+            type: string
+            enum: [titulo, anoLancamento, artista, ean13, suporte, designacao, dataRegisto]
+            default: dataRegisto
+          description: Qualquer dos campos da US11 b) (US11 c)
+        - $ref: '#/components/parameters/Direcao'
+      responses:
+        '200':
+          description: Itens da coleção
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/ItemColecao' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+    post:
+      tags: [Coleção e listas]
+      summary: Adicionar uma versão à coleção (US10)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ean13]
+              properties:
+                ean13: { $ref: '#/components/schemas/Ean13' }
+      responses:
+        '201':
+          description: Versão adicionada (US10 b)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ItemColecao' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+        '409':
+          description: A versão já está na coleção (US10 c, RI-41)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Erro' }
+
+  /utilizadores/eu/colecao/{ean13}:
+    parameters:
+      - $ref: '#/components/parameters/Ean13Path'
+    delete:
+      tags: [Coleção e listas]
+      summary: Remover uma versão da coleção (US11 f)
+      responses:
+        '204': { description: Removida; o frontend mostra a coleção atualizada e a mensagem }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+
+  /utilizadores/eu/listas:
+    get:
+      tags: [Coleção e listas]
+      summary: Visualizar as listas personalizadas (US16)
+      parameters:
+        - in: query
+          name: ordenar
+          schema:
+            type: string
+            enum: [nome, numeroAlbuns, dataUltimaModificacao]
+            default: dataUltimaModificacao
+          description: Qualquer dos campos da US16 a) (US16 b)
+        - $ref: '#/components/parameters/Direcao'
+      responses:
+        '200':
+          description: Listas do utilizador; lista vazia quando ainda não criou nenhuma (US16 d)
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/ListaResumo' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+    post:
+      tags: [Coleção e listas]
+      summary: Criar lista personalizada (US15)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [nome]
+              properties:
+                nome: { $ref: '#/components/schemas/NomeLista' }
+      responses:
+        '201':
+          description: Lista criada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ListaResumo' }
+        '400': { $ref: '#/components/responses/DadosInvalidos' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '409':
+          description: O utilizador já tem uma lista com este nome (RI-30)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Erro' }
+
+  /utilizadores/eu/listas/{idLista}:
+    parameters:
+      - $ref: '#/components/parameters/IdListaPath'
+    get:
+      tags: [Coleção e listas]
+      summary: Visualizar o conteúdo de uma lista (US18)
+      parameters:
+        - in: query
+          name: ordenar
+          schema:
+            type: string
+            enum: [titulo, dataAdicao]
+            default: dataAdicao
+          description: Qualquer dos campos da US18 a) (US18 b)
+        - $ref: '#/components/parameters/Direcao'
+      responses:
+        '200':
+          description: Nome da lista e álbuns; sem álbuns, o frontend mostra a mensagem da US18 d)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Lista' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+    delete:
+      tags: [Coleção e listas]
+      summary: Remover uma lista personalizada (US16 e)
+      responses:
+        '204': { description: Lista removida }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+
+  /utilizadores/eu/listas/{idLista}/albuns:
+    parameters:
+      - $ref: '#/components/parameters/IdListaPath'
+    post:
+      tags: [Coleção e listas]
+      summary: Adicionar um álbum a uma lista (US17)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [mbid]
+              properties:
+                mbid: { $ref: '#/components/schemas/Mbid' }
+      responses:
+        '201':
+          description: Álbum adicionado (US17 b)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ItemLista' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+        '409':
+          description: O álbum já está na lista (US17 c)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Erro' }
+
+  /utilizadores/eu/listas/{idLista}/albuns/{mbid}:
+    parameters:
+      - $ref: '#/components/parameters/IdListaPath'
+      - $ref: '#/components/parameters/MbidPath'
+    delete:
+      tags: [Coleção e listas]
+      summary: Remover um álbum de uma lista (US18 e)
+      responses:
+        '204': { description: Álbum removido }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+
+  /pedidos:
+    get:
+      tags: [Pedidos de nova versão]
+      summary: Listar pedidos de nova versão (US13; US24 para o gestor)
+      description: O utilizador vê só os seus pedidos (US13 a); o gestor vê todos.
+      parameters:
+        - in: query
+          name: estado
+          schema: { $ref: '#/components/schemas/EstadoPedido' }
+          description: Filtrar por estado (US13 e)
+      responses:
+        '200':
+          description: Pedidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Pedido' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+    post:
+      tags: [Pedidos de nova versão]
+      summary: Submeter pedido de nova versão (US12)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PedidoNovo' }
+      responses:
+        '201':
+          description: Pedido submetido, no estado "em análise" (US12 d)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Pedido' }
+        '400': { $ref: '#/components/responses/DadosInvalidos' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+
+  /pedidos/{idPedido}:
+    parameters:
+      - in: path
+        name: idPedido
+        required: true
+        schema: { type: integer, minimum: 1 }
+    get:
+      tags: [Pedidos de nova versão]
+      summary: Ver os dados de um pedido (US24 a)
+      responses:
+        '200':
+          description: Dados do pedido
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Pedido' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { description: O pedido é de outro utilizador }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+    patch:
+      tags: [Pedidos de nova versão]
+      summary: Responder a um pedido (US24 c, d). Só gestor
+      description: Se aceite, regista a versão no álbum; nos dois casos, notifica o utilizador (US14 a).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [estado]
+              properties:
+                estado:
+                  type: string
+                  enum: [aceite, recusado]
+      responses:
+        '200':
+          description: Pedido respondido
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Pedido' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { $ref: '#/components/responses/SoGestor' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+        '409':
+          description: O pedido já foi respondido, ou já existe uma versão com o EAN-13 pedido
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Erro' }
+
+  /utilizadores/eu/notificacoes:
+    get:
+      tags: [Pedidos de nova versão]
+      summary: Ver as notificações dos pedidos respondidos (US14)
+      responses:
+        '200':
+          description: Notificações, com os dados do pedido e a resposta (US14 b)
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Notificacao' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+
+  /utilizadores/eu/notificacoes/{idNotificacao}:
+    parameters:
+      - in: path
+        name: idNotificacao
+        required: true
+        schema: { type: string }
+    patch:
+      tags: [Pedidos de nova versão]
+      summary: Marcar uma notificação como lida (RI-50)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [lida]
+              properties:
+                lida: { type: boolean }
+      responses:
+        '200':
+          description: Notificação atualizada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Notificacao' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+
+  /utilizadores/eu/carrinho:
+    get:
+      tags: [Loja]
+      summary: Visualizar o carrinho de compras (US27)
+      description: Álbuns pela ordem em que foram colocados, mais recentes primeiro (US27 c). O total de itens é mostrado no ícone do carrinho (US26 b).
+      responses:
+        '200':
+          description: Carrinho
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Carrinho' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+    post:
+      tags: [Loja]
+      summary: Colocar uma versão no carrinho (US26)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ean13]
+              properties:
+                ean13: { $ref: '#/components/schemas/Ean13' }
+      responses:
+        '201':
+          description: Versão colocada no carrinho
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Carrinho' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+        '409':
+          description: A versão não está disponível na loja (US26 a, RI-46)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Erro' }
+
+  /utilizadores/eu/carrinho/{ean13}:
+    parameters:
+      - $ref: '#/components/parameters/Ean13Path'
+    delete:
+      tags: [Loja]
+      summary: Remover um álbum do carrinho (US27 d)
+      responses:
+        '200':
+          description: Carrinho atualizado, sem o álbum removido
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Carrinho' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+
+  /pagamentos:
+    post:
+      tags: [Loja]
+      summary: Iniciar o pagamento do carrinho (US28 a, b)
+      description: Reserva as unidades e cria o pagamento no serviço escolhido (INT.03, INT.04). O frontend redireciona o utilizador para a página do serviço.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [servico]
+              properties:
+                servico:
+                  type: string
+                  enum: [stripe, paypal]
+      responses:
+        '201':
+          description: Pagamento criado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Pagamento' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '409':
+          description: Carrinho vazio, ou uma versão esgotou entretanto; o carrinho é atualizado e o utilizador avisado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Erro' }
+
+  /pagamentos/{idPagamento}:
+    parameters:
+      - in: path
+        name: idPagamento
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Loja]
+      summary: Consultar o resultado do pagamento (US28 c, d, g)
+      description: O frontend consulta o estado depois de o serviço externo devolver o utilizador. Com sucesso, inclui a fatura e o resumo das ações (US28 d).
+      responses:
+        '200':
+          description: Estado do pagamento
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Pagamento' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+    delete:
+      tags: [Loja]
+      summary: Cancelar o pagamento (US28 g)
+      description: Liberta as unidades reservadas. O carrinho mantém-se.
+      responses:
+        '204': { description: Pagamento cancelado }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+        '409': { description: O pagamento já foi concluído }
+
+  /webhooks/{servico}:
+    parameters:
+      - in: path
+        name: servico
+        required: true
+        schema:
+          type: string
+          enum: [stripe, paypal]
+    post:
+      tags: [Loja]
+      summary: Aviso do serviço de pagamentos com o resultado (US28 c)
+      description: |
+        Chamado pelo Stripe ou pelo PayPal, sem sessão; a autenticidade é verificada pela assinatura do serviço.
+        Com sucesso: emite a fatura (RI-27, RI-28, RI-48), adiciona à coleção as versões que ainda não lá estão (RI-41, RI-52), decrementa as unidades e, se uma versão esgotar, atualiza a data da última venda (US28 f, RI-17).
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Formato definido pelo serviço de pagamentos
+      responses:
+        '200': { description: Aviso processado }
+        '400': { description: Assinatura inválida }
+
+  /faturas/{numero}:
+    parameters:
+      - in: path
+        name: numero
+        required: true
+        schema: { $ref: '#/components/schemas/NumeroFatura' }
+    get:
+      tags: [Loja]
+      summary: Ver uma fatura do próprio utilizador (US28 d)
+      responses:
+        '200':
+          description: Fatura
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Fatura' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { description: A fatura é de outro utilizador }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+
+  /estatisticas:
+    get:
+      tags: [Estatísticas]
+      summary: Visualizar estatísticas da loja (US29). Só gestor
+      responses:
+        '200':
+          description: As três tabelas da US29, com os dados para o mapa e para as ligações às páginas (US29 e)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Estatisticas' }
+        '401': { $ref: '#/components/responses/SemSessao' }
+        '403': { $ref: '#/components/responses/SoGestor' }
+
+components:
+  securitySchemes:
+    tokenSessao:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Token devolvido por POST /sessoes. O backend não guarda estado da sessão (RNF-10).
+
+  parameters:
+    Pesquisa:
+      in: query
+      name: q
+      required: true
+      schema: { type: string, minLength: 1 }
+      description: Texto já escrito pelo utilizador (correspondência parcial)
+    Limite:
+      in: query
+      name: limite
+      schema: { type: integer, minimum: 1, maximum: 20, default: 10 }
+    Direcao:
+      in: query
+      name: direcao
+      schema:
+        type: string
+        enum: [asc, desc]
+        default: asc
+    IsniPath:
+      in: path
+      name: isni
+      required: true
+      schema: { $ref: '#/components/schemas/Isni' }
+    MbidPath:
+      in: path
+      name: mbid
+      required: true
+      schema: { $ref: '#/components/schemas/Mbid' }
+    Ean13Path:
+      in: path
+      name: ean13
+      required: true
+      schema: { $ref: '#/components/schemas/Ean13' }
+    IdListaPath:
+      in: path
+      name: idLista
+      required: true
+      schema: { type: string }
+
+  responses:
+    DadosInvalidos:
+      description: Dados inválidos; indica cada campo e o motivo (US1 g, US22 i)
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Erro' }
+    SemSessao:
+      description: Sessão não iniciada ou expirada
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Erro' }
+    SoGestor:
+      description: Operação reservada ao gestor da loja
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Erro' }
+    NaoEncontrado:
+      description: Recurso inexistente
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Erro' }
+
+  schemas:
+    # ---------- tipos com restrições de integridade
+    Isni:
+      type: string
+      pattern: '^\d{16}$'
+      description: RI-07
+    Mbid:
+      type: string
+      minLength: 36
+      maxLength: 36
+      description: RI-01
+    Ean13:
+      type: string
+      pattern: '^\d{13}$'
+      description: RI-13
+    Isrc:
+      type: string
+      minLength: 12
+      maxLength: 12
+      description: RI-04
+    Ano:
+      type: integer
+      minimum: 1900
+      maximum: 2100
+      description: RI-08, RI-09
+    Preco:
+      type: number
+      format: double
+      exclusiveMinimum: true
+      minimum: 0
+      multipleOf: 0.01
+      description: RI-16 (positivo, duas casas decimais)
+    NomeLista:
+      type: string
+      minLength: 1
+      maxLength: 100
+      description: RI-29; único por utilizador (RI-30)
+    NumeroFatura:
+      type: integer
+      description: AAAA seguido do número sequencial do ano, ex. 20270001 (RI-28, RI-37)
+    TipoAlbum:
+      type: string
+      enum: [single, EP, LP]
+      description: RI-02
+    SuporteFisico:
+      type: string
+      enum: [CD, vinil, cassete]
+      description: RI-12
+    Genero:
+      type: string
+      enum: [feminino, masculino]
+      description: RI-23
+    EstadoPedido:
+      type: string
+      enum: [emAnalise, aceite, recusado]
+      description: US13 d
+
+    Erro:
+      type: object
+      required: [codigo, mensagem]
+      properties:
+        codigo: { type: string, example: DADOS_INVALIDOS }
+        mensagem: { type: string, example: Os dados não cumprem os requisitos. }
+        campos:
+          type: array
+          description: Um elemento por campo inválido
+          items:
+            type: object
+            properties:
+              campo: { type: string, example: nif }
+              motivo: { type: string, example: O NIF tem de ter 9 dígitos. }
+
+    # ---------- conta e perfil
+    Credenciais:
+      type: object
+      required: [username, palavraPasse]
+      properties:
+        username: { type: string }
+        palavraPasse: { type: string, format: password }
+    Sessao:
+      type: object
+      properties:
+        token: { type: string }
+        papel:
+          type: string
+          enum: [utilizador, gestor]
+        expiraEm: { type: string, format: date-time }
+    Morada:
+      type: object
+      required: [texto]
+      properties:
+        texto: { type: string, example: 'Rua do Exemplo 10, 1000-001 Lisboa' }
+        latitude: { type: number, nullable: true, readOnly: true }
+        longitude: { type: number, nullable: true, readOnly: true }
+    UtilizadorNovo:
+      type: object
+      required: [username, email, palavraPasse, nif, nome, genero, morada, dataNascimento]
+      properties:
+        username:
+          type: string
+          pattern: '^[A-Za-z0-9]+$'
+          description: RI-18, RI-19
+        email:
+          type: string
+          format: email
+          description: RI-20
+        palavraPasse:
+          type: string
+          format: password
+          minLength: 8
+          pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$'
+          description: RI-21; guardada cifrada (RNF-12)
+        nif:
+          type: string
+          pattern: '^\d{9}$'
+          description: RI-22
+        nome: { type: string }
+        genero: { $ref: '#/components/schemas/Genero' }
+        morada: { $ref: '#/components/schemas/Morada' }
+        dataNascimento:
+          type: string
+          format: date
+          description: 16 ou mais anos antes da data atual (RI-24)
+    UtilizadorAlteracao:
+      allOf:
+        - $ref: '#/components/schemas/UtilizadorNovo'
+        - type: object
+          required: [palavraPasseAtual]
+          properties:
+            palavraPasseAtual:
+              type: string
+              format: password
+              description: US4 b
+    Utilizador:
+      type: object
+      properties:
+        username: { type: string }
+        email: { type: string, format: email }
+        nif: { type: string }
+        nome: { type: string }
+        genero: { $ref: '#/components/schemas/Genero' }
+        morada: { $ref: '#/components/schemas/Morada' }
+        dataNascimento: { type: string, format: date }
+        artistaFavorito:
+          allOf:
+            - $ref: '#/components/schemas/ArtistaResumo'
+          nullable: true
+
+    # ---------- catálogo
+    ArtistaNovo:
+      type: object
+      required: [isni, nome, anoInicioAtividade, tipo]
+      properties:
+        isni: { $ref: '#/components/schemas/Isni' }
+        nome: { type: string }
+        anoInicioAtividade: { $ref: '#/components/schemas/Ano' }
+        tipo:
+          type: string
+          enum: [solista, grupo]
+          description: US20 a
+    ArtistaResumo:
+      type: object
+      properties:
+        isni: { $ref: '#/components/schemas/Isni' }
+        nome: { type: string }
+    Artista:
+      allOf:
+        - $ref: '#/components/schemas/ArtistaNovo'
+        - type: object
+          properties:
+            albunsRecentes:
+              type: array
+              maxItems: 5
+              items: { $ref: '#/components/schemas/AlbumResumo' }
+    AlbumResumo:
+      type: object
+      properties:
+        mbid: { $ref: '#/components/schemas/Mbid' }
+        titulo: { type: string }
+        anoLancamento: { $ref: '#/components/schemas/Ano' }
+        artista:
+          type: string
+          description: Nome do artista, ou "Vários artistas" numa compilação (nota 10)
+        imagemCapa: { type: string, format: uri, nullable: true }
+    Faixa:
+      type: object
+      properties:
+        numero:
+          type: integer
+          minimum: 1
+          description: RI-03
+        isrc: { $ref: '#/components/schemas/Isrc' }
+        titulo: { type: string }
+        duracao:
+          type: integer
+          minimum: 1
+          description: Segundos, positiva (RI-05)
+    Disponibilidade:
+      type: object
+      description: Só existe se a versão alguma vez esteve à venda (US9 d); sem ela, o frontend mostra a mensagem da US9 e)
+      properties:
+        dataInicio:
+          type: string
+          format: date
+          nullable: true
+          description: RI-14, RI-47
+        unidades:
+          type: integer
+          minimum: 0
+          description: RI-15
+        preco: { $ref: '#/components/schemas/Preco' }
+        dataUltimaVenda:
+          type: string
+          format: date
+          nullable: true
+          description: Preenchida quando esgota (RI-17)
+    DisponibilidadeAlteracao:
+      type: object
+      required: [unidades]
+      properties:
+        unidades:
+          type: integer
+          minimum: 0
+          description: Novo número de unidades (RI-15)
+        preco:
+          allOf:
+            - $ref: '#/components/schemas/Preco'
+          description: Obrigatório na primeira vez que a versão é posta à venda (US25 b)
+    VersaoNova:
+      type: object
+      required: [ean13, suporte]
+      properties:
+        ean13: { $ref: '#/components/schemas/Ean13' }
+        suporte: { $ref: '#/components/schemas/SuporteFisico' }
+        designacao: { type: string, nullable: true }
+        unidades: { type: integer, minimum: 0, default: 0 }
+        preco: { $ref: '#/components/schemas/Preco' }
+    Versao:
+      type: object
+      properties:
+        ean13: { $ref: '#/components/schemas/Ean13' }
+        suporte: { $ref: '#/components/schemas/SuporteFisico' }
+        designacao:
+          type: string
+          nullable: true
+          description: Mostrada só quando há mais do que uma versão no mesmo suporte (US9 c)
+        disponibilidade:
+          allOf:
+            - $ref: '#/components/schemas/Disponibilidade'
+          nullable: true
+        naColecao:
+          type: boolean
+          description: Se a versão já está na coleção do utilizador (US10 c)
+    AlbumNovo:
+      type: object
+      required: [mbid, titulo, tipo, anoLancamento, versao]
+      properties:
+        mbid: { $ref: '#/components/schemas/Mbid' }
+        titulo: { type: string }
+        tipo: { $ref: '#/components/schemas/TipoAlbum' }
+        anoLancamento: { $ref: '#/components/schemas/Ano' }
+        isniArtista:
+          allOf:
+            - $ref: '#/components/schemas/Isni'
+          nullable: true
+          description: Vazio quando o álbum é uma compilação (US22 e)
+        compilacao: { type: boolean, default: false }
+        versao: { $ref: '#/components/schemas/VersaoNova' }
+    AlbumAlteracao:
+      type: object
+      required: [titulo, tipo, anoLancamento]
+      properties:
+        titulo: { type: string }
+        tipo: { $ref: '#/components/schemas/TipoAlbum' }
+        anoLancamento: { $ref: '#/components/schemas/Ano' }
+        isniArtista:
+          allOf:
+            - $ref: '#/components/schemas/Isni'
+          nullable: true
+        compilacao: { type: boolean }
+    Album:
+      type: object
+      properties:
+        mbid: { $ref: '#/components/schemas/Mbid' }
+        titulo: { type: string }
+        tipo: { $ref: '#/components/schemas/TipoAlbum' }
+        anoLancamento: { $ref: '#/components/schemas/Ano' }
+        artista:
+          allOf:
+            - $ref: '#/components/schemas/ArtistaResumo'
+          nullable: true
+          description: Vazio numa compilação; o frontend mostra "Vários artistas"
+        imagemCapa: { type: string, format: uri, nullable: true }
+        faixas:
+          type: array
+          items: { $ref: '#/components/schemas/Faixa' }
+        versoes:
+          type: array
+          items: { $ref: '#/components/schemas/Versao' }
+
+    # ---------- coleção e listas
+    ItemColecao:
+      type: object
+      description: Dados da US11 b)
+      properties:
+        mbid: { $ref: '#/components/schemas/Mbid' }
+        titulo: { type: string }
+        anoLancamento: { $ref: '#/components/schemas/Ano' }
+        artista: { $ref: '#/components/schemas/ArtistaResumo' }
+        ean13: { $ref: '#/components/schemas/Ean13' }
+        suporte: { $ref: '#/components/schemas/SuporteFisico' }
+        designacao: { type: string, nullable: true }
+        dataRegisto:
+          type: string
+          format: date
+          description: RI-25, RI-26
+    ListaResumo:
+      type: object
+      description: Dados da US16 a)
+      properties:
+        id: { type: string }
+        nome: { $ref: '#/components/schemas/NomeLista' }
+        numeroAlbuns: { type: integer, minimum: 0 }
+        dataUltimaModificacao: { type: string, format: date-time }
+    ItemLista:
+      type: object
+      properties:
+        mbid: { $ref: '#/components/schemas/Mbid' }
+        titulo: { type: string }
+        dataAdicao: { type: string, format: date-time }
+    Lista:
+      type: object
+      properties:
+        id: { type: string }
+        nome: { $ref: '#/components/schemas/NomeLista' }
+        albuns:
+          type: array
+          items: { $ref: '#/components/schemas/ItemLista' }
+
+    # ---------- pedidos
+    PedidoNovo:
+      type: object
+      required: [mbid, ean13, suporte]
+      properties:
+        mbid: { $ref: '#/components/schemas/Mbid' }
+        ean13: { $ref: '#/components/schemas/Ean13' }
+        suporte: { $ref: '#/components/schemas/SuporteFisico' }
+        designacao: { type: string, nullable: true }
+    Pedido:
+      type: object
+      description: Dados da US13 b) e da US24 a)
+      properties:
+        id:
+          type: integer
+          description: Único (US13 c)
+        mbid: { $ref: '#/components/schemas/Mbid' }
+        tituloAlbum: { type: string }
+        ean13: { $ref: '#/components/schemas/Ean13' }
+        suporte: { $ref: '#/components/schemas/SuporteFisico' }
+        designacao: { type: string, nullable: true }
+        dataPedido: { type: string, format: date }
+        estado: { $ref: '#/components/schemas/EstadoPedido' }
+        dataResposta: { type: string, format: date, nullable: true }
+        username:
+          type: string
+          description: Quem fez o pedido (só para o gestor)
+    Notificacao:
+      type: object
+      properties:
+        id: { type: string }
+        dataEmissao: { type: string, format: date-time }
+        lida: { type: boolean }
+        pedido: { $ref: '#/components/schemas/Pedido' }
+
+    # ---------- loja
+    ItemCarrinho:
+      type: object
+      description: Dados da US27 b)
+      properties:
+        mbid: { $ref: '#/components/schemas/Mbid' }
+        titulo: { type: string }
+        anoLancamento: { $ref: '#/components/schemas/Ano' }
+        artista: { type: string }
+        ean13: { $ref: '#/components/schemas/Ean13' }
+        suporte: { $ref: '#/components/schemas/SuporteFisico' }
+        designacao: { type: string, nullable: true }
+        preco: { $ref: '#/components/schemas/Preco' }
+        dataAdicao: { type: string, format: date-time }
+    Carrinho:
+      type: object
+      properties:
+        itens:
+          type: array
+          items: { $ref: '#/components/schemas/ItemCarrinho' }
+        numeroItens:
+          type: integer
+          description: Mostrado sobre o ícone do carrinho (US26 b)
+        total: { type: number, format: double }
+    Pagamento:
+      type: object
+      properties:
+        id: { type: string }
+        servico:
+          type: string
+          enum: [stripe, paypal]
+        estado:
+          type: string
+          enum: [pendente, pago, falhado, cancelado]
+        urlRedirecionamento:
+          type: string
+          format: uri
+          description: Página segura do serviço de pagamentos
+        total: { type: number, format: double }
+        fatura:
+          allOf:
+            - $ref: '#/components/schemas/Fatura'
+          nullable: true
+          description: Preenchida quando o estado é "pago" (US28 d)
+    LinhaFatura:
+      type: object
+      properties:
+        ean13: { $ref: '#/components/schemas/Ean13' }
+        titulo: { type: string }
+        suporte: { $ref: '#/components/schemas/SuporteFisico' }
+        designacao: { type: string, nullable: true }
+        preco: { $ref: '#/components/schemas/Preco' }
+    Fatura:
+      type: object
+      description: Dados da US28 d); os dados de faturação são copiados na emissão (RI-48)
+      properties:
+        numero: { $ref: '#/components/schemas/NumeroFatura' }
+        data:
+          type: string
+          format: date
+          description: RI-27
+        nifFaturacao: { type: string }
+        nomeFaturacao: { type: string }
+        moradaFaturacao: { $ref: '#/components/schemas/Morada' }
+        linhas:
+          type: array
+          items: { $ref: '#/components/schemas/LinhaFatura' }
+        total: { type: number, format: double }
+
+    # ---------- estatísticas
+    Estatisticas:
+      type: object
+      properties:
+        topColecionadores:
+          type: array
+          maxItems: 5
+          description: US29 b)
+          items:
+            type: object
+            properties:
+              username: { type: string }
+              totalAlbuns: { type: integer }
+              percentagemDisponivel:
+                type: number
+                minimum: 0
+                maximum: 100
+              latitude: { type: number, nullable: true }
+              longitude: { type: number, nullable: true }
+        maisAdicionados:
+          type: array
+          maxItems: 5
+          description: US29 c)
+          items:
+            type: object
+            properties:
+              mbid: { $ref: '#/components/schemas/Mbid' }
+              titulo: { type: string }
+              totalColecoes: { type: integer }
+              disponivelNaLoja: { type: boolean }
+        maisVendidos:
+          type: array
+          maxItems: 5
+          description: US29 d)
+          items:
+            type: object
+            properties:
+              mbid: { $ref: '#/components/schemas/Mbid' }
+              titulo: { type: string }
+              unidadesVendidas: { type: integer }
+              totalEuros: { type: number, format: double }
