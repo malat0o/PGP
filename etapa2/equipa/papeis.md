@@ -82,19 +82,29 @@ A T09 relaciona as tarefas da WBS com os papéis. Legenda: **R** = responsável 
 
 ## 5. Matriz de responsabilidades: pessoas por papel (preencher na reunião)
 
+Proposta com **nomes provisórios** (Pessoa A a E) para o planeamento poder avançar. Quando cada um disser o papel que prefere, trocam-se os nomes aqui e na folha "Equipa" do livro de estimação, que atualiza o livro todo.
+
+| Pessoa | Papéis propostos |
+|---|---|
+| Pessoa A | Gestor de projeto + responsável de testes com utilizadores |
+| Pessoa B | Programador de frontend |
+| Pessoa C | Programador de backend + arquiteto e consultor de dados |
+| Pessoa D | Especialista de segurança e redes + técnico de manutenção |
+| Pessoa E | Administrador da base de dados + apoio ao backend e a Redes |
+
 **Tabela 4 — Pessoas por papel**
 
 | Papel | Pessoa | Reserva (risco R06) |
 |---|---|---|
-| Gestor de projeto | | |
-| Arquiteto de sistema | | |
-| Programador de frontend | | |
-| Programador de backend | | |
-| Consultor de dados | | |
-| Administrador da base de dados | | |
-| Especialista de segurança e redes | | |
-| Técnico de manutenção | | |
-| Responsável de testes com utilizadores | | |
+| Gestor de projeto | Pessoa A | Pessoa C |
+| Arquiteto de sistema | Pessoa C | Pessoa B |
+| Programador de frontend | Pessoa B | Pessoa A |
+| Programador de backend | Pessoa C | Pessoa E |
+| Consultor de dados | Pessoa C | Pessoa E |
+| Administrador da base de dados | Pessoa E | Pessoa D |
+| Especialista de segurança e redes | Pessoa D | Pessoa E |
+| Técnico de manutenção | Pessoa D | Pessoa C |
+| Responsável de testes com utilizadores | Pessoa A | Pessoa B |
 
 A coluna "Reserva" aplica a mitigação do risco R06 (`etapa2/riscos/gestao-risco.md`): cada papel crucial tem uma segunda pessoa que acompanha o trabalho.
 

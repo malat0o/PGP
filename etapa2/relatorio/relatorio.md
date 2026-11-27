@@ -40,19 +40,21 @@ Os papéis são os sugeridos no enunciado. Com 5 pessoas, cada pessoa acumula pa
 
 **[A PREENCHER NA REUNIÃO: matriz de competências, Tabela 2 de `etapa2/equipa/papeis.md`]**
 
+**[NOMES PROVISÓRIOS: Pessoa A a E, até cada um escolher o papel]**
+
 **Tabela 2 — Papéis, responsabilidades e pessoas**
 
 | Papel | Responsabilidades | Pessoa | Reserva |
 |---|---|---|---|
-| Gestor de projeto (e, em parte, product owner) | Ordena o backlog e distribui os itens pelos sprints; planeia e acompanha (Gantt, earned value analysis); gere os riscos | | |
-| Arquiteto de sistema | Arquitetura da aplicação e estrutura do código; especificação OpenAPI | | |
-| Programador de frontend | Ecrãs em Angular, com design responsivo | | |
-| Programador de backend | API em Express e integrações externas | | |
-| Consultor de dados | Modelo de dados e restrições de integridade (RNF-02) | | |
-| Administrador da base de dados | MongoDB principal e de reserva; backup e restauro (RNF-14) | | |
-| Especialista de segurança e redes | Componente de Redes: balanceadores, redes, firewall, TLS, scripts | | |
-| Técnico de manutenção | Integração contínua, lançamento em produção, monitorização | | |
-| Responsável de testes com utilizadores | Testes com utilizadores e questionário SUS (RNF-03) | | |
+| Gestor de projeto (e, em parte, product owner) | Ordena o backlog e distribui os itens pelos sprints; planeia e acompanha (Gantt, earned value analysis); gere os riscos | Pessoa A | Pessoa C |
+| Arquiteto de sistema | Arquitetura da aplicação e estrutura do código; especificação OpenAPI | Pessoa C | Pessoa B |
+| Programador de frontend | Ecrãs em Angular, com design responsivo | Pessoa B | Pessoa A |
+| Programador de backend | API em Express e integrações externas | Pessoa C | Pessoa E |
+| Consultor de dados | Modelo de dados e restrições de integridade (RNF-02) | Pessoa C | Pessoa E |
+| Administrador da base de dados | MongoDB principal e de reserva; backup e restauro (RNF-14) | Pessoa E | Pessoa D |
+| Especialista de segurança e redes | Componente de Redes: balanceadores, redes, firewall, TLS, scripts | Pessoa D | Pessoa E |
+| Técnico de manutenção | Integração contínua, lançamento em produção, monitorização | Pessoa D | Pessoa C |
+| Responsável de testes com utilizadores | Testes com utilizadores e questionário SUS (RNF-03) | Pessoa A | Pessoa B |
 
 A coluna "Reserva" aplica a mitigação do risco R06 (capítulo 6): cada papel crucial tem uma segunda pessoa que acompanha o trabalho.
 
@@ -282,9 +284,20 @@ Os itens foram distribuídos pelos três sprints:
 
 A ordem de partida foi a do backlog, por níveis: fundações; núcleo do produto; fluxos completos; fecho.
 
-**[A PREENCHER: Tabela 13, folha "Sprints" do livro, e a lista de itens de cada sprint]**
+**Tabela 13 — Proposta de distribuição pelos sprints (por dependências)**
 
-**Tabela 13 — Equilíbrio dos sprints**
+| Sprint | Itens | Foco | Itens do backlog |
+|---|---|---|---|
+| S1 | 26 | Fundações: repositório, esqueleto, base de dados, autenticação, integração contínua; sessão, dashboard e catálogo mínimo (registar artista e álbum, capa); relatório de design de Redes, cloud, redes, domínio e SSH | US.02, US.19, US.20, US.22, GES.01, INF.01, INF.02, INF.03, INF.04, INF.05, INF.06, INF.07, INF.08, INF.11, INT.05, RED.01, RED.02, RED.03, RED.04, RED.05, RED.06, RED.07, RED.08, RED.09, RED.13, RED.16 |
+| S2 | 26 | Núcleo do produto e pedidos: conta e perfil com mapa, pesquisa, páginas de artista e álbum, coleção, stock e carrinho, pedidos e notificações; importação de faixas; servidores, bases de dados, balanceadores, HTTPS e firewall; preparar testes com utilizadores; deploy automático | US.01, US.03, US.04, US.05, US.06, US.08, US.09, US.10, US.11, US.12, US.13, US.14, US.24, US.25, US.26, US.27, INF.09, INT.01, INT.02, INT.06, QUA.05, RED.10, RED.11, RED.12, RED.14, RED.15 |
+| S3 | 21 | Fluxos finais: pagamento (Stripe e PayPal), favorito, listas, alteração de artista e álbum, estatísticas; scripts de Redes; testes com utilizadores e melhoria; backup, privacidade; testes de carga e de vulnerabilidades; demonstração final | US.07, US.15, US.16, US.17, US.18, US.21, US.23, US.28, US.29, INT.03, INT.04, QUA.06, QUA.07, QUA.08, QUA.09, RED.17, RED.18, RED.19, RED.20, RED.21, RED.22 |
+| Todos | 11 | Contínuos: planeamento, reuniões, reviews, retrospetivas, acompanhamento, re-estimação, OpenAPI, testes automáticos e à API, verificação em telemóvel | GES.02, GES.03, GES.04, GES.05, GES.06, GES.07, GES.08, INF.10, QUA.01, QUA.02, QUA.11 |
+
+Os itens contínuos repetem-se em todos os sprints e o seu esforço divide-se pelos três. A proposta respeita as dependências da Tabela 9; o equilíbrio do esforço ajusta-se quando houver estimativas.
+
+**[A PREENCHER: Tabela 14, folha "Sprints" do livro]**
+
+**Tabela 14 — Equilíbrio dos sprints**
 
 | Sprint | Para planear (h) | Planeado (h) | Ocupação | Story points |
 |---|---|---|---|---|
@@ -300,17 +313,17 @@ O mapa de Gantt foi feito no Microsoft Project, como na aula prática de planeam
 - as pessoas atribuídas a cada tarefa e as dependências;
 - o **caminho crítico** (T07).
 
-**[A PREENCHER: figura do Gantt e Tabela 14, folha "Pessoas" do livro]**
+**[A PREENCHER: figura do Gantt e Tabela 15, folha "Pessoas" do livro]**
 
-**Tabela 14 — Esforço total previsto por pessoa**
+**Tabela 15 — Esforço total previsto por pessoa**
 
 | Pessoa | S1 (h) | S2 (h) | S3 (h) | Total (h) |
 |---|---|---|---|---|
-| Rodrigo | | | | |
-| Reis | | | | |
-| Miguel | | | | |
-| Ze | | | | |
-| Edson | | | | |
+| Pessoa A | | | | |
+| Pessoa B | | | | |
+| Pessoa C | | | | |
+| Pessoa D | | | | |
+| Pessoa E | | | | |
 
 # Gestão de risco
 
@@ -329,7 +342,7 @@ A probabilidade está em percentagem. O impacto está na escala 1 = catastrófic
 
 A tabela está ordenada por probabilidade e, dentro da mesma probabilidade, pelo impacto mais grave, porque a T08 diz que a probabilidade deve pesar mais.
 
-**Tabela 15 — Tabela de riscos**
+**Tabela 16 — Tabela de riscos**
 
 | # | Risco | Cat. | Prob. | D | S | C | P | Impacto |
 |---|---|---|---|---|---|---|---|---|
@@ -353,7 +366,7 @@ A tabela está ordenada por probabilidade e, dentro da mesma probabilidade, pelo
 
 **Linha de corte.** A T08 propõe o princípio de Pareto: 80% do risco vem de 20% dos riscos. Calculou-se a exposição de cada risco como probabilidade × (5 − impacto). Os 9 riscos com probabilidade igual ou superior a 40% concentram cerca de **76% da exposição total**, por isso ficam acima da linha e têm plano RMMM.
 
-**Tabela 16 — Plano RMMM dos riscos acima da linha de corte**
+**Tabela 17 — Plano RMMM dos riscos acima da linha de corte**
 
 | # | Mitigação | Monitorização | Gestão (contingência) |
 |---|---|---|---|
@@ -373,7 +386,7 @@ A tabela é revista na revisão de gestão do fim de cada sprint: probabilidades
 
 # Anexo A — Endpoints da API REST
 
-**Tabela 17 — Endpoints da API**
+**Tabela 18 — Endpoints da API**
 
 | Package | Método | Caminho | Operação | Só gestor |
 |---|---|---|---|---|
