@@ -8,7 +8,9 @@ const {
   ExternalHyperlink,
 } = require("docx");
 
-const [mdPath, outPath, grupo] = process.argv.slice(2);
+const [mdPath, outPath, grupo, etapaArg] = process.argv.slice(2);
+const etapa = etapaArg || "1";
+const SUBTITULOS = { "1": "Etapa 1 — Desenho inicial e pesquisa de tecnologias", "2": "Etapa 2 — Planeamento do projeto" };
 const baseDir = path.dirname(mdPath);
 const lines = fs.readFileSync(mdPath, "utf8").replace(/\r/g, "").split("\n");
 
@@ -105,10 +107,10 @@ const capa = [
   new Paragraph({ spacing: { before: 2400 }, alignment: AlignmentType.CENTER, children: [new TextRun({ text: "Planeamento e Gestão de Projeto", size: 32, color: "374151" })] }),
   new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "2026/2027", size: 26, color: "6B7280" })] }),
   new Paragraph({ spacing: { before: 1200 }, alignment: AlignmentType.CENTER, children: [new TextRun({ text: "Gestão de coleções de álbuns de música em formato físico", bold: true, size: 44 })] }),
-  new Paragraph({ spacing: { before: 400 }, alignment: AlignmentType.CENTER, children: [new TextRun({ text: "Etapa 1 — Desenho inicial e pesquisa de tecnologias", size: 30 })] }),
+  new Paragraph({ spacing: { before: 400 }, alignment: AlignmentType.CENTER, children: [new TextRun({ text: SUBTITULOS[etapa], size: 30 })] }),
   new Paragraph({ spacing: { before: 1600 }, alignment: AlignmentType.CENTER, children: [new TextRun({ text: `Grupo ${grupo}`, bold: true, size: 26 })] }),
   ...membros.map(n => new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: n, size: 24 })] })),
-  new Paragraph({ spacing: { before: 1600 }, alignment: AlignmentType.CENTER, children: [new TextRun({ text: "Novembro de 2026", size: 24, color: "6B7280" })] }),
+  new Paragraph({ spacing: { before: 1600 }, alignment: AlignmentType.CENTER, children: [new TextRun({ text: etapa === "2" ? "Dezembro de 2026" : "Novembro de 2026", size: 24, color: "6B7280" })] }),
   new Paragraph({ children: [new PageBreak()] }),
   new Paragraph({ spacing: { after: 240 }, children: [new TextRun({ text: "Índice", bold: true, size: 34, color: "1F2937" })] }),
   new TableOfContents("Índice", { hyperlink: true, headingStyleRange: "1-2" }),
@@ -129,7 +131,7 @@ const doc = new Document({
   ] },
   sections: [{
     properties: { page: { margin: { top: 1440, bottom: 1440, left: 1440, right: 1440 } }, titlePage: true },
-    headers: { default: new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: `PGP 2026/27 · Grupo ${grupo} · Etapa 1`, size: 18, color: "6B7280" })] })] }) },
+    headers: { default: new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: `PGP 2026/27 · Grupo ${grupo} · Etapa ${etapa}`, size: 18, color: "6B7280" })] })] }) },
     footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ children: [PageNumber.CURRENT], size: 18, color: "6B7280" })] })] }) },
     children: [...capa, ...children],
   }],
