@@ -101,7 +101,7 @@ def main():
     out.append("## Comparação com o esforço disponível\n")
     out.append("**Tabela 4 — Necessário vs. disponível**\n")
     out.append("| Cenário | Disponível para planear (h) | Necessário (h) | Diferença (h) |\n|---|---|---|---|")
-    for nome, h in [("4,5 h por pessoa por semana", 5 * 4.5 * 13 * 0.85), ("10 h por pessoa por semana (6 ECTS)", 5 * 10 * 13 * 0.85), ("14 h por pessoa por semana (2 h por dia)", 5 * 14 * 13 * 0.85)]:
+    for nome, h in [("4,5 h por pessoa por semana", 5 * 4.5 * 13 * 0.85), ("12 h por pessoa por semana (PTIR = 6 ECTS ≈ 156 h)", 5 * 12 * 13 * 0.85), ("14 h por pessoa por semana (2 h por dia)", 5 * 14 * 13 * 0.85)]:
         out.append(f"| {nome} | {h:.0f} | {tot:.0f} | {h - tot:+.0f} |")
     out.append("")
     out.append(f"- As 29 user stories somam cerca de **{us_tot:.0f} h** e o software no seu conjunto (pacotes WP.2 a WP.9) cerca de **{soft:.0f} h**. É menos do que a estimativa de controlo (1 400 a 1 870 h), porque esta proposta conta com uma implementação simples de cada ecrã. A T06 manda perceber diferenças grandes entre estimativas: na sessão de estimação, a equipa deve decidir se os valores estão otimistas.")
@@ -131,7 +131,7 @@ def main():
     out.append("| Cenário | Necessário (h) | Horas por pessoa por semana (com 15% de margem) |\n|---|---|---|")
     for nome, h in [("Âmbito completo", tot), ("Sem os candidatos acima", tot - soma)]:
         out.append(f"| {nome} | {h:.0f} | {h / 0.85 / (5 * 13):.1f} |")
-    out.append(f"\nCom **2 horas por dia (14 h por semana)**, há {5*14*13*0.85:.0f} h para planear: o âmbito completo ({tot:.0f} h) não cabe, e sem os candidatos acima ({tot - soma:.0f} h) fica perto. O product owner decide o corte final, com as estimativas revistas pela equipa. As horas por semana têm de ser confirmadas por cada pessoa.")
+    out.append(f"\nPTIR tem **6 ECTS**: 6 × 26 h ≈ 156 h por pessoa no semestre, incluindo as aulas, ou seja, cerca de **12 h por semana**. Com 5 pessoas são 780 h, das quais {5*12*13*0.85:.0f} h para planear. O âmbito completo ({tot:.0f} h) não cabe; sem os candidatos acima ({tot - soma:.0f} h) ainda faltam cerca de {tot - soma - 5*12*13*0.85:.0f} h. Para fechar o plano, o product owner tem de cortar mais âmbito e a equipa deve rever as estimativas, que contam com uma equipa a aprender a tecnologia.")
     p = os.path.join(RAIZ, "etapa2", "estimacao", "proposta-esforco.md")
     open(p, "w", encoding="utf-8").write("\n".join(out) + "\n")
     print(f"total {tot:.0f} h | US {us_tot:.0f} | software {soft:.0f} | candidatos {soma:.0f} | sem eles {tot-soma:.0f}")

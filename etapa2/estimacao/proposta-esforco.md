@@ -136,7 +136,7 @@ Os itens de gestão e os testes automáticos foram estimados pelo número de vez
 | Cenário | Disponível para planear (h) | Necessário (h) | Diferença (h) |
 |---|---|---|---|
 | 4,5 h por pessoa por semana | 249 | 901 | -652 |
-| 10 h por pessoa por semana (6 ECTS) | 552 | 901 | -348 |
+| 12 h por pessoa por semana (PTIR = 6 ECTS ≈ 156 h) | 663 | 901 | -238 |
 | 14 h por pessoa por semana (2 h por dia) | 774 | 901 | -127 |
 
 - As 29 user stories somam cerca de **286 h** e o software no seu conjunto (pacotes WP.2 a WP.9) cerca de **472 h**. É menos do que a estimativa de controlo (1 400 a 1 870 h), porque esta proposta conta com uma implementação simples de cada ecrã. A T06 manda perceber diferenças grandes entre estimativas: na sessão de estimação, a equipa deve decidir se os valores estão otimistas.
@@ -176,4 +176,4 @@ Tirando todos estes, o necessário desce para cerca de **794 h**.
 | Âmbito completo | 901 | 16.3 |
 | Sem os candidatos acima | 794 | 14.4 |
 
-Com **2 horas por dia (14 h por semana)**, há 774 h para planear: o âmbito completo (901 h) não cabe, e sem os candidatos acima (794 h) fica perto. O product owner decide o corte final, com as estimativas revistas pela equipa. As horas por semana têm de ser confirmadas por cada pessoa.
+PTIR tem **6 ECTS**: 6 × 26 h ≈ 156 h por pessoa no semestre, incluindo as aulas, ou seja, cerca de **12 h por semana**. Com 5 pessoas são 780 h, das quais 663 h para planear. O âmbito completo (901 h) não cabe; sem os candidatos acima (794 h) ainda faltam cerca de 131 h. Para fechar o plano, o product owner tem de cortar mais âmbito e a equipa deve rever as estimativas, que contam com uma equipa a aprender a tecnologia.
